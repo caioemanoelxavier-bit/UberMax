@@ -1,3 +1,8 @@
+// =========================================================
+// UberMax IA — script.js
+// Versão corrigida e completa
+// =========================================================
+
 const API_URL = 'http://localhost:3000/api';
 
 let usuarioLogado = null;
@@ -5,70 +10,56 @@ let jornadasCache = [];
 let corridasCache = [];
 let configCarro = null;
 
-const telaInicial = document.getElementById('telaInicial');
-const app = document.getElementById('app');
-const btnComecar = document.getElementById('btnComecar');
-const btnVerRecursos = document.getElementById('btnVerRecursos');
-const btnLimparUsuario = document.getElementById('btnLimparUsuario');
+// =========================================================
+// INICIALIZAÇÃO
+// =========================================================
 
-const boxUsuario = document.getElementById('boxUsuario');
-const boxMotoristaLogado = document.getElementById('boxMotoristaLogado');
-const nomeMotoristaLogado = document.getElementById('nomeMotoristaLogado');
-const infoMotoristaLogado = document.getElementById('infoMotoristaLogado');
+document.addEventListener('DOMContentLoaded', () => {
+    // Define data de hoje no campo de data
+    const inputData = document.getElementById('data');
+    if (inputData) inputData.valueAsDate = new Date();
 
-const formMotorista = document.getElementById('formMotorista');
-const formJornada = document.getElementById('formJornada');
-const formCarro = document.getElementById('formCarro');
-const formCorrida = document.getElementById('formCorrida');
+    // Carrega usuário salvo no localStorage
+    carregarUsuarioLocal();
+    atualizarTelaUsuario();
 
-const msgMotorista = document.getElementById('msgMotorista');
-const msgJornada = document.getElementById('msgJornada');
-const msgCarro = document.getElementById('msgCarro');
-const msgCorrida = document.getElementById('msgCorrida');
-
-const filtroMes = document.getElementById('filtroMes');
-const historicoLista = document.getElementById('historicoLista');
-const rankingRegioes = document.getElementById('rankingRegioes');
-const analiseGeralIA = document.getElementById('analiseGeralIA');
-const corridasLista = document.getElementById('corridasLista');
-
-const resultadoJornada = document.getElementById('resultadoJornada');
-const resultadoCarro = document.getElementById('resultadoCarro');
-const resultadoCorrida = document.getElementById('resultadoCorrida');
-
-iniciarApp();
-
-function iniciarApp() {
-    document.addEventListener('DOMContentLoaded', () => {
-        const inputData = document.getElementById('data');
-        if (inputData) inputData.valueAsDate = new Date();
-
-        carregarUsuarioLocal();
-        atualizarTelaUsuario();
-    });
-
-    btnComecar.addEventListener('click', abrirApp);
-
-    btnVerRecursos.addEventListener('click', () => {
+    // Eventos da tela inicial
+    document.getElementById('btnComecar').addEventListener('click', abrirApp);
+    document.getElementById('btnVerRecursos').addEventListener('click', () => {
         document.getElementById('recursos').scrollIntoView({ behavior: 'smooth', block: 'center' });
     });
 
-    btnLimparUsuario.addEventListener('click', limparUsuario);
+    // Evento de trocar motorista
+    document.getElementById('btnLimparUsuario').addEventListener('click', limparUsuario);
 
+    // Navegação por abas
     document.querySelectorAll('.tab-button').forEach(button => {
         button.addEventListener('click', () => abrirAba(button.dataset.tab));
     });
 
-    formMotorista.addEventListener('submit', salvarMotorista);
-    formJornada.addEventListener('submit', registrarJornada);
-    formCarro.addEventListener('submit', salvarCarro);
-    formCorrida.addEventListener('submit', avaliarCorrida);
-    filtroMes.addEventListener('change', renderizarHistorico);
-}
+    // Formulários
+    document.getElementById('formMotorista').addEventListener('submit', salvarMotorista);
+    document.getElementById('formJornada').addEventListener('submit', registrarJornada);
+    document.getElementById('formCarro').addEventListener('submit', salvarCarro);
+    document.getElementById('formCorrida').addEventListener('submit', avaliarCorrida);
+
+    // Filtro de histórico
+    document.getElementById('filtroMes').addEventListener('change', renderizarHistorico);
+
+    // Botão "Ir para Meu Carro" no aviso da aba Avaliar
+    const btnIrParaCarro = document.getElementById('btnIrParaCarro');
+    if (btnIrParaCarro) {
+        btnIrParaCarro.addEventListener('click', () => abrirAba('carro'));
+    }
+});
+
+// =========================================================
+// NAVEGAÇÃO
+// =========================================================
 
 function abrirApp() {
-    telaInicial.classList.add('hidden');
-    app.classList.remove('hidden');
+    document.getElementById('telaInicial').classList.add('hidden');
+    document.getElementById('app').classList.remove('hidden');
 
     if (usuarioLogado) {
         carregarDados();
@@ -88,7 +79,16 @@ function abrirAba(tab) {
     if (usuarioLogado && ['historico', 'analise', 'carro', 'avaliar'].includes(tab)) {
         carregarDados();
     }
+
+    // Atualiza aviso de custo do carro ao abrir aba avaliar
+    if (tab === 'avaliar') {
+        atualizarAvisoCustoKm();
+    }
 }
+
+// =========================================================
+// USUÁRIO / MOTORISTA
+// =========================================================
 
 function carregarUsuarioLocal() {
     const salvo = localStorage.getItem('ubermax_motorista');
@@ -103,6 +103,11 @@ function carregarUsuarioLocal() {
 }
 
 function atualizarTelaUsuario() {
+    const boxUsuario = document.getElementById('boxUsuario');
+    const boxMotoristaLogado = document.getElementById('boxMotoristaLogado');
+    const nomeMotoristaLogado = document.getElementById('nomeMotoristaLogado');
+    const infoMotoristaLogado = document.getElementById('infoMotoristaLogado');
+
     if (usuarioLogado && usuarioLogado.id) {
         boxUsuario.classList.add('hidden');
         boxMotoristaLogado.classList.remove('hidden');
@@ -122,12 +127,17 @@ function limparUsuario() {
     configCarro = null;
     atualizarTelaUsuario();
     limparDashboard();
-    mostrarMensagem(msgMotorista, 'Motorista removido deste navegador. Cadastre novamente para continuar.', 'warning');
+    mostrarMensagem(
+        document.getElementById('msgMotorista'),
+        'Motorista removido deste navegador. Cadastre novamente para continuar.',
+        'warning'
+    );
 }
 
 async function salvarMotorista(event) {
     event.preventDefault();
 
+    const msgMotorista = document.getElementById('msgMotorista');
     const dados = {
         nome: valorTexto('nome'),
         email: valorTexto('email'),
@@ -139,6 +149,8 @@ async function salvarMotorista(event) {
         mostrarMensagem(msgMotorista, 'Preencha todos os campos do motorista.', 'error');
         return;
     }
+
+    mostrarMensagem(msgMotorista, 'Salvando motorista...', 'info');
 
     try {
         const response = await fetch(`${API_URL}/motoristas/registrar`, {
@@ -152,18 +164,23 @@ async function salvarMotorista(event) {
 
         usuarioLogado = resultado.motorista;
         localStorage.setItem('ubermax_motorista', JSON.stringify(usuarioLogado));
-        formMotorista.reset();
+        document.getElementById('formMotorista').reset();
         atualizarTelaUsuario();
-        mostrarMensagem(msgMotorista, 'Motorista salvo com sucesso!', 'success');
+        mostrarMensagem(msgMotorista, `✅ Motorista salvo com sucesso! Bem-vindo, ${usuarioLogado.nome}!`, 'success');
         carregarDados();
     } catch (error) {
-        mostrarMensagem(msgMotorista, error.message, 'error');
+        mostrarMensagem(msgMotorista, `❌ ${error.message}`, 'error');
     }
 }
+
+// =========================================================
+// REGISTRAR JORNADA
+// =========================================================
 
 async function registrarJornada(event) {
     event.preventDefault();
 
+    const msgJornada = document.getElementById('msgJornada');
     if (!exigirMotorista(msgJornada)) return;
 
     const ganhoBruto = numero('ganho_bruto');
@@ -201,6 +218,8 @@ async function registrarJornada(event) {
         return mostrarMensagem(msgJornada, 'Preencha data, região e categoria.', 'error');
     }
 
+    mostrarMensagem(msgJornada, 'Registrando jornada...', 'info');
+
     try {
         const response = await fetch(`${API_URL}/jornadas/registrar`, {
             method: 'POST',
@@ -212,18 +231,23 @@ async function registrarJornada(event) {
         if (!response.ok) throw new Error(resultado.erro || 'Erro ao registrar jornada.');
 
         mostrarResultadoJornada({ ganhoBruto, custosTotais, lucroLiquido, lucroHora, lucroKm });
-        mostrarMensagem(msgJornada, 'Jornada registrada com sucesso!', 'success');
-        formJornada.reset();
+        mostrarMensagem(msgJornada, '✅ Jornada registrada com sucesso!', 'success');
+        document.getElementById('formJornada').reset();
         document.getElementById('data').valueAsDate = new Date();
         carregarDados();
     } catch (error) {
-        mostrarMensagem(msgJornada, error.message, 'error');
+        mostrarMensagem(msgJornada, `❌ ${error.message}`, 'error');
     }
 }
+
+// =========================================================
+// MEU CARRO
+// =========================================================
 
 async function salvarCarro(event) {
     event.preventDefault();
 
+    const msgCarro = document.getElementById('msgCarro');
     if (!exigirMotorista(msgCarro)) return;
 
     const consumoMedio = numero('consumo_medio');
@@ -239,7 +263,9 @@ async function salvarCarro(event) {
 
     if (consumoMedio <= 0) return mostrarMensagem(msgCarro, 'Consumo médio precisa ser maior que zero.', 'error');
     if (kmMedioMes <= 0) return mostrarMensagem(msgCarro, 'KM médio por mês precisa ser maior que zero.', 'error');
+    if (precoCombustivel <= 0) return mostrarMensagem(msgCarro, 'Preço do combustível precisa ser maior que zero.', 'error');
 
+    // Cálculos locais
     const custoCombustivelKm = precoCombustivel / consumoMedio;
     const custosFixosMensais = seguroMensal + (ipvaAnual / 12) + manutencaoMensal + (pneusAnual / 12) + (oleoRevisaoAnual / 12) + financiamentoMensal + depreciacaoMensal;
     const custoFixoKm = custosFixosMensais / kmMedioMes;
@@ -268,6 +294,8 @@ async function salvarCarro(event) {
         return mostrarMensagem(msgCarro, 'Preencha modelo e tipo de combustível.', 'error');
     }
 
+    mostrarMensagem(msgCarro, 'Salvando configuração do carro...', 'info');
+
     try {
         const response = await fetch(`${API_URL}/carro/configurar`, {
             method: 'POST',
@@ -279,16 +307,36 @@ async function salvarCarro(event) {
         if (!response.ok) throw new Error(resultado.erro || 'Erro ao salvar carro.');
 
         configCarro = resultado.carro;
-        mostrarResultadoCarro(configCarro);
-        mostrarMensagem(msgCarro, 'Configuração do carro salva com sucesso!', 'success');
+
+        // Exibe resultado com breakdown detalhado
+        mostrarResultadoCarro(configCarro, {
+            custoCombustivelMensal: custoCombustivelKm * kmMedioMes,
+            seguroMensal,
+            ipvaMensal: ipvaAnual / 12,
+            manutencaoMensal,
+            pneusMensal: pneusAnual / 12,
+            oleoMensal: oleoRevisaoAnual / 12,
+            financiamentoMensal,
+            depreciacaoMensal,
+            custosFixosMensais,
+            totalMensal: (custoCombustivelKm * kmMedioMes) + custosFixosMensais
+        });
+
+        mostrarMensagem(msgCarro, '✅ Configuração do carro salva com sucesso!', 'success');
+        atualizarAvisoCustoKm();
     } catch (error) {
-        mostrarMensagem(msgCarro, error.message, 'error');
+        mostrarMensagem(msgCarro, `❌ ${error.message}`, 'error');
     }
 }
+
+// =========================================================
+// AVALIAR CORRIDA
+// =========================================================
 
 async function avaliarCorrida(event) {
     event.preventDefault();
 
+    const msgCorrida = document.getElementById('msgCorrida');
     if (!exigirMotorista(msgCorrida)) return;
 
     const valorCorrida = numero('valor_corrida');
@@ -310,6 +358,7 @@ async function avaliarCorrida(event) {
     const lucroKm = distanciaTotalKm > 0 ? lucroEstimado / distanciaTotalKm : 0;
 
     const destino = valorTexto('destino_corrida');
+    const origem = valorTexto('origem_corrida');
     const avaliacao = calcularAvaliacaoCorrida({
         lucroHora,
         lucroKm,
@@ -327,7 +376,7 @@ async function avaliarCorrida(event) {
         tempo_pickup_min: tempoPickupMin,
         distancia_total_km: distanciaTotalKm,
         tempo_total_min: tempoTotalMin,
-        origem: valorTexto('origem_corrida'),
+        origem,
         destino,
         categoria: valorTexto('categoria_corrida'),
         observacao: valorTexto('observacao_corrida'),
@@ -345,6 +394,8 @@ async function avaliarCorrida(event) {
         return mostrarMensagem(msgCorrida, 'Preencha origem, destino e categoria.', 'error');
     }
 
+    mostrarMensagem(msgCorrida, 'Avaliando corrida...', 'info');
+
     try {
         const response = await fetch(`${API_URL}/corridas/avaliar`, {
             method: 'POST',
@@ -355,14 +406,33 @@ async function avaliarCorrida(event) {
         const resultado = await response.json();
         if (!response.ok) throw new Error(resultado.erro || 'Erro ao avaliar corrida.');
 
-        mostrarResultadoCorrida(resultado.avaliacao || dados);
-        mostrarMensagem(msgCorrida, configCarro ? 'Corrida avaliada com sucesso!' : 'Corrida avaliada usando custo padrão de R$ 0,87/km. Cadastre seu carro para maior precisão.', configCarro ? 'success' : 'warning');
-        formCorrida.reset();
+        // Usa dados do backend se disponíveis, senão usa os calculados localmente
+        const dadosResultado = resultado.avaliacao || dados;
+
+        // Adiciona informações extras para exibição
+        dadosResultado._origem = origem;
+        dadosResultado._destino = destino;
+        dadosResultado._distanciaTotal = distanciaTotalKm;
+        dadosResultado._tempoTotal = tempoTotalMin;
+        dadosResultado._custoKmUsado = custoKm;
+
+        mostrarResultadoCorrida(dadosResultado);
+
+        const mensagemSucesso = configCarro
+            ? '✅ Corrida avaliada com sucesso!'
+            : '✅ Corrida avaliada! ⚠️ Usando custo padrão de R$ 0,87/km. Cadastre seu carro para maior precisão.';
+
+        mostrarMensagem(msgCorrida, mensagemSucesso, configCarro ? 'success' : 'warning');
+        document.getElementById('formCorrida').reset();
         carregarCorridas();
     } catch (error) {
-        mostrarMensagem(msgCorrida, error.message, 'error');
+        mostrarMensagem(msgCorrida, `❌ ${error.message}`, 'error');
     }
 }
+
+// =========================================================
+// CARREGAR DADOS DO SERVIDOR
+// =========================================================
 
 async function carregarDados() {
     if (!usuarioLogado || !usuarioLogado.id) return;
@@ -380,6 +450,7 @@ async function carregarDados() {
 }
 
 async function carregarJornadas() {
+    const historicoLista = document.getElementById('historicoLista');
     try {
         const response = await fetch(`${API_URL}/jornadas/${usuarioLogado.id}`);
         const dados = await response.json();
@@ -396,15 +467,15 @@ async function carregarResumo() {
         const dados = await response.json();
         if (!response.ok) throw new Error(dados.erro || 'Erro ao carregar resumo.');
 
-        document.getElementById('statBruto').textContent = dinheiro(dados.ganho_total);
-        document.getElementById('statLucro').textContent = dinheiro(dados.lucro_liquido_total);
-        document.getElementById('statLucroHora').textContent = `${dinheiro(dados.media_lucro_hora)}/h`;
-        document.getElementById('statLucroKm').textContent = `${dinheiro(dados.media_lucro_km)}/km`;
-        document.getElementById('statHoras').textContent = `${formatarNumero(dados.horas_total)} h`;
-        document.getElementById('statKm').textContent = `${formatarNumero(dados.km_total)} km`;
-        document.getElementById('statJornadas').textContent = dados.total_jornadas || 0;
+        setTexto('statBruto', dinheiro(dados.ganho_total));
+        setTexto('statLucro', dinheiro(dados.lucro_liquido_total));
+        setTexto('statLucroHora', `${dinheiro(dados.media_lucro_hora)}/h`);
+        setTexto('statLucroKm', `${dinheiro(dados.media_lucro_km)}/km`);
+        setTexto('statHoras', `${formatarNumero(dados.horas_total)} h`);
+        setTexto('statKm', `${formatarNumero(dados.km_total)} km`);
+        setTexto('statJornadas', dados.total_jornadas || 0);
     } catch (error) {
-        console.error(error);
+        console.error('Erro ao carregar resumo:', error);
     }
 }
 
@@ -414,6 +485,7 @@ async function carregarCarro() {
 
         if (response.status === 404) {
             configCarro = null;
+            atualizarAvisoCustoKm();
             return;
         }
 
@@ -422,13 +494,15 @@ async function carregarCarro() {
 
         configCarro = dados;
         preencherFormularioCarro(configCarro);
-        mostrarResultadoCarro(configCarro);
+        mostrarResultadoCarro(configCarro, calcularBreakdownCarro(configCarro));
+        atualizarAvisoCustoKm();
     } catch (error) {
-        console.error(error);
+        console.error('Erro ao carregar carro:', error);
     }
 }
 
 async function carregarCorridas() {
+    const corridasLista = document.getElementById('corridasLista');
     try {
         const response = await fetch(`${API_URL}/corridas/${usuarioLogado.id}`);
         const dados = await response.json();
@@ -441,7 +515,13 @@ async function carregarCorridas() {
     }
 }
 
+// =========================================================
+// RENDERIZAÇÃO DE LISTAS
+// =========================================================
+
 function renderizarHistorico() {
+    const historicoLista = document.getElementById('historicoLista');
+    const filtroMes = document.getElementById('filtroMes');
     const mesSelecionado = filtroMes.value;
     let jornadas = [...jornadasCache];
 
@@ -472,9 +552,11 @@ function renderizarHistorico() {
 }
 
 function renderizarRanking() {
+    const rankingRegioes = document.getElementById('rankingRegioes');
+
     if (jornadasCache.length === 0) {
         rankingRegioes.innerHTML = '<p class="empty">Nenhuma região registrada ainda.</p>';
-        document.getElementById('statMelhorRegiao').textContent = '-';
+        setTexto('statMelhorRegiao', '-');
         return;
     }
 
@@ -501,7 +583,7 @@ function renderizarRanking() {
         }))
         .sort((a, b) => b.lucroHora - a.lucroHora);
 
-    document.getElementById('statMelhorRegiao').textContent = ranking[0]?.regiao || '-';
+    setTexto('statMelhorRegiao', ranking[0]?.regiao || '-');
 
     rankingRegioes.innerHTML = ranking.map((item, index) => `
         <article class="ranking-item">
@@ -516,30 +598,61 @@ function renderizarRanking() {
 }
 
 function renderizarCorridas() {
+    const corridasLista = document.getElementById('corridasLista');
+    const corridasStats = document.getElementById('corridasStats');
+
     if (corridasCache.length === 0) {
         corridasLista.innerHTML = '<p class="empty">Nenhuma corrida avaliada ainda.</p>';
+        if (corridasStats) corridasStats.classList.add('hidden');
         return;
+    }
+
+    // Calcula estatísticas de recomendação
+    const contagem = { aceitar: 0, pensar: 0, evitar: 0 };
+    corridasCache.forEach(c => {
+        const classe = classeRecomendacao(c.recomendacao);
+        contagem[classe] = (contagem[classe] || 0) + 1;
+    });
+
+    if (corridasStats) {
+        corridasStats.classList.remove('hidden');
+        setTexto('statAceitar', contagem.aceitar);
+        setTexto('statPensar', contagem.pensar);
+        setTexto('statEvitar', contagem.evitar);
     }
 
     corridasLista.innerHTML = corridasCache.map(corrida => {
         const classe = classeRecomendacao(corrida.recomendacao);
+        const nota = Math.round(Number(corrida.nota_corrida || 0));
         return `
             <article class="corrida-item">
                 <div>
-                    <span class="status ${classe}">${corrida.recomendacao}</span>
+                    <span class="status ${classe}">${iconeRecomendacao(corrida.recomendacao)} ${corrida.recomendacao}</span>
                     <h3>${corrida.origem || '-'} → ${corrida.destino || '-'}</h3>
                     <small>${formatarData(corrida.created_at)} • ${corrida.categoria || '-'}</small>
                 </div>
                 <div><span>Valor</span><strong>${dinheiro(corrida.valor_corrida)}</strong></div>
                 <div><span>Lucro</span><strong>${dinheiro(corrida.lucro_estimado)}</strong></div>
-                <div><span>Nota</span><strong>${Math.round(Number(corrida.nota_corrida || 0))}/100</strong></div>
+                <div>
+                    <span>Nota</span>
+                    <strong>${nota}/100</strong>
+                    <div class="mini-progress">
+                        <div class="mini-progress-fill ${classe}" style="width:${nota}%"></div>
+                    </div>
+                </div>
                 <div><span>R$/km</span><strong>${dinheiro(corrida.lucro_km)}/km</strong></div>
             </article>
         `;
     }).join('');
 }
 
+// =========================================================
+// ANÁLISE GERAL (IA LOCAL)
+// =========================================================
+
 function gerarAnaliseGeral() {
+    const analiseGeralIA = document.getElementById('analiseGeralIA');
+
     if (jornadasCache.length === 0) {
         analiseGeralIA.textContent = 'Cadastre algumas jornadas para gerar uma análise.';
         return;
@@ -551,59 +664,214 @@ function gerarAnaliseGeral() {
     const mediaHora = horasTotal > 0 ? lucroTotal / horasTotal : 0;
     const mediaKm = kmTotal > 0 ? lucroTotal / kmTotal : 0;
 
-    let texto = '';
+    let texto = `📊 Você tem ${jornadasCache.length} jornada(s) registrada(s). `;
 
-    if (mediaHora < 25) texto += 'Seu lucro médio por hora está baixo. Revise horários, regiões e custos. ';
-    else if (mediaHora < 40) texto += 'Seu lucro médio por hora está aceitável, mas ainda pode melhorar. ';
-    else texto += 'Seu lucro médio por hora está saudável. ';
+    if (mediaHora < 25) texto += '⚠️ Seu lucro médio por hora está baixo (abaixo de R$25/h). Revise horários, regiões e custos. ';
+    else if (mediaHora < 40) texto += '🟡 Seu lucro médio por hora está aceitável (R$25–40/h), mas ainda pode melhorar. ';
+    else texto += '✅ Seu lucro médio por hora está saudável (acima de R$40/h). ';
 
-    if (mediaKm < 1.2) texto += 'Seu lucro por KM está baixo; cuidado com corridas longas e baixa remuneração.';
-    else if (mediaKm < 1.8) texto += 'Seu lucro por KM está razoável. Continue comparando regiões.';
-    else texto += 'Seu lucro por KM está forte. Você parece estar escolhendo boas jornadas.';
+    if (mediaKm < 1.2) texto += '⚠️ Seu lucro por KM está baixo; cuidado com corridas longas e baixa remuneração.';
+    else if (mediaKm < 1.8) texto += '🟡 Seu lucro por KM está razoável. Continue comparando regiões.';
+    else texto += '✅ Seu lucro por KM está forte. Você parece estar escolhendo boas jornadas.';
+
+    if (configCarro) {
+        const custoTotal = Number(configCarro.custo_total_km || 0);
+        texto += ` Seu custo real por km é ${dinheiro(custoTotal)}/km.`;
+    } else {
+        texto += ' 💡 Dica: cadastre seu carro para ter análises ainda mais precisas.';
+    }
 
     analiseGeralIA.textContent = texto;
 }
 
+// =========================================================
+// EXIBIÇÃO DE RESULTADOS
+// =========================================================
+
 function mostrarResultadoJornada(dados) {
-    document.getElementById('resGanhoBruto').textContent = dinheiro(dados.ganhoBruto);
-    document.getElementById('resCustos').textContent = dinheiro(dados.custosTotais);
-    document.getElementById('resLucroLiquido').textContent = dinheiro(dados.lucroLiquido);
-    document.getElementById('resLucroHora').textContent = `${dinheiro(dados.lucroHora)}/h`;
-    document.getElementById('resLucroKm').textContent = `${dinheiro(dados.lucroKm)}/km`;
-    document.getElementById('resAnaliseIA').textContent = gerarAnaliseJornada(dados.lucroHora, dados.lucroKm);
-    resultadoJornada.classList.remove('hidden');
+    setTexto('resGanhoBruto', dinheiro(dados.ganhoBruto));
+    setTexto('resCustos', dinheiro(dados.custosTotais));
+    setTexto('resLucroLiquido', dinheiro(dados.lucroLiquido));
+    setTexto('resLucroHora', `${dinheiro(dados.lucroHora)}/h`);
+    setTexto('resLucroKm', `${dinheiro(dados.lucroKm)}/km`);
+    setTexto('resAnaliseIA', gerarAnaliseJornada(dados.lucroHora, dados.lucroKm));
+    document.getElementById('resultadoJornada').classList.remove('hidden');
 }
 
-function mostrarResultadoCarro(carro) {
+function mostrarResultadoCarro(carro, breakdown) {
     if (!carro) return;
 
-    document.getElementById('carroCombustivelKm').textContent = `${dinheiro(carro.custo_combustivel_km)}/km`;
-    document.getElementById('carroFixoKm').textContent = `${dinheiro(carro.custo_fixo_km)}/km`;
-    document.getElementById('carroTotalKm').textContent = `${dinheiro(carro.custo_total_km)}/km`;
+    const custoTotal = Number(carro.custo_total_km || 0);
+    const custoCombustivel = Number(carro.custo_combustivel_km || 0);
+    const custoFixo = Number(carro.custo_fixo_km || 0);
 
-    let texto = `Seu custo real estimado é de ${dinheiro(carro.custo_total_km)} por km. `;
-    if (Number(carro.custo_total_km) > 1.2) texto += 'Esse custo é alto; corridas curtas e mal pagas podem destruir seu lucro.';
-    else if (Number(carro.custo_total_km) > 0.8) texto += 'Esse custo é médio; vale acompanhar bem lucro por km.';
-    else texto += 'Esse custo está relativamente controlado para uso em aplicativo.';
+    setTexto('carroCombustivelKm', `${dinheiro(custoCombustivel)}/km`);
+    setTexto('carroFixoKm', `${dinheiro(custoFixo)}/km`);
+    setTexto('carroTotalKm', `${dinheiro(custoTotal)}/km`);
 
-    document.getElementById('carroAnaliseIA').textContent = texto;
-    resultadoCarro.classList.remove('hidden');
+    // Análise textual
+    let texto = `Seu custo real estimado é de ${dinheiro(custoTotal)} por km. `;
+    if (custoTotal > 1.5) texto += '🔴 Custo alto! Corridas curtas e mal pagas podem destruir seu lucro. Revise seus custos.';
+    else if (custoTotal > 1.0) texto += '🟡 Custo médio. Vale acompanhar bem o lucro por km em cada corrida.';
+    else if (custoTotal > 0.7) texto += '🟢 Custo relativamente controlado para uso em aplicativo.';
+    else texto += '✅ Excelente custo por km! Seu veículo é muito eficiente.';
+
+    setTexto('carroAnaliseIA', texto);
+
+    // Barra de nível de custo (escala: 0 a R$2,00/km)
+    const porcentagem = Math.min((custoTotal / 2.0) * 100, 100);
+    const barra = document.getElementById('carroBarra');
+    if (barra) {
+        barra.style.width = `${porcentagem}%`;
+        barra.className = `progress-bar-fill ${custoTotal > 1.5 ? 'fill-red' : custoTotal > 1.0 ? 'fill-yellow' : 'fill-green'}`;
+    }
+
+    const nivelTexto = document.getElementById('carroNivelTexto');
+    if (nivelTexto) {
+        if (custoTotal > 1.5) { nivelTexto.textContent = 'Alto'; nivelTexto.className = 'custo-nivel-badge badge-red'; }
+        else if (custoTotal > 1.0) { nivelTexto.textContent = 'Médio'; nivelTexto.className = 'custo-nivel-badge badge-yellow'; }
+        else { nivelTexto.textContent = 'Controlado'; nivelTexto.className = 'custo-nivel-badge badge-green'; }
+    }
+
+    // Breakdown de custos mensais
+    if (breakdown) {
+        setTexto('carroTotalMensal', dinheiro(breakdown.totalMensal));
+        renderizarBreakdownCarro(breakdown, carro);
+    }
+
+    document.getElementById('resultadoCarro').classList.remove('hidden');
+}
+
+function renderizarBreakdownCarro(breakdown, carro) {
+    const container = document.getElementById('carroBreakdown');
+    if (!container) return;
+
+    const itens = [
+        { label: '⛽ Combustível', valor: breakdown.custoCombustivelMensal },
+        { label: '🛡️ Seguro', valor: breakdown.seguroMensal },
+        { label: '📄 IPVA (mensal)', valor: breakdown.ipvaMensal },
+        { label: '🔧 Manutenção', valor: breakdown.manutencaoMensal },
+        { label: '🚗 Pneus (mensal)', valor: breakdown.pneusMensal },
+        { label: '🛢️ Óleo/Revisão (mensal)', valor: breakdown.oleoMensal },
+        { label: '💳 Financiamento', valor: breakdown.financiamentoMensal },
+        { label: '📉 Depreciação', valor: breakdown.depreciacaoMensal },
+    ].filter(item => item.valor > 0);
+
+    const total = breakdown.totalMensal || 1;
+
+    container.innerHTML = itens.map(item => {
+        const pct = Math.round((item.valor / total) * 100);
+        return `
+            <div class="breakdown-item">
+                <div class="breakdown-label">
+                    <span>${item.label}</span>
+                    <span>${dinheiro(item.valor)}/mês</span>
+                </div>
+                <div class="breakdown-bar-track">
+                    <div class="breakdown-bar-fill" style="width: ${pct}%"></div>
+                </div>
+                <span class="breakdown-pct">${pct}%</span>
+            </div>
+        `;
+    }).join('');
+}
+
+function calcularBreakdownCarro(carro) {
+    const consumoMedio = Number(carro.consumo_medio || 1);
+    const precoCombustivel = Number(carro.preco_combustivel || 0);
+    const kmMedioMes = Number(carro.km_medio_mes || 1);
+    const seguroMensal = Number(carro.seguro_mensal || 0);
+    const ipvaAnual = Number(carro.ipva_anual || 0);
+    const manutencaoMensal = Number(carro.manutencao_mensal || 0);
+    const pneusAnual = Number(carro.pneus_anual || 0);
+    const oleoRevisaoAnual = Number(carro.oleo_revisao_anual || 0);
+    const financiamentoMensal = Number(carro.financiamento_mensal || 0);
+    const depreciacaoMensal = Number(carro.depreciacao_mensal || 0);
+
+    const custoCombustivelMensal = (precoCombustivel / consumoMedio) * kmMedioMes;
+    const ipvaMensal = ipvaAnual / 12;
+    const pneusMensal = pneusAnual / 12;
+    const oleoMensal = oleoRevisaoAnual / 12;
+    const custosFixosMensais = seguroMensal + ipvaMensal + manutencaoMensal + pneusMensal + oleoMensal + financiamentoMensal + depreciacaoMensal;
+    const totalMensal = custoCombustivelMensal + custosFixosMensais;
+
+    return {
+        custoCombustivelMensal,
+        seguroMensal,
+        ipvaMensal,
+        manutencaoMensal,
+        pneusMensal,
+        oleoMensal,
+        financiamentoMensal,
+        depreciacaoMensal,
+        custosFixosMensais,
+        totalMensal
+    };
 }
 
 function mostrarResultadoCorrida(corrida) {
-    document.getElementById('corridaNota').textContent = `${Math.round(Number(corrida.nota_corrida || 0))}/100`;
-    document.getElementById('corridaCusto').textContent = dinheiro(corrida.custo_estimado);
-    document.getElementById('corridaLucro').textContent = dinheiro(corrida.lucro_estimado);
-    document.getElementById('corridaLucroHora').textContent = `${dinheiro(corrida.lucro_hora)}/h`;
-    document.getElementById('corridaLucroKm').textContent = `${dinheiro(corrida.lucro_km)}/km`;
-    document.getElementById('corridaMotivo').textContent = corrida.motivo || '-';
+    const nota = Math.round(Number(corrida.nota_corrida || 0));
 
+    setTexto('corridaNota', `${nota}/100`);
+    setTexto('corridaCusto', dinheiro(corrida.custo_estimado));
+    setTexto('corridaLucro', dinheiro(corrida.lucro_estimado));
+    setTexto('corridaLucroHora', `${dinheiro(corrida.lucro_hora)}/h`);
+    setTexto('corridaLucroKm', `${dinheiro(corrida.lucro_km)}/km`);
+    setTexto('corridaMotivo', corrida.motivo || '-');
+
+    // Informações extras de rota e distância
+    const origem = corrida._origem || corrida.origem || '-';
+    const destino = corrida._destino || corrida.destino || '-';
+    const distanciaTotal = corrida._distanciaTotal || corrida.distancia_total_km || 0;
+    const tempoTotal = corrida._tempoTotal || corrida.tempo_total_min || 0;
+    const custoKmUsado = corrida._custoKmUsado || corrida.custo_km_usado || 0;
+
+    setTexto('corridaRota', `${origem} → ${destino}`);
+    setTexto('corridaDistanciaTotal', `${formatarNumero(distanciaTotal)} km`);
+    setTexto('corridaTempoTotal', `${tempoTotal} min`);
+    setTexto('corridaCustoKmUsado', `${dinheiro(custoKmUsado)}/km`);
+
+    // Badge de recomendação
     const badge = document.getElementById('corridaBadge');
     badge.className = `corrida-badge ${classeRecomendacao(corrida.recomendacao)}`;
     badge.textContent = `${iconeRecomendacao(corrida.recomendacao)} ${corrida.recomendacao}`;
 
-    resultadoCorrida.classList.remove('hidden');
+    // Barra de nota
+    const barraNota = document.getElementById('corridaBarraNota');
+    if (barraNota) {
+        barraNota.style.width = `${nota}%`;
+        barraNota.className = `progress-bar-fill nota-fill ${classeRecomendacao(corrida.recomendacao)}`;
+    }
+
+    document.getElementById('resultadoCorrida').classList.remove('hidden');
 }
+
+// =========================================================
+// AVISO DE CUSTO DO CARRO NA ABA AVALIAR
+// =========================================================
+
+function atualizarAvisoCustoKm() {
+    const avisoCustoKm = document.getElementById('avisoCustoKm');
+    const infoCustoKm = document.getElementById('infoCustoKm');
+    const custoKmAtual = document.getElementById('custoKmAtual');
+
+    if (!avisoCustoKm || !infoCustoKm) return;
+
+    if (configCarro && configCarro.custo_total_km) {
+        avisoCustoKm.classList.add('hidden');
+        infoCustoKm.classList.remove('hidden');
+        if (custoKmAtual) {
+            custoKmAtual.textContent = `${dinheiro(configCarro.custo_total_km)}/km`;
+        }
+    } else {
+        avisoCustoKm.classList.remove('hidden');
+        infoCustoKm.classList.add('hidden');
+    }
+}
+
+// =========================================================
+// PREENCHER FORMULÁRIO DO CARRO (ao carregar dados)
+// =========================================================
 
 function preencherFormularioCarro(carro) {
     if (!carro) return;
@@ -621,6 +889,10 @@ function preencherFormularioCarro(carro) {
     setValor('depreciacao_mensal', carro.depreciacao_mensal);
     setValor('km_medio_mes', carro.km_medio_mes);
 }
+
+// =========================================================
+// ALGORITMO DE AVALIAÇÃO DE CORRIDA (frontend)
+// =========================================================
 
 function calcularAvaliacaoCorrida({ lucroHora, lucroKm, tempoTotalMin, distanciaTotalKm, destino }) {
     const notaLucroHora = pontuarIntervalo(lucroHora, 25, 40);
@@ -651,10 +923,10 @@ function calcularAvaliacaoCorrida({ lucroHora, lucroKm, tempoTotalMin, distancia
     else if (lucroKm < 1.8) motivos.push('lucro por km razoável');
     else motivos.push('bom lucro por km');
 
-    if (notaDestino >= 80) motivos.push('destino com bom histórico no seu próprio registro');
+    if (notaDestino >= 80) motivos.push('destino com bom histórico no seu registro');
     else if (notaDestino <= 45) motivos.push('destino sem histórico forte de lucro');
 
-    if (notaTransito <= 45) motivos.push('tempo por km alto, indicando possível trânsito ou deslocamento lento');
+    if (notaTransito <= 45) motivos.push('tempo por km alto, indicando possível trânsito');
 
     return {
         notaFinal,
@@ -674,7 +946,10 @@ function pontuarDestino(destino) {
     if (!destino || jornadasCache.length === 0) return 55;
 
     const destinoNormalizado = normalizar(destino);
-    const jornadasDestino = jornadasCache.filter(j => normalizar(j.regiao_principal).includes(destinoNormalizado) || destinoNormalizado.includes(normalizar(j.regiao_principal)));
+    const jornadasDestino = jornadasCache.filter(j =>
+        normalizar(j.regiao_principal).includes(destinoNormalizado) ||
+        destinoNormalizado.includes(normalizar(j.regiao_principal))
+    );
 
     if (jornadasDestino.length === 0) return 55;
 
@@ -696,35 +971,47 @@ function pontuarTransito(tempoMin, distanciaKm) {
     return 20;
 }
 
+// =========================================================
+// ANÁLISE TEXTUAL DE JORNADA
+// =========================================================
+
 function gerarAnaliseJornada(lucroHora, lucroKm) {
     let texto = '';
 
-    if (lucroHora < 25) texto += 'Jornada fraca: o lucro por hora ficou baixo. ';
-    else if (lucroHora < 40) texto += 'Jornada aceitável: seu lucro por hora foi razoável. ';
-    else texto += 'Boa jornada: seu lucro por hora ficou saudável. ';
+    if (lucroHora < 25) texto += '⚠️ Jornada fraca: o lucro por hora ficou baixo (abaixo de R$25/h). ';
+    else if (lucroHora < 40) texto += '🟡 Jornada aceitável: seu lucro por hora foi razoável (R$25–40/h). ';
+    else texto += '✅ Boa jornada: seu lucro por hora ficou saudável (acima de R$40/h). ';
 
-    if (lucroKm < 1.2) texto += 'O lucro por KM ficou baixo; atenção com corridas longas.';
-    else if (lucroKm < 1.8) texto += 'O lucro por KM ficou em uma faixa aceitável.';
-    else texto += 'O lucro por KM ficou forte.';
+    if (lucroKm < 1.2) texto += '⚠️ O lucro por KM ficou baixo; atenção com corridas longas.';
+    else if (lucroKm < 1.8) texto += '🟡 O lucro por KM ficou em uma faixa aceitável.';
+    else texto += '✅ O lucro por KM ficou forte.';
 
     return texto;
 }
 
+// =========================================================
+// UTILITÁRIOS
+// =========================================================
+
 function exigirMotorista(elementoMensagem) {
     if (!usuarioLogado || !usuarioLogado.id) {
-        mostrarMensagem(elementoMensagem, 'Cadastre ou selecione um motorista antes de continuar.', 'error');
+        mostrarMensagem(elementoMensagem, '⚠️ Cadastre ou selecione um motorista antes de continuar.', 'error');
         abrirAba('registro');
         return false;
     }
-
     return true;
 }
 
 function limparDashboard() {
-    historicoLista.innerHTML = '<p class="empty">Nenhuma jornada registrada ainda.</p>';
-    rankingRegioes.innerHTML = '<p class="empty">Nenhuma região registrada ainda.</p>';
-    corridasLista.innerHTML = '<p class="empty">Nenhuma corrida avaliada ainda.</p>';
-    analiseGeralIA.textContent = 'Cadastre algumas jornadas para gerar uma análise.';
+    const historicoLista = document.getElementById('historicoLista');
+    const rankingRegioes = document.getElementById('rankingRegioes');
+    const corridasLista = document.getElementById('corridasLista');
+    const analiseGeralIA = document.getElementById('analiseGeralIA');
+
+    if (historicoLista) historicoLista.innerHTML = '<p class="empty">Nenhuma jornada registrada ainda.</p>';
+    if (rankingRegioes) rankingRegioes.innerHTML = '<p class="empty">Nenhuma região registrada ainda.</p>';
+    if (corridasLista) corridasLista.innerHTML = '<p class="empty">Nenhuma corrida avaliada ainda.</p>';
+    if (analiseGeralIA) analiseGeralIA.textContent = 'Cadastre algumas jornadas para gerar uma análise.';
 
     setTexto('statBruto', 'R$ 0,00');
     setTexto('statLucro', 'R$ 0,00');
@@ -735,12 +1022,23 @@ function limparDashboard() {
     setTexto('statJornadas', '0');
     setTexto('statMelhorRegiao', '-');
 
-    resultadoCarro.classList.add('hidden');
-    resultadoCorrida.classList.add('hidden');
+    const resultadoCarro = document.getElementById('resultadoCarro');
+    const resultadoCorrida = document.getElementById('resultadoCorrida');
+    if (resultadoCarro) resultadoCarro.classList.add('hidden');
+    if (resultadoCorrida) resultadoCorrida.classList.add('hidden');
 }
 
 function mostrarMensagem(elemento, texto, tipo = 'success') {
+    if (!elemento) return;
     elemento.innerHTML = `<div class="alert ${tipo}">${texto}</div>`;
+    // Remove a mensagem após 6 segundos (exceto erros)
+    if (tipo !== 'error') {
+        setTimeout(() => {
+            if (elemento.innerHTML.includes(texto.substring(0, 20))) {
+                elemento.innerHTML = '';
+            }
+        }, 6000);
+    }
 }
 
 function numero(id) {
