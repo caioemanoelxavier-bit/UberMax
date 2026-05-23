@@ -70,8 +70,8 @@ function mostrarLandingPage() {
 
 function abrirApp() {
     state.usuario = {
-        nome: 'Motorista',
-        email: 'motorista@example.com',
+        nome: 'Usuário',
+        email: 'usuario@ubermax-ia.com',
         id: 1
     };
     
@@ -599,15 +599,15 @@ function processarComandoIA(mensagem) {
         resposta = `Salvo ✓ — Lucro: R$ ${window.turnoTemp.valor.toFixed(2)} · R$ ${(window.turnoTemp.valor / window.turnoTemp.horas).toFixed(2)}/hora. Tudo certo?`;
         window.turnoTemp = null;
     } else if (msg.includes('copiloto')) {
-        resposta = 'O Copiloto analisa cada corrida em tempo real e te diz se vale a pena aceitar. Veja a aba "Copiloto" para testar!';
+        resposta = 'O Copiloto do UberMax IA analisa cada corrida em tempo real e te diz se vale a pena aceitar. Veja a aba "Copiloto" para testar!';
     } else if (msg.includes('km real')) {
-        resposta = 'KM Real calcula seu custo verdadeiro por km, incluindo combustível, depreciação, IPVA, seguro, pneus e óleo. Configure na aba "KM Real"!';
+        resposta = 'KM Real do UberMax IA calcula seu custo verdadeiro por km, incluindo combustível, depreciação, IPVA, seguro, pneus e óleo. Configure na aba "KM Real"!';
     } else if (msg.includes('meta')) {
-        resposta = 'Você pode definir metas diárias e semanais na aba "Smart Planner". Acompanhe seu progresso em tempo real!';
+        resposta = 'No UberMax IA, você pode definir metas diárias e semanais na aba "Smart Planner". Acompanhe seu progresso em tempo real!';
     } else if (msg.includes('ajuda')) {
-        resposta = 'Posso ajudar você com:\n• 📊 Registrar ganhos e despesas\n• 💰 Calcular lucro de corridas\n• 📈 Analisar produtividade\n• 🎯 Definir metas\n• ❓ Tirar dúvidas sobre o app';
+        resposta = 'Sou o Assistente do UberMax IA. Posso ajudar você com:\n• 📊 Registrar ganhos e despesas\n• 💰 Calcular lucro de corridas\n• 📈 Analisar produtividade\n• 🎯 Definir metas\n• ❓ Tirar dúvidas sobre o app';
     } else {
-        resposta = 'Desculpe, não entendi. Tente falar sobre seus ganhos, corridas, metas ou pedir ajuda sobre o app!';
+        resposta = 'Desculpe, não entendi. Sou o Assistente do UberMax IA. Tente falar sobre seus ganhos, corridas, metas ou pedir ajuda sobre o app!';
     }
     
     setTimeout(() => {
@@ -718,7 +718,7 @@ CUSTO DO VEÍCULO
     const url = window.URL.createObjectURL(blob);
     const a = document.createElement('a');
     a.href = url;
-    a.download = `relatorio-motorista-one-${new Date().toISOString().split('T')[0]}.txt`;
+    a.download = `relatorio-ubermax-ia-${new Date().toISOString().split('T')[0]}.txt`;
     a.click();
     
     mostrarAlerta('Relatório exportado com sucesso!', 'success');
@@ -735,7 +735,7 @@ function exportarCSV() {
     const url = window.URL.createObjectURL(blob);
     const a = document.createElement('a');
     a.href = url;
-    a.download = `corridas-motorista-one-${new Date().toISOString().split('T')[0]}.csv`;
+    a.download = `corridas-ubermax-ia-${new Date().toISOString().split('T')[0]}.csv`;
     a.click();
     
     mostrarAlerta('CSV exportado com sucesso!', 'success');
@@ -789,7 +789,7 @@ function mostrarAlerta(mensagem, tipo = 'info') {
 }
 
 function salvarDados() {
-    localStorage.setItem('motoristaOneData', JSON.stringify({
+    localStorage.setItem('ubermaxIAData', JSON.stringify({
         usuario: state.usuario,
         carro: state.carro,
         corridas: state.corridas,
@@ -798,7 +798,7 @@ function salvarDados() {
 }
 
 function carregarDados() {
-    const dados = localStorage.getItem('motoristaOneData');
+    const dados = localStorage.getItem('ubermaxIAData');
     if (dados) {
         const parsed = JSON.parse(dados);
         state.usuario = parsed.usuario;
