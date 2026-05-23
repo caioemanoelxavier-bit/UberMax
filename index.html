@@ -1,0 +1,495 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>UberMax IA</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <section id="telaInicial" class="hero">
+        <div class="hero-content">
+            <div class="brand-row hero-brand">
+                <div class="logo-mark">🚗</div>
+                <span>UberMax IA</span>
+            </div>
+
+            <h1>Pare de rodar no escuro.</h1>
+            <p class="hero-subtitle">
+                Calcule seu lucro real, descubra quanto seu carro custa por km e avalie se uma corrida vale a pena antes de aceitar.
+            </p>
+
+            <div class="hero-actions">
+                <button id="btnComecar" class="btn btn-primary">Começar análise</button>
+                <button id="btnVerRecursos" class="btn btn-ghost">Ver recursos</button>
+            </div>
+
+            <div id="recursos" class="benefits-grid">
+                <article class="benefit-card">
+                    <span>💰</span>
+                    <h3>Lucro real</h3>
+                    <p>Registre ganhos, combustível, custos e veja lucro líquido, R$/h e R$/km.</p>
+                </article>
+
+                <article class="benefit-card">
+                    <span>🚘</span>
+                    <h3>KM Real</h3>
+                    <p>Calcule o custo verdadeiro do carro com IPVA, seguro, manutenção, pneus e depreciação.</p>
+                </article>
+
+                <article class="benefit-card">
+                    <span>🧠</span>
+                    <h3>Avaliar corrida</h3>
+                    <p>Receba nota de 0 a 100 e recomendação: aceitar, pensar ou evitar.</p>
+                </article>
+
+                <article class="benefit-card">
+                    <span>📍</span>
+                    <h3>Regiões</h3>
+                    <p>Compare regiões pelo seu histórico e veja onde você realmente rende mais.</p>
+                </article>
+            </div>
+        </div>
+    </section>
+
+    <main id="app" class="app hidden">
+        <header class="topbar">
+            <div class="brand-row">
+                <div class="logo-mark">🚗</div>
+                <div>
+                    <h1>UberMax IA</h1>
+                    <p>Assistente de lucro real para motoristas de aplicativo</p>
+                </div>
+            </div>
+
+            <button id="btnLimparUsuario" class="btn btn-outline">Trocar motorista</button>
+        </header>
+
+        <section id="boxUsuario" class="card usuario-card">
+            <div class="section-title">
+                <div>
+                    <h2>Identificação do motorista</h2>
+                    <p>Cadastre uma vez. O sistema salva seu ID automaticamente no navegador.</p>
+                </div>
+            </div>
+
+            <form id="formMotorista" class="form-grid">
+                <div class="form-group">
+                    <label for="nome">Nome completo</label>
+                    <input type="text" id="nome" placeholder="Ex: João Silva" required>
+                </div>
+
+                <div class="form-group">
+                    <label for="email">E-mail</label>
+                    <input type="email" id="email" placeholder="Ex: joao@email.com" required>
+                </div>
+
+                <div class="form-group">
+                    <label for="plataforma">Plataforma principal</label>
+                    <select id="plataforma" required>
+                        <option value="Uber">Uber</option>
+                        <option value="99">99</option>
+                        <option value="InDrive">InDrive</option>
+                        <option value="Misto">Misto</option>
+                    </select>
+                </div>
+
+                <div class="form-group">
+                    <label for="cidade">Cidade</label>
+                    <input type="text" id="cidade" placeholder="Ex: São Paulo" required>
+                </div>
+
+                <button type="submit" class="btn btn-primary full">Salvar motorista</button>
+            </form>
+
+            <div id="msgMotorista" class="message"></div>
+        </section>
+
+        <section id="boxMotoristaLogado" class="card motorista-logado hidden">
+            <div>
+                <span class="eyebrow">Motorista conectado</span>
+                <h2 id="nomeMotoristaLogado">-</h2>
+                <p id="infoMotoristaLogado">-</p>
+            </div>
+        </section>
+
+        <nav class="tabs" aria-label="Navegação principal">
+            <button class="tab-button active" data-tab="registro">Registrar Jornada</button>
+            <button class="tab-button" data-tab="historico">Histórico</button>
+            <button class="tab-button" data-tab="analise">Análise</button>
+            <button class="tab-button" data-tab="carro">Meu Carro</button>
+            <button class="tab-button" data-tab="avaliar">Avaliar Corrida</button>
+        </nav>
+
+        <section id="tab-registro" class="tab-content active">
+            <div class="card">
+                <div class="section-title">
+                    <div>
+                        <span class="eyebrow">Lucro real</span>
+                        <h2>Calcule o lucro da sua jornada</h2>
+                        <p>Preencha os dados da jornada para saber quanto você realmente lucrou.</p>
+                    </div>
+                </div>
+
+                <form id="formJornada" class="form-grid">
+                    <div class="form-group">
+                        <label for="data">Data</label>
+                        <input type="date" id="data" required>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="ganho_bruto">Quanto você recebeu no app? (R$)</label>
+                        <input type="number" id="ganho_bruto" placeholder="Ex: 250.00" step="0.01" min="0" required>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="horas_trabalhadas">Horas trabalhadas</label>
+                        <input type="number" id="horas_trabalhadas" placeholder="Ex: 6" step="0.25" min="0.25" required>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="km_rodados">KM rodados</label>
+                        <input type="number" id="km_rodados" placeholder="Ex: 120" step="0.1" min="0.1" required>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="combustivel">Gasto com combustível (R$)</label>
+                        <input type="number" id="combustivel" placeholder="Ex: 80.00" step="0.01" min="0" required>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="outros_custos">Outros custos (R$)</label>
+                        <input type="number" id="outros_custos" placeholder="Ex: 20.00" step="0.01" min="0" required>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="regiao_principal">Região principal</label>
+                        <input type="text" id="regiao_principal" placeholder="Ex: Tatuapé" required>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="categoria_principal">Categoria</label>
+                        <select id="categoria_principal" required>
+                            <option value="Uber X">Uber X</option>
+                            <option value="Comfort">Comfort</option>
+                            <option value="Black">Black</option>
+                            <option value="Misto">Misto</option>
+                        </select>
+                    </div>
+
+                    <button type="submit" class="btn btn-primary full">Calcular lucro e registrar</button>
+                </form>
+
+                <div id="msgJornada" class="message"></div>
+
+                <div id="resultadoJornada" class="resultado hidden">
+                    <div class="resultado-head">
+                        <div>
+                            <span class="eyebrow">Resultado</span>
+                            <h3>Resumo da jornada</h3>
+                        </div>
+                    </div>
+
+                    <div class="resultado-grid">
+                        <div><span>Ganho bruto</span><strong id="resGanhoBruto">R$ 0,00</strong></div>
+                        <div><span>Custos totais</span><strong id="resCustos">R$ 0,00</strong></div>
+                        <div><span>Lucro líquido</span><strong id="resLucroLiquido">R$ 0,00</strong></div>
+                        <div><span>Lucro por hora</span><strong id="resLucroHora">R$ 0,00/h</strong></div>
+                        <div><span>Lucro por KM</span><strong id="resLucroKm">R$ 0,00/km</strong></div>
+                    </div>
+
+                    <div class="ia-box">
+                        <h4>Análise da IA</h4>
+                        <p id="resAnaliseIA">-</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <section id="tab-historico" class="tab-content">
+            <div class="card">
+                <div class="section-header">
+                    <div>
+                        <span class="eyebrow">Histórico</span>
+                        <h2>Jornadas registradas</h2>
+                        <p>Veja seus registros anteriores e filtre por mês.</p>
+                    </div>
+
+                    <select id="filtroMes">
+                        <option value="">Todos os meses</option>
+                        <option value="1">Janeiro</option>
+                        <option value="2">Fevereiro</option>
+                        <option value="3">Março</option>
+                        <option value="4">Abril</option>
+                        <option value="5">Maio</option>
+                        <option value="6">Junho</option>
+                        <option value="7">Julho</option>
+                        <option value="8">Agosto</option>
+                        <option value="9">Setembro</option>
+                        <option value="10">Outubro</option>
+                        <option value="11">Novembro</option>
+                        <option value="12">Dezembro</option>
+                    </select>
+                </div>
+
+                <div id="historicoLista" class="historico-lista">
+                    <p class="empty">Nenhuma jornada registrada ainda.</p>
+                </div>
+            </div>
+        </section>
+
+        <section id="tab-analise" class="tab-content">
+            <div class="card">
+                <div class="section-title">
+                    <div>
+                        <span class="eyebrow">Dashboard</span>
+                        <h2>Resumo financeiro do motorista</h2>
+                        <p>Visão geral do seu desempenho.</p>
+                    </div>
+                </div>
+
+                <div class="stats-grid">
+                    <div class="stat-card"><span>Faturamento bruto</span><strong id="statBruto">R$ 0,00</strong></div>
+                    <div class="stat-card lucro"><span>Lucro líquido total</span><strong id="statLucro">R$ 0,00</strong></div>
+                    <div class="stat-card"><span>Lucro médio por hora</span><strong id="statLucroHora">R$ 0,00/h</strong></div>
+                    <div class="stat-card"><span>Lucro médio por KM</span><strong id="statLucroKm">R$ 0,00/km</strong></div>
+                    <div class="stat-card"><span>Total de horas</span><strong id="statHoras">0 h</strong></div>
+                    <div class="stat-card"><span>Total de KM</span><strong id="statKm">0 km</strong></div>
+                    <div class="stat-card"><span>Total de jornadas</span><strong id="statJornadas">0</strong></div>
+                    <div class="stat-card"><span>Melhor região</span><strong id="statMelhorRegiao">-</strong></div>
+                </div>
+            </div>
+
+            <div class="card">
+                <div class="section-title">
+                    <div>
+                        <span class="eyebrow">Regiões</span>
+                        <h2>Ranking de regiões</h2>
+                        <p>Regiões ordenadas por maior lucro médio por hora.</p>
+                    </div>
+                </div>
+
+                <div id="rankingRegioes" class="ranking-lista">
+                    <p class="empty">Nenhuma região registrada ainda.</p>
+                </div>
+            </div>
+
+            <div class="card">
+                <div class="section-title">
+                    <div>
+                        <span class="eyebrow">IA</span>
+                        <h2>Análise geral</h2>
+                    </div>
+                </div>
+
+                <div id="analiseGeralIA" class="ia-box">Cadastre algumas jornadas para gerar uma análise.</div>
+            </div>
+        </section>
+
+        <section id="tab-carro" class="tab-content">
+            <div class="card">
+                <div class="section-title">
+                    <div>
+                        <span class="eyebrow">KM Real</span>
+                        <h2>Meu Carro / Custo real por KM</h2>
+                        <p>Informe seus custos para o sistema calcular quanto seu carro custa por quilômetro.</p>
+                    </div>
+                </div>
+
+                <form id="formCarro" class="form-grid">
+                    <div class="form-group">
+                        <label for="modelo_carro">Modelo do carro</label>
+                        <input type="text" id="modelo_carro" placeholder="Ex: Onix 2022" required>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="tipo_combustivel">Tipo de combustível</label>
+                        <select id="tipo_combustivel" required>
+                            <option value="Gasolina">Gasolina</option>
+                            <option value="Etanol">Etanol</option>
+                            <option value="Flex">Flex</option>
+                            <option value="GNV">GNV</option>
+                            <option value="Híbrido">Híbrido</option>
+                            <option value="Elétrico">Elétrico</option>
+                        </select>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="consumo_medio">Consumo médio (km/l)</label>
+                        <input type="number" id="consumo_medio" placeholder="Ex: 10" step="0.01" min="0" required>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="preco_combustivel">Preço do combustível (R$/l)</label>
+                        <input type="number" id="preco_combustivel" placeholder="Ex: 5.80" step="0.01" min="0" required>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="seguro_mensal">Seguro mensal (R$)</label>
+                        <input type="number" id="seguro_mensal" placeholder="Ex: 250" step="0.01" min="0" required>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="ipva_anual">IPVA anual (R$)</label>
+                        <input type="number" id="ipva_anual" placeholder="Ex: 2400" step="0.01" min="0" required>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="manutencao_mensal">Manutenção mensal estimada (R$)</label>
+                        <input type="number" id="manutencao_mensal" placeholder="Ex: 250" step="0.01" min="0" required>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="pneus_anual">Pneus por ano (R$)</label>
+                        <input type="number" id="pneus_anual" placeholder="Ex: 1600" step="0.01" min="0" required>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="oleo_revisao_anual">Óleo/revisão por ano (R$)</label>
+                        <input type="number" id="oleo_revisao_anual" placeholder="Ex: 1200" step="0.01" min="0" required>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="financiamento_mensal">Financiamento mensal (R$)</label>
+                        <input type="number" id="financiamento_mensal" placeholder="Ex: 0" step="0.01" min="0" required>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="depreciacao_mensal">Depreciação mensal estimada (R$)</label>
+                        <input type="number" id="depreciacao_mensal" placeholder="Ex: 500" step="0.01" min="0" required>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="km_medio_mes">KM médio rodado por mês</label>
+                        <input type="number" id="km_medio_mes" placeholder="Ex: 3000" step="0.1" min="1" required>
+                    </div>
+
+                    <button type="submit" class="btn btn-primary full">Calcular e salvar KM Real</button>
+                </form>
+
+                <div id="msgCarro" class="message"></div>
+
+                <div id="resultadoCarro" class="resultado hidden">
+                    <div class="resultado-head">
+                        <div>
+                            <span class="eyebrow">Resultado</span>
+                            <h3>Custo real do seu carro</h3>
+                        </div>
+                    </div>
+
+                    <div class="resultado-grid resultado-grid-carro">
+                        <div><span>Combustível por KM</span><strong id="carroCombustivelKm">R$ 0,00/km</strong></div>
+                        <div><span>Custos fixos por KM</span><strong id="carroFixoKm">R$ 0,00/km</strong></div>
+                        <div><span>Custo real total</span><strong id="carroTotalKm">R$ 0,00/km</strong></div>
+                    </div>
+
+                    <div class="ia-box">
+                        <h4>Análise da IA</h4>
+                        <p id="carroAnaliseIA">-</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <section id="tab-avaliar" class="tab-content">
+            <div class="card">
+                <div class="section-title">
+                    <div>
+                        <span class="eyebrow">Cherry Picker</span>
+                        <h2>Avaliar Corrida</h2>
+                        <p>Informe os dados da oferta para saber se a corrida tende a valer a pena.</p>
+                    </div>
+                </div>
+
+                <form id="formCorrida" class="form-grid">
+                    <div class="form-group">
+                        <label for="valor_corrida">Valor da corrida (R$)</label>
+                        <input type="number" id="valor_corrida" placeholder="Ex: 32.50" step="0.01" min="0" required>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="distancia_corrida_km">Distância da corrida (km)</label>
+                        <input type="number" id="distancia_corrida_km" placeholder="Ex: 12" step="0.1" min="0" required>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="tempo_corrida_min">Tempo da corrida (min)</label>
+                        <input type="number" id="tempo_corrida_min" placeholder="Ex: 28" step="1" min="0" required>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="distancia_pickup_km">Distância até o passageiro (km)</label>
+                        <input type="number" id="distancia_pickup_km" placeholder="Ex: 2.5" step="0.1" min="0" required>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="tempo_pickup_min">Tempo até o passageiro (min)</label>
+                        <input type="number" id="tempo_pickup_min" placeholder="Ex: 7" step="1" min="0" required>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="origem_corrida">Origem</label>
+                        <input type="text" id="origem_corrida" placeholder="Ex: Tatuapé" required>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="destino_corrida">Destino</label>
+                        <input type="text" id="destino_corrida" placeholder="Ex: Vila Mariana" required>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="categoria_corrida">Categoria</label>
+                        <select id="categoria_corrida" required>
+                            <option value="Uber X">Uber X</option>
+                            <option value="Comfort">Comfort</option>
+                            <option value="Black">Black</option>
+                            <option value="Misto">Misto</option>
+                        </select>
+                    </div>
+
+                    <div class="form-group full">
+                        <label for="observacao_corrida">Observação opcional</label>
+                        <textarea id="observacao_corrida" placeholder="Ex: Destino perto de shopping, trânsito pesado, região fraca..."></textarea>
+                    </div>
+
+                    <button type="submit" class="btn btn-primary full">Avaliar corrida</button>
+                </form>
+
+                <div id="msgCorrida" class="message"></div>
+
+                <div id="resultadoCorrida" class="resultado corrida-resultado hidden">
+                    <div id="corridaBadge" class="corrida-badge">-</div>
+
+                    <div class="resultado-grid">
+                        <div><span>Nota</span><strong id="corridaNota">0/100</strong></div>
+                        <div><span>Custo estimado</span><strong id="corridaCusto">R$ 0,00</strong></div>
+                        <div><span>Lucro estimado</span><strong id="corridaLucro">R$ 0,00</strong></div>
+                        <div><span>Lucro por hora</span><strong id="corridaLucroHora">R$ 0,00/h</strong></div>
+                        <div><span>Lucro por KM</span><strong id="corridaLucroKm">R$ 0,00/km</strong></div>
+                    </div>
+
+                    <div class="ia-box">
+                        <h4>Motivo da recomendação</h4>
+                        <p id="corridaMotivo">-</p>
+                    </div>
+                </div>
+            </div>
+
+            <div class="card">
+                <div class="section-title">
+                    <div>
+                        <span class="eyebrow">Histórico</span>
+                        <h2>Últimas corridas avaliadas</h2>
+                    </div>
+                </div>
+
+                <div id="corridasLista" class="historico-lista">
+                    <p class="empty">Nenhuma corrida avaliada ainda.</p>
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <script src="script.js"></script>
+</body>
+</html>
