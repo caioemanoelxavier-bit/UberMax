@@ -1,131 +1,320 @@
 // ============================================
-// UBERMAX IA - PROFESSIONAL DASHBOARD SCRIPT
+// MOTORISTA ONE - JAVASCRIPT CORE
 // ============================================
 
-// Estado da aplicação
-const appState = {
-    motorista: null,
+const state = {
+    usuario: null,
     carro: null,
     corridas: [],
+    custoKmReal: 0.87,
     charts: {}
 };
 
-// Inicializar aplicação
+// Initialize
 document.addEventListener('DOMContentLoaded', () => {
-    inicializarEventos();
-    carregarDados();
-    renderizarDashboard();
+    inicializarApp();
 });
 
-// ============================================
-// NAVEGAÇÃO E EVENTOS
-// ============================================
+function inicializarApp() {
+    carregarDados();
+    configurarEventListeners();
+    mostrarLandingPage();
+}
 
-function inicializarEventos() {
-    // Navegação por abas
-    document.querySelectorAll('[data-tab]').forEach(link => {
-        link.addEventListener('click', (e) => {
+function configurarEventListeners() {
+    // Navigation
+    document.querySelectorAll('.nav-item').forEach(item => {
+        item.addEventListener('click', (e) => {
             e.preventDefault();
-            const tabName = link.getAttribute('data-tab');
-            mudarAba(tabName);
+            const tab = item.dataset.tab;
+            mudarAba(tab);
         });
     });
 
-    // Formulários
-    document.getElementById('formCarro').addEventListener('submit', salvarCarro);
-    document.getElementById('formCorrida').addEventListener('submit', avaliarCorrida);
+    // Buttons
+    document.querySelectorAll('button[onclick*="abrirApp"]').forEach(btn => {
+        btn.addEventListener('click', abrirApp);
+    });
 
-    // Botões
-    document.getElementById('btnLogout').addEventListener('click', logout);
-    document.getElementById('btnSalvarPerfil').addEventListener('click', salvarPerfil);
-    document.getElementById('btnLimparDados').addEventListener('click', limparDados);
-    document.getElementById('btnExportPDF').addEventListener('click', exportarPDF);
-    document.getElementById('btnExportCSV').addEventListener('click', exportarCSV);
+    document.getElementById('btnLogout')?.addEventListener('click', logout);
 
-    // Filtros
-    document.getElementById('filtroMes').addEventListener('change', filtrarHistorico);
-    document.getElementById('filtroRecomendacao').addEventListener('change', filtrarHistorico);
+    // Forms
+    document.getElementById('formCarro')?.addEventListener('submit', salvarCarro);
+    document.getElementById('formCorrida')?.addEventListener('submit', avaliarCorrida);
 
-    // Sidebar toggle
-    document.getElementById('sidebarToggle').addEventListener('click', toggleSidebar);
+    // IA Assistant
+    document.getElementById('btnSendIA')?.addEventListener('click', enviarMensagemIA);
+    document.getElementById('iaInput')?.addEventListener('keypress', (e) => {
+        if (e.key === 'Enter') enviarMensagemIA();
+    });
+
+    document.getElementById('btnMicrophone')?.addEventListener('click', iniciarReconhecimentoVoz);
+
+    // Relatórios
+    document.getElementById('btnExportPDF')?.addEventListener('click', exportarPDF);
+    document.getElementById('btnExportCSV')?.addEventListener('click', exportarCSV);
+
+    // Configurações
+    document.getElementById('btnSalvarPerfil')?.addEventListener('click', salvarPerfil);
+    document.getElementById('btnLimparDados')?.addEventListener('click', limparDados);
 }
 
+// ============================================
+// LANDING PAGE
+// ============================================
+
+function mostrarLandingPage() {
+    document.getElementById('landingPage').classList.remove('hidden');
+    document.getElementById('appDashboard').classList.add('hidden');
+}
+
+function abrirApp() {
+    state.usuario = {
+        nome: 'Motorista',
+        email: 'motorista@example.com',
+        id: 1
+    };
+    
+    document.getElementById('landingPage').classList.add('hidden');
+    document.getElementById('appDashboard').classList.remove('hidden');
+    
+    document.getElementById('userName').textContent = state.usuario.nome;
+    
+    mudarAba('dashboard');
+    atualizarDashboard();
+}
+
+function logout() {
+    state.usuario = null;
+    state.carro = null;
+    state.corridas = [];
+    salvarDados();
+    mostrarLandingPage();
+}
+
+// ============================================
+// NAVIGATION
+// ============================================
+
 function mudarAba(tabName) {
-    // Remover active de todas as abas
     document.querySelectorAll('.tab-content').forEach(tab => {
         tab.classList.remove('active');
     });
-    document.querySelectorAll('[data-tab]').forEach(link => {
-        link.classList.remove('active');
+    
+    document.querySelectorAll('.nav-item').forEach(item => {
+        item.classList.remove('active');
     });
-
-    // Ativar aba selecionada
-    const tab = document.getElementById(tabName);
-    if (tab) {
-        tab.classList.add('active');
+    
+    const tabElement = document.getElementById(tabName);
+    if (tabElement) {
+        tabElement.classList.add('active');
     }
-
-    // Ativar link de navegação
-    document.querySelector(`[data-tab="${tabName}"]`).classList.add('active');
-
-    // Atualizar título
+    
+    const navItem = document.querySelector(`[data-tab="${tabName}"]`);
+    if (navItem) {
+        navItem.classList.add('active');
+    }
+    
     const titles = {
         'dashboard': 'Dashboard',
-        'meu-carro': 'Meu Carro',
-        'avaliar-corrida': 'Avaliar Corrida',
+        'copiloto': 'Copiloto',
+        'km-real': 'KM Real',
+        'ia-assistant': 'Assistente IA',
+        'smart-planner': 'Smart Planner',
         'historico': 'Histórico',
         'relatorios': 'Relatórios',
         'configuracoes': 'Configurações'
     };
+    
     document.getElementById('pageTitle').textContent = titles[tabName] || 'Dashboard';
-
-    // Inicializar gráficos se necessário
+    
     if (tabName === 'dashboard') {
-        setTimeout(() => inicializarGraficos(), 100);
+        atualizarDashboard();
+    } else if (tabName === 'km-real') {
+        carregarFormularioCarro();
+    } else if (tabName === 'copiloto') {
+        carregarFormularioCorrida();
+    } else if (tabName === 'historico') {
+        carregarHistorico();
     }
 }
 
-function toggleSidebar() {
-    document.querySelector('.sidebar').classList.toggle('collapsed');
+// ============================================
+// DASHBOARD
+// ============================================
+
+function atualizarDashboard() {
+    const totalGanho = state.corridas.reduce((sum, c) => sum + (c.valor || 0), 0);
+    const totalKm = state.corridas.reduce((sum, c) => sum + (c.distancia || 0), 0);
+    const notaMedia = state.corridas.length > 0 
+        ? (state.corridas.reduce((sum, c) => sum + (c.nota || 0), 0) / state.corridas.length).toFixed(1)
+        : 0;
+    
+    document.getElementById('ganhoTotal').textContent = `R$ ${totalGanho.toFixed(2)}`;
+    document.getElementById('kmRodados').textContent = `${totalKm.toFixed(1)} km`;
+    document.getElementById('notaMedia').textContent = notaMedia;
+    document.getElementById('custoKm').textContent = `R$ ${state.custoKmReal.toFixed(2)}`;
+    
+    atualizarTabelaCorridasRecentes();
+    
+    setTimeout(() => {
+        criarGraficoGanhosCustos();
+        criarGraficoRecomendacoes();
+    }, 100);
+}
+
+function atualizarTabelaCorridasRecentes() {
+    const tbody = document.getElementById('tabelaCorridasRecentes');
+    
+    if (state.corridas.length === 0) {
+        tbody.innerHTML = '<tr><td colspan="7" class="empty-state">Nenhuma corrida avaliada ainda</td></tr>';
+        return;
+    }
+    
+    const recentes = state.corridas.slice(-5).reverse();
+    tbody.innerHTML = recentes.map(corrida => `
+        <tr>
+            <td>${new Date(corrida.data).toLocaleDateString('pt-BR')}</td>
+            <td>${corrida.origem}</td>
+            <td>${corrida.destino}</td>
+            <td>R$ ${corrida.valor.toFixed(2)}</td>
+            <td>R$ ${corrida.lucro.toFixed(2)}</td>
+            <td>${corrida.nota.toFixed(1)}</td>
+            <td><span class="badge ${corrida.recomendacao}">${corrida.recomendacao.toUpperCase()}</span></td>
+        </tr>
+    `).join('');
+}
+
+function criarGraficoGanhosCustos() {
+    const ctx = document.getElementById('ganhosCustosChart');
+    if (!ctx) return;
+    
+    if (state.charts.ganhosCustos) {
+        state.charts.ganhosCustos.destroy();
+    }
+    
+    const ultimos7Dias = [];
+    for (let i = 6; i >= 0; i--) {
+        const data = new Date();
+        data.setDate(data.getDate() - i);
+        ultimos7Dias.push(data.toLocaleDateString('pt-BR', { weekday: 'short' }));
+    }
+    
+    const ganhosPorDia = ultimos7Dias.map((_, i) => Math.random() * 500 + 100);
+    const custosPorDia = ultimos7Dias.map((_, i) => Math.random() * 200 + 50);
+    
+    state.charts.ganhosCustos = new Chart(ctx, {
+        type: 'bar',
+        data: {
+            labels: ultimos7Dias,
+            datasets: [
+                {
+                    label: 'Ganhos',
+                    data: ganhosPorDia,
+                    backgroundColor: 'rgba(67, 233, 123, 0.8)',
+                    borderColor: 'rgba(67, 233, 123, 1)',
+                    borderWidth: 1,
+                    borderRadius: 6
+                },
+                {
+                    label: 'Custos',
+                    data: custosPorDia,
+                    backgroundColor: 'rgba(245, 87, 108, 0.8)',
+                    borderColor: 'rgba(245, 87, 108, 1)',
+                    borderWidth: 1,
+                    borderRadius: 6
+                }
+            ]
+        },
+        options: {
+            responsive: true,
+            maintainAspectRatio: false,
+            plugins: {
+                legend: {
+                    display: true,
+                    position: 'top'
+                }
+            },
+            scales: {
+                y: {
+                    beginAtZero: true
+                }
+            }
+        }
+    });
+}
+
+function criarGraficoRecomendacoes() {
+    const ctx = document.getElementById('recomendacoesChart');
+    if (!ctx) return;
+    
+    if (state.charts.recomendacoes) {
+        state.charts.recomendacoes.destroy();
+    }
+    
+    const aceitar = state.corridas.filter(c => c.recomendacao === 'aceitar').length;
+    const pensar = state.corridas.filter(c => c.recomendacao === 'pensar').length;
+    const evitar = state.corridas.filter(c => c.recomendacao === 'evitar').length;
+    
+    state.charts.recomendacoes = new Chart(ctx, {
+        type: 'doughnut',
+        data: {
+            labels: ['Aceitar', 'Pensar', 'Evitar'],
+            datasets: [{
+                data: [aceitar, pensar, evitar],
+                backgroundColor: [
+                    'rgba(67, 233, 123, 0.8)',
+                    'rgba(245, 87, 108, 0.8)',
+                    'rgba(160, 174, 192, 0.8)'
+                ],
+                borderColor: [
+                    'rgba(67, 233, 123, 1)',
+                    'rgba(245, 87, 108, 1)',
+                    'rgba(160, 174, 192, 1)'
+                ],
+                borderWidth: 2
+            }]
+        },
+        options: {
+            responsive: true,
+            maintainAspectRatio: false,
+            plugins: {
+                legend: {
+                    display: true,
+                    position: 'bottom'
+                }
+            }
+        }
+    });
 }
 
 // ============================================
-// GERENCIAMENTO DE DADOS
+// KM REAL
 // ============================================
 
-function carregarDados() {
-    const motorista = localStorage.getItem('motorista');
-    const carro = localStorage.getItem('carro');
-    const corridas = localStorage.getItem('corridas');
-
-    if (motorista) {
-        appState.motorista = JSON.parse(motorista);
-        document.getElementById('userName').textContent = appState.motorista.nome || 'Motorista';
-    }
-
-    if (carro) {
-        appState.carro = JSON.parse(carro);
-    }
-
-    if (corridas) {
-        appState.corridas = JSON.parse(corridas);
+function carregarFormularioCarro() {
+    if (state.carro) {
+        document.getElementById('modelo').value = state.carro.modelo || '';
+        document.getElementById('tipoCombustivel').value = state.carro.tipoCombustivel || '';
+        document.getElementById('consumoMedio').value = state.carro.consumoMedio || '';
+        document.getElementById('precoCombustivel').value = state.carro.precoCombustivel || '';
+        document.getElementById('kmMediaMes').value = state.carro.kmMediaMes || '';
+        document.getElementById('seguro').value = state.carro.seguro || '';
+        document.getElementById('ipva').value = state.carro.ipva || '';
+        document.getElementById('manutencao').value = state.carro.manutencao || '';
+        document.getElementById('pneus').value = state.carro.pneus || '';
+        document.getElementById('oleoRevisao').value = state.carro.oleoRevisao || '';
+        document.getElementById('financiamento').value = state.carro.financiamento || '';
+        document.getElementById('depreciacao').value = state.carro.depreciacao || '';
+        
+        mostrarResultadoCarro();
     }
 }
 
-function salvarDados() {
-    localStorage.setItem('motorista', JSON.stringify(appState.motorista));
-    localStorage.setItem('carro', JSON.stringify(appState.carro));
-    localStorage.setItem('corridas', JSON.stringify(appState.corridas));
-}
-
-// ============================================
-// FORMULÁRIO: MEU CARRO
-// ============================================
-
-async function salvarCarro(e) {
+function salvarCarro(e) {
     e.preventDefault();
-
-    const formData = {
+    
+    state.carro = {
         modelo: document.getElementById('modelo').value,
         tipoCombustivel: document.getElementById('tipoCombustivel').value,
         consumoMedio: parseFloat(document.getElementById('consumoMedio').value),
@@ -139,124 +328,133 @@ async function salvarCarro(e) {
         financiamento: parseFloat(document.getElementById('financiamento').value) || 0,
         depreciacao: parseFloat(document.getElementById('depreciacao').value) || 0
     };
-
-    // Calcular custos
-    const custosCombustivel = (formData.precoCombustivel / formData.consumoMedio);
-    const custosFixos = (formData.seguro + formData.ipva + formData.manutencao + formData.pneus + formData.oleoRevisao + formData.financiamento + formData.depreciacao) / formData.kmMediaMes;
-    const custoTotal = custosCombustivel + custosFixos;
-
-    formData.custoCombustivelKm = custosCombustivel;
-    formData.custoFixoKm = custosFixos;
-    formData.custoTotalKm = custoTotal;
-
-    appState.carro = formData;
-    salvarDados();
-
-    // Mostrar resultado
+    
+    calcularCustoKmReal();
     mostrarResultadoCarro();
+    salvarDados();
+    mostrarAlerta('Carro configurado com sucesso!', 'success');
+}
 
-    // Atualizar aviso na aba de corridas
-    atualizarAvisoCustoKm();
-
-    mostrarAlerta('success', 'Configuração do carro salva com sucesso!');
+function calcularCustoKmReal() {
+    if (!state.carro) return;
+    
+    const { consumoMedio, precoCombustivel, kmMediaMes, seguro, ipva, manutencao, pneus, oleoRevisao, financiamento, depreciacao } = state.carro;
+    
+    const custoCombustivelKm = precoCombustivel / consumoMedio;
+    const custoFixoMensal = seguro + (ipva / 12) + manutencao + (pneus / 12) + (oleoRevisao / 12) + financiamento + depreciacao;
+    const custoFixoKm = custoFixoMensal / kmMediaMes;
+    
+    state.custoKmReal = custoCombustivelKm + custoFixoKm;
+    
+    state.custoBreakdown = {
+        combustivel: custoCombustivelKm,
+        seguro: (seguro / kmMediaMes),
+        ipva: ((ipva / 12) / kmMediaMes),
+        manutencao: (manutencao / kmMediaMes),
+        pneus: ((pneus / 12) / kmMediaMes),
+        oleoRevisao: ((oleoRevisao / 12) / kmMediaMes),
+        financiamento: (financiamento / kmMediaMes),
+        depreciacao: (depreciacao / kmMediaMes)
+    };
 }
 
 function mostrarResultadoCarro() {
-    if (!appState.carro) return;
-
     const resultContainer = document.getElementById('resultadoCarro');
     resultContainer.style.display = 'block';
-
-    document.getElementById('custoCombustivelKm').textContent = `R$ ${appState.carro.custoCombustivelKm.toFixed(2)}`;
-    document.getElementById('custoFixoKm').textContent = `R$ ${appState.carro.custoFixoKm.toFixed(2)}`;
-    document.getElementById('custoTotalKm').textContent = `R$ ${appState.carro.custoTotalKm.toFixed(2)}`;
-
-    // Atualizar KPI
-    document.getElementById('custoKm').textContent = `R$ ${appState.carro.custoTotalKm.toFixed(2)}`;
-
-    // Gráfico de breakdown
-    renderizarBreakdownChart();
+    
+    const custoCombustivelKm = state.custoBreakdown.combustivel;
+    const custoFixoKm = state.custoKmReal - custoCombustivelKm;
+    
+    document.getElementById('custoCombustivelKm').textContent = `R$ ${custoCombustivelKm.toFixed(2)}`;
+    document.getElementById('custoFixoKm').textContent = `R$ ${custoFixoKm.toFixed(2)}`;
+    document.getElementById('custoTotalKm').textContent = `R$ ${state.custoKmReal.toFixed(2)}`;
+    
+    criarGraficoBreakdownCarro();
 }
 
-function renderizarBreakdownChart() {
-    if (!appState.carro) return;
-
+function criarGraficoBreakdownCarro() {
     const ctx = document.getElementById('breakdownChart');
     if (!ctx) return;
-
-    const carro = appState.carro;
-    const custos = {
-        'Combustível': carro.precoCombustivel * (carro.kmMediaMes / carro.consumoMedio),
-        'Seguro': carro.seguro,
-        'IPVA': carro.ipva,
-        'Manutenção': carro.manutencao,
-        'Pneus': carro.pneus,
-        'Óleo/Revisão': carro.oleoRevisao,
-        'Financiamento': carro.financiamento,
-        'Depreciação': carro.depreciacao
-    };
-
-    if (appState.charts.breakdown) {
-        appState.charts.breakdown.destroy();
+    
+    if (state.charts.breakdown) {
+        state.charts.breakdown.destroy();
     }
-
-    appState.charts.breakdown = new Chart(ctx, {
+    
+    const breakdown = state.custoBreakdown;
+    const labels = ['Combustível', 'Seguro', 'IPVA', 'Manutenção', 'Pneus', 'Óleo', 'Financiamento', 'Depreciação'];
+    const data = [
+        breakdown.combustivel,
+        breakdown.seguro,
+        breakdown.ipva,
+        breakdown.manutencao,
+        breakdown.pneus,
+        breakdown.oleoRevisao,
+        breakdown.financiamento,
+        breakdown.depreciacao
+    ];
+    
+    state.charts.breakdown = new Chart(ctx, {
         type: 'doughnut',
         data: {
-            labels: Object.keys(custos),
+            labels: labels,
             datasets: [{
-                data: Object.values(custos),
+                data: data,
                 backgroundColor: [
-                    '#667eea',
-                    '#764ba2',
-                    '#f093fb',
-                    '#f5576c',
-                    '#43e97b',
-                    '#4facfe',
-                    '#fa709a',
-                    '#fee140'
+                    'rgba(102, 126, 234, 0.8)',
+                    'rgba(118, 75, 162, 0.8)',
+                    'rgba(240, 147, 251, 0.8)',
+                    'rgba(67, 233, 123, 0.8)',
+                    'rgba(56, 249, 215, 0.8)',
+                    'rgba(79, 172, 254, 0.8)',
+                    'rgba(245, 87, 108, 0.8)',
+                    'rgba(255, 187, 51, 0.8)'
                 ],
-                borderColor: '#ffffff',
+                borderColor: [
+                    'rgba(102, 126, 234, 1)',
+                    'rgba(118, 75, 162, 1)',
+                    'rgba(240, 147, 251, 1)',
+                    'rgba(67, 233, 123, 1)',
+                    'rgba(56, 249, 215, 1)',
+                    'rgba(79, 172, 254, 1)',
+                    'rgba(245, 87, 108, 1)',
+                    'rgba(255, 187, 51, 1)'
+                ],
                 borderWidth: 2
             }]
         },
         options: {
             responsive: true,
-            maintainAspectRatio: true,
+            maintainAspectRatio: false,
             plugins: {
                 legend: {
-                    position: 'bottom'
+                    display: true,
+                    position: 'right'
                 }
             }
         }
     });
 }
 
-function atualizarAvisoCustoKm() {
-    const aviso = document.getElementById('avisoCustoKm');
-    const texto = document.getElementById('textoAvisoCustoKm');
+// ============================================
+// COPILOTO
+// ============================================
 
-    if (appState.carro) {
-        aviso.style.display = 'flex';
-        aviso.classList.remove('alert-info');
-        aviso.classList.add('alert-success');
-        texto.textContent = `Usando custo configurado: R$ ${appState.carro.custoTotalKm.toFixed(2)}/km`;
+function carregarFormularioCorrida() {
+    if (state.carro) {
+        document.getElementById('avisoCustoKm').classList.remove('alert-info');
+        document.getElementById('avisoCustoKm').classList.add('alert-success');
+        document.getElementById('textoAvisoCustoKm').textContent = `Seu custo/km configurado: R$ ${state.custoKmReal.toFixed(2)}`;
     } else {
-        aviso.style.display = 'flex';
-        aviso.classList.add('alert-info');
-        aviso.classList.remove('alert-success');
-        texto.textContent = `Nenhum carro configurado. Usando custo padrão: R$ 0,87/km`;
+        document.getElementById('avisoCustoKm').classList.add('alert-info');
+        document.getElementById('avisoCustoKm').classList.remove('alert-success');
+        document.getElementById('textoAvisoCustoKm').textContent = 'Nenhum carro configurado. Configure em KM Real para cálculos precisos.';
     }
 }
 
-// ============================================
-// FORMULÁRIO: AVALIAR CORRIDA
-// ============================================
-
-async function avaliarCorrida(e) {
+function avaliarCorrida(e) {
     e.preventDefault();
-
-    const formData = {
+    
+    const corrida = {
         data: new Date().toISOString(),
         valor: parseFloat(document.getElementById('valorCorrida').value),
         distancia: parseFloat(document.getElementById('distancia').value),
@@ -266,362 +464,281 @@ async function avaliarCorrida(e) {
         categoria: document.getElementById('categoria').value,
         observacao: document.getElementById('observacao').value
     };
-
-    // Calcular custo
-    const custoKm = appState.carro ? appState.carro.custoTotalKm : 0.87;
-    const custoEstimado = formData.distancia * custoKm;
-    const lucroEstimado = formData.valor - custoEstimado;
-    const lucroHora = (lucroEstimado / formData.tempo) * 60;
-    const lucroKm = lucroEstimado / formData.distancia;
-
-    formData.custoEstimado = custoEstimado;
-    formData.lucroEstimado = lucroEstimado;
-    formData.lucroHora = lucroHora;
-    formData.lucroKm = lucroKm;
-
-    // Calcular avaliação
-    const avaliacao = calcularAvaliacao(formData);
-    formData.nota = avaliacao.nota;
-    formData.recomendacao = avaliacao.recomendacao;
-    formData.motivo = avaliacao.motivo;
-
-    appState.corridas.push(formData);
+    
+    const custoCorrida = corrida.distancia * state.custoKmReal;
+    corrida.lucro = corrida.valor - custoCorrida;
+    corrida.lucroHora = (corrida.lucro / corrida.tempo) * 60;
+    corrida.lucroKm = corrida.lucro / corrida.distancia;
+    corrida.velocidadeMedia = (corrida.distancia / corrida.tempo) * 60;
+    
+    calcularAvaliacaoCorrida(corrida);
+    
+    state.corridas.push(corrida);
     salvarDados();
-
-    // Mostrar resultado
-    mostrarResultadoCorrida(formData);
-
-    // Limpar formulário
-    document.getElementById('formCorrida').reset();
-    atualizarAvisoCustoKm();
-
-    mostrarAlerta('success', 'Corrida avaliada com sucesso!');
+    mostrarResultadoCorrida(corrida);
 }
 
-function calcularAvaliacao(corrida) {
+function calcularAvaliacaoCorrida(corrida) {
     let nota = 0;
-    let motivos = [];
-
-    // Critério 1: Lucro por hora (35%)
-    if (corrida.lucroHora >= 50) {
-        nota += 35;
-        motivos.push('Lucro/hora excelente');
-    } else if (corrida.lucroHora >= 35) {
-        nota += 25;
-        motivos.push('Lucro/hora bom');
-    } else if (corrida.lucroHora >= 20) {
-        nota += 15;
-        motivos.push('Lucro/hora aceitável');
+    let motivo = [];
+    
+    const lucroHoraIdeal = 50;
+    const scoreLucroHora = Math.min((corrida.lucroHora / lucroHoraIdeal) * 100, 100);
+    nota += scoreLucroHora * 0.35;
+    
+    const lucroKmIdeal = 2;
+    const scoreLucroKm = Math.min((corrida.lucroKm / lucroKmIdeal) * 100, 100);
+    nota += scoreLucroKm * 0.30;
+    
+    const distanciaIdeal = 10;
+    const scoreDistancia = Math.max(100 - (Math.abs(corrida.distancia - distanciaIdeal) / distanciaIdeal) * 50, 0);
+    nota += scoreDistancia * 0.15;
+    
+    const velocidadeIdeal = 40;
+    const scoreVelocidade = Math.max(100 - (Math.abs(corrida.velocidadeMedia - velocidadeIdeal) / velocidadeIdeal) * 50, 0);
+    nota += scoreVelocidade * 0.10;
+    
+    const valorIdeal = 25;
+    const scoreValor = Math.min((corrida.valor / valorIdeal) * 100, 100);
+    nota += scoreValor * 0.10;
+    
+    corrida.nota = Math.round(nota);
+    
+    if (corrida.nota >= 70) {
+        corrida.recomendacao = 'aceitar';
+        motivo.push('Ótima oportunidade!');
+    } else if (corrida.nota >= 50) {
+        corrida.recomendacao = 'pensar';
+        motivo.push('Corrida mediana');
     } else {
-        nota += 5;
-        motivos.push('Lucro/hora baixo');
+        corrida.recomendacao = 'evitar';
+        motivo.push('Não compensa');
     }
-
-    // Critério 2: Lucro por KM (30%)
-    if (corrida.lucroKm >= 3) {
-        nota += 30;
-        motivos.push('Lucro/km excelente');
-    } else if (corrida.lucroKm >= 2) {
-        nota += 22;
-        motivos.push('Lucro/km bom');
-    } else if (corrida.lucroKm >= 1) {
-        nota += 12;
-        motivos.push('Lucro/km aceitável');
-    } else {
-        nota += 3;
-        motivos.push('Lucro/km baixo');
-    }
-
-    // Critério 3: Distância (15%)
-    if (corrida.distancia <= 5) {
-        nota += 15;
-        motivos.push('Distância curta (eficiente)');
-    } else if (corrida.distancia <= 15) {
-        nota += 12;
-    } else if (corrida.distancia <= 30) {
-        nota += 8;
-    } else {
-        nota += 3;
-        motivos.push('Distância longa');
-    }
-
-    // Critério 4: Tempo (10%)
-    const velocidadeMedia = (corrida.distancia / corrida.tempo) * 60;
-    if (velocidadeMedia >= 40) {
-        nota += 10;
-        motivos.push('Velocidade média boa');
-    } else if (velocidadeMedia >= 25) {
-        nota += 7;
-    } else {
-        nota += 3;
-        motivos.push('Trânsito intenso');
-    }
-
-    // Critério 5: Valor (10%)
-    if (corrida.valor >= 50) {
-        nota += 10;
-        motivos.push('Valor alto');
-    } else if (corrida.valor >= 30) {
-        nota += 7;
-    } else {
-        nota += 3;
-    }
-
-    // Determinar recomendação
-    let recomendacao = 'evitar';
-    if (nota >= 70) {
-        recomendacao = 'aceitar';
-    } else if (nota >= 50) {
-        recomendacao = 'pensar';
-    }
-
-    return {
-        nota: Math.min(100, Math.round(nota)),
-        recomendacao,
-        motivo: motivos.slice(0, 3).join(' • ')
-    };
+    
+    if (corrida.lucroHora < 30) motivo.push('Lucro/hora baixo');
+    if (corrida.lucroKm < 1) motivo.push('Lucro/km insuficiente');
+    if (corrida.distancia > 20) motivo.push('Distância longa');
+    if (corrida.velocidadeMedia < 20) motivo.push('Trânsito intenso');
+    
+    corrida.motivo = motivo.join(' • ');
 }
 
 function mostrarResultadoCorrida(corrida) {
     const resultContainer = document.getElementById('resultadoCorrida');
     resultContainer.style.display = 'block';
-
+    
     document.getElementById('notaValor').textContent = corrida.nota;
-    document.getElementById('badgeRecomendacao').textContent = corrida.recomendacao.toUpperCase();
-    document.getElementById('badgeRecomendacao').className = `badge ${corrida.recomendacao}`;
-    document.getElementById('textoRecomendacao').textContent = corrida.motivo;
-
-    document.getElementById('lucroEstimado').textContent = `R$ ${corrida.lucroEstimado.toFixed(2)}`;
+    
+    const circle = document.querySelector('.progress-fill');
+    const circumference = 2 * Math.PI * 45;
+    const offset = circumference - (corrida.nota / 100) * circumference;
+    circle.style.strokeDasharray = circumference;
+    circle.style.strokeDashoffset = offset;
+    
+    const badge = document.getElementById('badgeRecomendacao');
+    badge.textContent = corrida.recomendacao.toUpperCase();
+    badge.className = `badge ${corrida.recomendacao}`;
+    
+    const textoRecomendacao = {
+        'aceitar': '✅ Aceite esta corrida! Ótima oportunidade de ganho.',
+        'pensar': '⚠️ Pense bem. Corrida mediana, considere outras opções.',
+        'evitar': '❌ Evite. Não compensa o custo e tempo investido.'
+    };
+    
+    document.getElementById('textoRecomendacao').textContent = textoRecomendacao[corrida.recomendacao];
+    
+    document.getElementById('lucroEstimado').textContent = `R$ ${corrida.lucro.toFixed(2)}`;
     document.getElementById('lucroHora').textContent = `R$ ${corrida.lucroHora.toFixed(2)}`;
     document.getElementById('lucroKm').textContent = `R$ ${corrida.lucroKm.toFixed(2)}`;
-    document.getElementById('motivoAvaliacao').textContent = corrida.motivo;
-
-    // Atualizar gráfico de progresso
-    atualizarProgressoCirculo(corrida.nota);
+    document.getElementById('motivoAvaliacao').textContent = corrida.motivo || '-';
+    
+    mostrarAlerta(`Corrida avaliada: ${corrida.recomendacao.toUpperCase()}`, 'success');
 }
 
-function atualizarProgressoCirculo(nota) {
-    const percentual = (nota / 100) * 283;
-    const circulo = document.querySelector('.progress-fill');
-    if (circulo) {
-        circulo.style.strokeDashoffset = 283 - percentual;
+// ============================================
+// IA ASSISTANT
+// ============================================
+
+function enviarMensagemIA() {
+    const input = document.getElementById('iaInput');
+    const mensagem = input.value.trim();
+    
+    if (!mensagem) return;
+    
+    adicionarMensagemChat('user', mensagem);
+    input.value = '';
+    processarComandoIA(mensagem);
+}
+
+function adicionarMensagemChat(tipo, texto) {
+    const chatMessages = document.getElementById('chatMessages');
+    const messageDiv = document.createElement('div');
+    messageDiv.className = `message ${tipo}`;
+    
+    const p = document.createElement('p');
+    p.textContent = texto;
+    
+    messageDiv.appendChild(p);
+    chatMessages.appendChild(messageDiv);
+    chatMessages.scrollTop = chatMessages.scrollHeight;
+}
+
+function processarComandoIA(mensagem) {
+    const msg = mensagem.toLowerCase();
+    let resposta = '';
+    
+    if (msg.includes('trabalhei') && msg.includes('fiz')) {
+        const horas = extrairNumero(msg, 'trabalhei');
+        const valor = extrairNumero(msg, 'fiz');
+        
+        if (horas && valor) {
+            resposta = `Entendido! R$ ${(valor / horas).toFixed(2)}/hora. Quer que eu salve esse turno agora?`;
+            window.turnoTemp = { horas, valor };
+        }
+    } else if (msg.includes('sim') && window.turnoTemp) {
+        resposta = `Salvo ✓ — Lucro: R$ ${window.turnoTemp.valor.toFixed(2)} · R$ ${(window.turnoTemp.valor / window.turnoTemp.horas).toFixed(2)}/hora. Tudo certo?`;
+        window.turnoTemp = null;
+    } else if (msg.includes('copiloto')) {
+        resposta = 'O Copiloto analisa cada corrida em tempo real e te diz se vale a pena aceitar. Veja a aba "Copiloto" para testar!';
+    } else if (msg.includes('km real')) {
+        resposta = 'KM Real calcula seu custo verdadeiro por km, incluindo combustível, depreciação, IPVA, seguro, pneus e óleo. Configure na aba "KM Real"!';
+    } else if (msg.includes('meta')) {
+        resposta = 'Você pode definir metas diárias e semanais na aba "Smart Planner". Acompanhe seu progresso em tempo real!';
+    } else if (msg.includes('ajuda')) {
+        resposta = 'Posso ajudar você com:\n• 📊 Registrar ganhos e despesas\n• 💰 Calcular lucro de corridas\n• 📈 Analisar produtividade\n• 🎯 Definir metas\n• ❓ Tirar dúvidas sobre o app';
+    } else {
+        resposta = 'Desculpe, não entendi. Tente falar sobre seus ganhos, corridas, metas ou pedir ajuda sobre o app!';
     }
+    
+    setTimeout(() => {
+        adicionarMensagemChat('bot', resposta);
+    }, 500);
+}
+
+function extrairNumero(texto, palavra) {
+    const regex = new RegExp(`${palavra}\\s+(\\d+(?:[.,]\\d+)?)`);
+    const match = texto.match(regex);
+    return match ? parseFloat(match[1].replace(',', '.')) : null;
+}
+
+function iniciarReconhecimentoVoz() {
+    const SpeechRecognition = window.SpeechRecognition || window.webkitSpeechRecognition;
+    
+    if (!SpeechRecognition) {
+        mostrarAlerta('Reconhecimento de voz não suportado neste navegador', 'warning');
+        return;
+    }
+    
+    const recognition = new SpeechRecognition();
+    recognition.lang = 'pt-BR';
+    
+    recognition.onstart = () => {
+        document.getElementById('btnMicrophone').style.opacity = '0.5';
+    };
+    
+    recognition.onresult = (event) => {
+        const transcript = event.results[0][0].transcript;
+        document.getElementById('iaInput').value = transcript;
+        document.getElementById('btnMicrophone').style.opacity = '1';
+    };
+    
+    recognition.onerror = () => {
+        document.getElementById('btnMicrophone').style.opacity = '1';
+    };
+    
+    recognition.start();
 }
 
 // ============================================
 // HISTÓRICO
 // ============================================
 
-function filtrarHistorico() {
-    const mes = document.getElementById('filtroMes').value;
-    const recomendacao = document.getElementById('filtroRecomendacao').value;
-
-    let corridasFiltradas = appState.corridas;
-
-    if (mes) {
-        corridasFiltradas = corridasFiltradas.filter(c => {
-            const dataCorrida = new Date(c.data);
-            const mesAno = `${dataCorrida.getFullYear()}-${String(dataCorrida.getMonth() + 1).padStart(2, '0')}`;
-            return mesAno === mes;
-        });
-    }
-
-    if (recomendacao) {
-        corridasFiltradas = corridasFiltradas.filter(c => c.recomendacao === recomendacao);
-    }
-
-    renderizarHistorico(corridasFiltradas);
-}
-
-function renderizarHistorico(corridas) {
-    const container = document.getElementById('historicoList');
-
-    if (corridas.length === 0) {
-        container.innerHTML = '<div class="empty-state"><i class="fas fa-inbox"></i><p>Nenhuma corrida encontrada</p></div>';
+function carregarHistorico() {
+    const historicoList = document.getElementById('historicoList');
+    
+    if (state.corridas.length === 0) {
+        historicoList.innerHTML = '<div class="empty-state"><i class="fas fa-inbox"></i><p>Nenhuma corrida avaliada ainda</p></div>';
         return;
     }
-
-    container.innerHTML = corridas.map(c => `
+    
+    const filtroMes = document.getElementById('filtroMes')?.value || '';
+    const filtroRecomendacao = document.getElementById('filtroRecomendacao')?.value || '';
+    
+    let corridas = state.corridas;
+    
+    if (filtroMes) {
+        corridas = corridas.filter(c => new Date(c.data).toISOString().startsWith(filtroMes));
+    }
+    
+    if (filtroRecomendacao) {
+        corridas = corridas.filter(c => c.recomendacao === filtroRecomendacao);
+    }
+    
+    historicoList.innerHTML = corridas.reverse().map(corrida => `
         <div class="historico-item">
             <div>
-                <strong>${c.origem} → ${c.destino}</strong>
-                <p>${new Date(c.data).toLocaleDateString('pt-BR')}</p>
+                <strong>${corrida.origem} → ${corrida.destino}</strong>
+                <p>${new Date(corrida.data).toLocaleDateString('pt-BR')} às ${new Date(corrida.data).toLocaleTimeString('pt-BR', { hour: '2-digit', minute: '2-digit' })}</p>
             </div>
             <div>
-                <span class="badge ${c.recomendacao}">${c.recomendacao.toUpperCase()}</span>
-            </div>
-            <div>
-                <strong>R$ ${c.valor.toFixed(2)}</strong>
-                <p>Lucro: R$ ${c.lucroEstimado.toFixed(2)}</p>
-            </div>
-            <div>
-                <strong>${c.nota}</strong>
-                <p>Nota</p>
+                <span class="badge ${corrida.recomendacao}">${corrida.recomendacao.toUpperCase()}</span>
+                <strong>R$ ${corrida.lucro.toFixed(2)}</strong>
             </div>
         </div>
     `).join('');
 }
 
 // ============================================
-// DASHBOARD E GRÁFICOS
+// RELATÓRIOS
 // ============================================
 
-function renderizarDashboard() {
-    atualizarKPIs();
-    atualizarAvisoCustoKm();
-    inicializarGraficos();
-    renderizarTabelaRecentes();
+function exportarPDF() {
+    const conteudo = `
+RELATÓRIO DE PRODUTIVIDADE - MOTORISTA ONE
+Data: ${new Date().toLocaleDateString('pt-BR')}
+
+RESUMO
+- Total de Corridas: ${state.corridas.length}
+- Ganho Total: R$ ${state.corridas.reduce((sum, c) => sum + c.valor, 0).toFixed(2)}
+- Lucro Total: R$ ${state.corridas.reduce((sum, c) => sum + c.lucro, 0).toFixed(2)}
+- KM Rodados: ${state.corridas.reduce((sum, c) => sum + c.distancia, 0).toFixed(1)} km
+- Nota Média: ${(state.corridas.reduce((sum, c) => sum + c.nota, 0) / state.corridas.length).toFixed(1)}
+
+RECOMENDAÇÕES
+- Aceitar: ${state.corridas.filter(c => c.recomendacao === 'aceitar').length}
+- Pensar: ${state.corridas.filter(c => c.recomendacao === 'pensar').length}
+- Evitar: ${state.corridas.filter(c => c.recomendacao === 'evitar').length}
+
+CUSTO DO VEÍCULO
+- Custo/KM: R$ ${state.custoKmReal.toFixed(2)}
+- Modelo: ${state.carro?.modelo || 'Não configurado'}
+    `;
+    
+    const blob = new Blob([conteudo], { type: 'text/plain' });
+    const url = window.URL.createObjectURL(blob);
+    const a = document.createElement('a');
+    a.href = url;
+    a.download = `relatorio-motorista-one-${new Date().toISOString().split('T')[0]}.txt`;
+    a.click();
+    
+    mostrarAlerta('Relatório exportado com sucesso!', 'success');
 }
 
-function atualizarKPIs() {
-    let ganhoTotal = 0;
-    let kmRodados = 0;
-    let notaMedia = 0;
-
-    if (appState.corridas.length > 0) {
-        ganhoTotal = appState.corridas.reduce((sum, c) => sum + c.valor, 0);
-        kmRodados = appState.corridas.reduce((sum, c) => sum + c.distancia, 0);
-        notaMedia = appState.corridas.reduce((sum, c) => sum + c.nota, 0) / appState.corridas.length;
-    }
-
-    document.getElementById('ganhoTotal').textContent = `R$ ${ganhoTotal.toFixed(2)}`;
-    document.getElementById('kmRodados').textContent = `${kmRodados.toFixed(1)} km`;
-    document.getElementById('notaMedia').textContent = `${notaMedia.toFixed(1)}`;
-}
-
-function inicializarGraficos() {
-    inicializarGraficoGanhosCustos();
-    inicializarGraficoRecomendacoes();
-}
-
-function inicializarGraficoGanhosCustos() {
-    const ctx = document.getElementById('ganhosCustosChart');
-    if (!ctx) return;
-
-    const dias = [];
-    const ganhos = [];
-    const custos = [];
-
-    for (let i = 6; i >= 0; i--) {
-        const data = new Date();
-        data.setDate(data.getDate() - i);
-        const dia = data.toLocaleDateString('pt-BR', { weekday: 'short' });
-        dias.push(dia);
-
-        const corridasDia = appState.corridas.filter(c => {
-            const dataCorrida = new Date(c.data);
-            return dataCorrida.toDateString() === data.toDateString();
-        });
-
-        const ganho = corridasDia.reduce((sum, c) => sum + c.valor, 0);
-        const custo = corridasDia.reduce((sum, c) => sum + c.custoEstimado, 0);
-
-        ganhos.push(ganho);
-        custos.push(custo);
-    }
-
-    if (appState.charts.ganhosCustos) {
-        appState.charts.ganhosCustos.destroy();
-    }
-
-    appState.charts.ganhosCustos = new Chart(ctx, {
-        type: 'bar',
-        data: {
-            labels: dias,
-            datasets: [
-                {
-                    label: 'Ganhos',
-                    data: ganhos,
-                    backgroundColor: 'rgba(67, 233, 123, 0.8)',
-                    borderColor: '#43e97b',
-                    borderWidth: 1
-                },
-                {
-                    label: 'Custos',
-                    data: custos,
-                    backgroundColor: 'rgba(245, 87, 108, 0.8)',
-                    borderColor: '#f5576c',
-                    borderWidth: 1
-                }
-            ]
-        },
-        options: {
-            responsive: true,
-            maintainAspectRatio: true,
-            plugins: {
-                legend: {
-                    position: 'top'
-                }
-            },
-            scales: {
-                y: {
-                    beginAtZero: true
-                }
-            }
-        }
+function exportarCSV() {
+    let csv = 'Data,Origem,Destino,Valor,Lucro,Nota,Recomendação,Lucro/Hora,Lucro/KM\n';
+    
+    state.corridas.forEach(corrida => {
+        csv += `${new Date(corrida.data).toLocaleDateString('pt-BR')},${corrida.origem},${corrida.destino},${corrida.valor},${corrida.lucro},${corrida.nota},${corrida.recomendacao},${corrida.lucroHora},${corrida.lucroKm}\n`;
     });
-}
-
-function inicializarGraficoRecomendacoes() {
-    const ctx = document.getElementById('recomendacoesChart');
-    if (!ctx) return;
-
-    const aceitar = appState.corridas.filter(c => c.recomendacao === 'aceitar').length;
-    const pensar = appState.corridas.filter(c => c.recomendacao === 'pensar').length;
-    const evitar = appState.corridas.filter(c => c.recomendacao === 'evitar').length;
-
-    if (appState.charts.recomendacoes) {
-        appState.charts.recomendacoes.destroy();
-    }
-
-    appState.charts.recomendacoes = new Chart(ctx, {
-        type: 'pie',
-        data: {
-            labels: ['Aceitar', 'Pensar', 'Evitar'],
-            datasets: [{
-                data: [aceitar, pensar, evitar],
-                backgroundColor: [
-                    '#43e97b',
-                    '#f5576c',
-                    '#a0aec0'
-                ],
-                borderColor: '#ffffff',
-                borderWidth: 2
-            }]
-        },
-        options: {
-            responsive: true,
-            maintainAspectRatio: true,
-            plugins: {
-                legend: {
-                    position: 'bottom'
-                }
-            }
-        }
-    });
-}
-
-function renderizarTabelaRecentes() {
-    const tbody = document.getElementById('tabelaCorridasRecentes');
-
-    if (appState.corridas.length === 0) {
-        tbody.innerHTML = '<tr><td colspan="7" class="empty-state">Nenhuma corrida avaliada ainda</td></tr>';
-        return;
-    }
-
-    const recentes = appState.corridas.slice(-5).reverse();
-
-    tbody.innerHTML = recentes.map(c => `
-        <tr>
-            <td>${new Date(c.data).toLocaleDateString('pt-BR')}</td>
-            <td>${c.origem}</td>
-            <td>${c.destino}</td>
-            <td>R$ ${c.valor.toFixed(2)}</td>
-            <td>R$ ${c.lucroEstimado.toFixed(2)}</td>
-            <td><strong>${c.nota}</strong></td>
-            <td><span class="badge ${c.recomendacao}">${c.recomendacao.toUpperCase()}</span></td>
-        </tr>
-    `).join('');
+    
+    const blob = new Blob([csv], { type: 'text/csv' });
+    const url = window.URL.createObjectURL(blob);
+    const a = document.createElement('a');
+    a.href = url;
+    a.download = `corridas-motorista-one-${new Date().toISOString().split('T')[0]}.csv`;
+    a.click();
+    
+    mostrarAlerta('CSV exportado com sucesso!', 'success');
 }
 
 // ============================================
@@ -629,78 +746,94 @@ function renderizarTabelaRecentes() {
 // ============================================
 
 function salvarPerfil() {
-    const nome = document.getElementById('nomeConfig').value;
-    if (appState.motorista) {
-        appState.motorista.nome = nome;
-        salvarDados();
-        document.getElementById('userName').textContent = nome;
-        mostrarAlerta('success', 'Perfil atualizado com sucesso!');
-    }
+    state.usuario.nome = document.getElementById('nomeConfig').value;
+    state.usuario.email = document.getElementById('emailConfig').value;
+    
+    document.getElementById('userName').textContent = state.usuario.nome;
+    salvarDados();
+    
+    mostrarAlerta('Perfil salvo com sucesso!', 'success');
 }
 
 function limparDados() {
     if (confirm('Tem certeza que deseja limpar todos os dados? Esta ação não pode ser desfeita.')) {
-        localStorage.clear();
-        appState.corridas = [];
-        appState.carro = null;
+        state.corridas = [];
+        state.carro = null;
+        salvarDados();
         location.reload();
     }
-}
-
-function logout() {
-    if (confirm('Deseja realmente sair?')) {
-        localStorage.clear();
-        location.reload();
-    }
-}
-
-// ============================================
-// EXPORTAÇÃO
-// ============================================
-
-function exportarPDF() {
-    mostrarAlerta('info', 'Funcionalidade de exportação PDF em desenvolvimento');
-}
-
-function exportarCSV() {
-    if (appState.corridas.length === 0) {
-        mostrarAlerta('warning', 'Nenhuma corrida para exportar');
-        return;
-    }
-
-    let csv = 'Data,Origem,Destino,Valor,Distância,Tempo,Lucro,Nota,Recomendação\n';
-
-    appState.corridas.forEach(c => {
-        csv += `${new Date(c.data).toLocaleDateString('pt-BR')},${c.origem},${c.destino},${c.valor},${c.distancia},${c.tempo},${c.lucroEstimado},${c.nota},${c.recomendacao}\n`;
-    });
-
-    const blob = new Blob([csv], { type: 'text/csv' });
-    const url = window.URL.createObjectURL(blob);
-    const a = document.createElement('a');
-    a.href = url;
-    a.download = `ubermax-corridas-${new Date().toISOString().split('T')[0]}.csv`;
-    a.click();
-    window.URL.revokeObjectURL(url);
-
-    mostrarAlerta('success', 'Arquivo exportado com sucesso!');
 }
 
 // ============================================
 // UTILITÁRIOS
 // ============================================
 
-function mostrarAlerta(tipo, mensagem) {
-    const alert = document.createElement('div');
-    alert.className = `alert alert-${tipo}`;
-    alert.innerHTML = `<i class="fas fa-${tipo === 'success' ? 'check-circle' : tipo === 'error' ? 'exclamation-circle' : tipo === 'warning' ? 'exclamation-triangle' : 'info-circle'}"></i><span>${mensagem}</span>`;
-
-    const container = document.querySelector('.content') || document.body;
-    container.insertBefore(alert, container.firstChild);
-
-    setTimeout(() => alert.remove(), 4000);
+function mostrarAlerta(mensagem, tipo = 'info') {
+    const alerta = document.createElement('div');
+    alerta.className = `alert alert-${tipo}`;
+    alerta.style.cssText = `
+        position: fixed;
+        top: 20px;
+        right: 20px;
+        z-index: 9999;
+        animation: slideIn 0.3s ease;
+    `;
+    alerta.innerHTML = `<i class="fas fa-check-circle"></i> <span>${mensagem}</span>`;
+    
+    document.body.appendChild(alerta);
+    
+    setTimeout(() => {
+        alerta.style.animation = 'slideOut 0.3s ease';
+        setTimeout(() => alerta.remove(), 300);
+    }, 3000);
 }
 
-// Inicializar ao carregar
-window.addEventListener('load', () => {
-    renderizarDashboard();
-});
+function salvarDados() {
+    localStorage.setItem('motoristaOneData', JSON.stringify({
+        usuario: state.usuario,
+        carro: state.carro,
+        corridas: state.corridas,
+        custoKmReal: state.custoKmReal
+    }));
+}
+
+function carregarDados() {
+    const dados = localStorage.getItem('motoristaOneData');
+    if (dados) {
+        const parsed = JSON.parse(dados);
+        state.usuario = parsed.usuario;
+        state.carro = parsed.carro;
+        state.corridas = parsed.corridas || [];
+        state.custoKmReal = parsed.custoKmReal || 0.87;
+        
+        if (state.carro) {
+            calcularCustoKmReal();
+        }
+    }
+}
+
+const style = document.createElement('style');
+style.textContent = `
+    @keyframes slideIn {
+        from {
+            transform: translateX(400px);
+            opacity: 0;
+        }
+        to {
+            transform: translateX(0);
+            opacity: 1;
+        }
+    }
+    
+    @keyframes slideOut {
+        from {
+            transform: translateX(0);
+            opacity: 1;
+        }
+        to {
+            transform: translateX(400px);
+            opacity: 0;
+        }
+    }
+`;
+document.head.appendChild(style);

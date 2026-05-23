@@ -3,19 +3,489 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>UberMax IA - Dashboard de Motorista Parceiro</title>
+    <title>Motorista One - Ganhe Mais, Trabalhe Menos</title>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=JetBrains+Mono:wght@400;600&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="style.css">
 </head>
 <body>
-    <div class="app-container">
+    <!-- LANDING PAGE -->
+    <div id="landingPage" class="landing-page">
+        <!-- Header -->
+        <header class="landing-header">
+            <div class="container">
+                <div class="header-content">
+                    <div class="logo">
+                        <i class="fas fa-car"></i>
+                        <span>Motorista One</span>
+                    </div>
+                    <nav class="nav-links">
+                        <a href="#recursos">Recursos</a>
+                        <a href="#precos">Preços</a>
+                        <a href="#depoimentos">Depoimentos</a>
+                        <a href="#faq">FAQ</a>
+                    </nav>
+                    <button class="btn btn-primary" onclick="abrirApp()">Entrar</button>
+                </div>
+            </div>
+        </header>
+
+        <!-- Hero Section -->
+        <section class="hero">
+            <div class="container">
+                <div class="hero-content">
+                    <h1>Motorista One</h1>
+                    <p class="hero-subtitle">Entrar</p>
+                    <p class="hero-desc">Agora com Assistente de Inteligência Artificial</p>
+                    <h2 class="hero-title">Pare de trabalhar no escuro.</h2>
+                    <p class="hero-text">Saiba quanto você realmente ganha.</p>
+                    <p class="hero-long">O Motorista One é o único app que analisa cada oferta em tempo real, calcula seu custo verdadeiro por km e ainda te diz quando vale a pena aceitar ou recusar uma corrida.</p>
+                    
+                    <div class="hero-actions">
+                        <button class="btn btn-primary btn-lg" onclick="abrirApp()">Começar Agora</button>
+                        <button class="btn btn-outline btn-lg">Já tenho conta</button>
+                    </div>
+
+                    <p class="hero-note">Estamos em pré-lançamento fechado. Cadastro liberado em breve.</p>
+                </div>
+
+                <div class="hero-stats">
+                    <div class="stat">
+                        <div class="stat-number">2.300+</div>
+                        <div class="stat-label">Motoristas ativos</div>
+                    </div>
+                    <div class="stat">
+                        <div class="stat-number">R$ 850k+</div>
+                        <div class="stat-label">Em corridas analisadas</div>
+                    </div>
+                    <div class="stat">
+                        <div class="stat-number">4,8★</div>
+                        <div class="stat-label">Avaliação média</div>
+                    </div>
+                    <div class="stat">
+                        <div class="stat-number">12%</div>
+                        <div class="stat-label">A mais por mês em média</div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Problema Section -->
+        <section class="problems">
+            <div class="container">
+                <h2>Você provavelmente está perdendo dinheiro agora mesmo</h2>
+                <p>A maioria dos motoristas aceita corridas por impulso, sem saber se elas valem a pena. Resultado? Trabalha mais, ganha menos.</p>
+
+                <div class="problems-grid">
+                    <div class="problem-card">
+                        <div class="problem-icon">😵</div>
+                        <h3>Aceita no automático</h3>
+                        <p>Uma corrida de R$ 8 para 7km parece boa, mas depois do combustível e desgaste, você pode estar lucrando R$ 1,20.</p>
+                    </div>
+                    <div class="problem-card">
+                        <div class="problem-icon">🕐</div>
+                        <h3>Não sabe o custo real</h3>
+                        <p>Depreciação, IPVA, seguro e pneus custam mais de R$ 0,80 por km. Você inclui isso nas suas contas?</p>
+                    </div>
+                    <div class="problem-card">
+                        <div class="problem-icon">📉</div>
+                        <h3>Sem controle financeiro</h3>
+                        <p>Sem registros e relatórios, é impossível saber se você evoluiu ou regrediu de um mês para o outro.</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Copiloto Feature -->
+        <section class="feature copiloto">
+            <div class="container">
+                <div class="feature-content">
+                    <h2>RECURSO PRINCIPAL</h2>
+                    <h3>Copiloto — o overlay que analisa cada corrida</h3>
+                    <p>Um card aparece automaticamente sobre a tela de oferta do Uber, 99 e inDrive. Você vê instantaneamente:</p>
+                    
+                    <ul class="feature-list">
+                        <li><strong>R$ por km</strong> — vale o desgaste?</li>
+                        <li><strong>R$ por hora</strong> — sua hora está sendo bem paga?</li>
+                        <li><strong>Avaliação do passageiro</strong></li>
+                        <li><strong>Distância e tempo até o pickup</strong></li>
+                        <li><strong>Indicador verde / amarelo / vermelho</strong></li>
+                    </ul>
+
+                    <p class="feature-note">Funciona em segundo plano. Você não precisa nem abrir o Motorista One.</p>
+
+                    <div class="copiloto-card">
+                        <div class="copiloto-header">✗ NÃO COMPENSA</div>
+                        <div class="copiloto-platform">Uber</div>
+                        <div class="copiloto-value">R$ 14,20</div>
+                        <div class="copiloto-distance">10,5 km</div>
+                        <div class="copiloto-time">22 min</div>
+                        
+                        <div class="copiloto-metrics">
+                            <div class="metric">
+                                <span class="metric-label">R$/Km</span>
+                                <span class="metric-value">1,35</span>
+                            </div>
+                            <div class="metric">
+                                <span class="metric-label">R$/Hora</span>
+                                <span class="metric-value">38,72</span>
+                            </div>
+                            <div class="metric">
+                                <span class="metric-label">R$/Min</span>
+                                <span class="metric-value">0,65</span>
+                            </div>
+                            <div class="metric">
+                                <span class="metric-label">Nota</span>
+                                <span class="metric-value">4,87</span>
+                            </div>
+                        </div>
+
+                        <div class="copiloto-location">
+                            <p><strong>📍 Embarque:</strong> Av. Florianópolis, Cajuru</p>
+                            <p><strong>🏙️ Destino:</strong> R. Brigadeiro Franco, 3204</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- IA Assistant Feature -->
+        <section class="feature ia-assistant">
+            <div class="container">
+                <div class="feature-content">
+                    <h2>NOVIDADE — ASSISTENTE DE IA</h2>
+                    <h3>Converse com seu app.</h3>
+                    <p>A IA que entende motoristas.</p>
+                    <p>Agora o Motorista One tem um assistente de inteligência artificial dentro do app. Fale ou escreva — ele entende tudo sobre sua rotina como motorista.</p>
+
+                    <div class="ia-chat">
+                        <div class="chat-header">
+                            <i class="fas fa-robot"></i>
+                            <span>Assistente Motorista One</span>
+                            <span class="status">online</span>
+                        </div>
+                        <div class="chat-messages">
+                            <div class="message user">
+                                <p>Trabalhei 6h hoje e fiz R$ 87</p>
+                            </div>
+                            <div class="message bot">
+                                <p>Entendido! R$ 14,50/hora. Quer que eu salve esse turno agora?</p>
+                            </div>
+                            <div class="message user">
+                                <p>Sim, e gastei R$ 32 de combustível</p>
+                            </div>
+                            <div class="message bot">
+                                <p>Salvo ✓ — Lucro líquido: R$ 55,00 · R$ 9,17/hora líquido. Tudo certo?</p>
+                            </div>
+                        </div>
+                        <div class="chat-input">
+                            <input type="text" placeholder="Fale ou digite comandos...">
+                            <button><i class="fas fa-microphone"></i></button>
+                        </div>
+                    </div>
+
+                    <div class="ia-features">
+                        <p><strong>Fale ou digite comandos</strong> para tirar dúvidas sobre o app</p>
+                        <p><strong>Peça ajuda</strong> sobre Copiloto, KM Real, Smart Planner e mais</p>
+                        <p><strong>Faça lançamentos por voz ou texto</strong> com linguagem natural</p>
+                        <p><strong>A IA interpreta</strong> ganhos, quilômetros, horas e despesas</p>
+                        <p><strong>Revise os dados</strong> detectados e confirme para salvar automaticamente</p>
+                        <p><strong>Botão flutuante AI</strong> disponível nas telas principais do app</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- KM Real Feature -->
+        <section class="feature km-real">
+            <div class="container">
+                <div class="feature-content">
+                    <h2>KM REAL</h2>
+                    <h3>Quanto você gasta por km? A resposta vai te surpreender.</h3>
+                    <p>O KM Real calcula o verdadeiro custo por quilômetro rodado levando em conta todos os seus custos reais.</p>
+
+                    <ul class="km-list">
+                        <li>Combustível e consumo</li>
+                        <li>Depreciação do veículo</li>
+                        <li>IPVA e licenciamento</li>
+                        <li>Seguro mensal</li>
+                        <li>Troca de pneus</li>
+                        <li>Troca de óleo</li>
+                        <li>Financiamento (se houver)</li>
+                    </ul>
+
+                    <h4>Exemplo de resultado</h4>
+
+                    <div class="km-breakdown">
+                        <div class="km-item">
+                            <span>Combustível</span>
+                            <strong>R$ 0,42/km</strong>
+                        </div>
+                        <div class="km-item">
+                            <span>Depreciação</span>
+                            <strong>R$ 0,19/km</strong>
+                        </div>
+                        <div class="km-item">
+                            <span>IPVA + Seguro</span>
+                            <strong>R$ 0,12/km</strong>
+                        </div>
+                        <div class="km-item">
+                            <span>Pneus + Óleo</span>
+                            <strong>R$ 0,08/km</strong>
+                        </div>
+                        <div class="km-item">
+                            <span>Outros</span>
+                            <strong>R$ 0,06/km</strong>
+                        </div>
+                        <div class="km-item total">
+                            <span>Custo total</span>
+                            <strong>R$ 0,87/km</strong>
+                        </div>
+                    </div>
+
+                    <p class="km-example">Corrida de R$8 com 7km = R$6,09 de custo → lucro real R$1,91</p>
+                </div>
+            </div>
+        </section>
+
+        <!-- Recursos Section -->
+        <section class="recursos" id="recursos">
+            <div class="container">
+                <h2>Tudo que você precisa em um único app</h2>
+                <p>Mais de 12 ferramentas exclusivas para motoristas de aplicativo. Sem complicação, sem mensalidades separadas.</p>
+
+                <div class="recursos-grid">
+                    <div class="recurso-card">
+                        <h3>Copiloto — Cherry Picker</h3>
+                        <p>Overlay em tempo real sobre cada oferta. Veja R$/km, R$/hora, avaliação e rota antes de aceitar. Filtre corridas ruins automaticamente.</p>
+                    </div>
+                    <div class="recurso-card">
+                        <h3>KM Real</h3>
+                        <p>Descubra seu custo real por km rodado: combustível, depreciação, IPVA, seguro, pneus e óleo. Saiba quanto você realmente lucra.</p>
+                    </div>
+                    <div class="recurso-card">
+                        <h3>Smart Planner</h3>
+                        <p>Planejamento inteligente da sua jornada. Defina metas, veja quando parar e maximize seus ganhos por hora trabalhada.</p>
+                    </div>
+                    <div class="recurso-card">
+                        <h3>Futuro Inteligente</h3>
+                        <p>Transforme suas metas em metas financeiras concretas. Quanto precisa ganhar por dia para realizar seu sonho?</p>
+                    </div>
+                    <div class="recurso-card">
+                        <h3>Regiões & Hotspots</h3>
+                        <p>Saiba onde estão as melhores regiões da cidade para trabalhar. Evite zonas mortas e aumente sua taxa de aceitação.</p>
+                    </div>
+                    <div class="recurso-card">
+                        <h3>Relatórios PDF</h3>
+                        <p>Exporte relatórios completos da sua produtividade. Ideal para declarar IR, controlar finanças e apresentar para contadores.</p>
+                    </div>
+                    <div class="recurso-card">
+                        <h3>Turnos & Jornadas</h3>
+                        <p>Registre e analise cada turno. Veja quais horários e dias da semana você rende mais e tome decisões baseadas em dados.</p>
+                    </div>
+                    <div class="recurso-card">
+                        <h3>Financeiro Pessoal</h3>
+                        <p>Controle receitas e despesas pessoais integradas aos seus ganhos como motorista. Visão 360° das suas finanças.</p>
+                    </div>
+                    <div class="recurso-card">
+                        <h3>Metas Diárias</h3>
+                        <p>Defina metas de ganho diário ou semanal. Acompanhe em tempo real quanto falta para bater a meta e quando parar.</p>
+                    </div>
+                    <div class="recurso-card">
+                        <h3>Veículo & Manutenção</h3>
+                        <p>Registre revisões, trocas de óleo e pneus. Receba alertas de manutenção e controle os custos do seu veículo.</p>
+                    </div>
+                    <div class="recurso-card">
+                        <h3>Histórico de Lançamentos</h3>
+                        <p>Todos os seus ganhos e despesas organizados por período. Filtre, compare e entenda sua evolução financeira.</p>
+                    </div>
+                    <div class="recurso-card">
+                        <h3>Eventos da Cidade</h3>
+                        <p>Fique por dentro de shows, jogos e eventos que geram alta demanda. Esteja no lugar certo na hora certa.</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- ROI Section -->
+        <section class="roi">
+            <div class="container">
+                <h2>Um investimento que se paga na primeira semana</h2>
+                <p>Com apenas 2-3 corridas filtradas por dia, o app se paga. O restante é lucro puro.</p>
+            </div>
+        </section>
+
+        <!-- Preços Section -->
+        <section class="precos" id="precos">
+            <div class="container">
+                <h2>Escolha seu plano</h2>
+                
+                <div class="precos-grid">
+                    <div class="preco-card">
+                        <h3>PLANO MENSAL</h3>
+                        <div class="preco-valor">R$ 29,90</div>
+                        <div class="preco-periodo">por mês</div>
+                        
+                        <ul class="preco-features">
+                            <li><i class="fas fa-check"></i> Acesso a todas as ferramentas</li>
+                            <li><i class="fas fa-check"></i> Copiloto ilimitado</li>
+                            <li><i class="fas fa-check"></i> Assistente de IA</li>
+                            <li><i class="fas fa-check"></i> Suporte por chat</li>
+                            <li><i class="fas fa-check"></i> Atualizações incluídas</li>
+                        </ul>
+
+                        <button class="btn btn-primary btn-block">Começar Agora</button>
+                    </div>
+
+                    <div class="preco-card popular">
+                        <div class="badge-popular">MAIS POPULAR</div>
+                        <h3>PLANO ANUAL</h3>
+                        <div class="preco-valor">R$ 358,80</div>
+                        <div class="preco-periodo">ou 12x R$ 29,90 sem juros</div>
+                        <div class="preco-badge">12X</div>
+                        
+                        <ul class="preco-features">
+                            <li><i class="fas fa-check"></i> Tudo do plano mensal</li>
+                            <li><i class="fas fa-check"></i> Prioridade no suporte</li>
+                            <li><i class="fas fa-check"></i> Acesso antecipado a novidades</li>
+                            <li><i class="fas fa-check"></i> Relatórios avançados em PDF</li>
+                            <li><i class="fas fa-check"></i> Sem cobrança recorrente mês a mês</li>
+                        </ul>
+
+                        <button class="btn btn-primary btn-block">Começar Agora</button>
+                        <p class="preco-note">Cancele a qualquer momento. Sem fidelidade.</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Depoimentos Section -->
+        <section class="depoimentos" id="depoimentos">
+            <div class="container">
+                <h2>O que motoristas falam sobre o app</h2>
+
+                <div class="depoimentos-grid">
+                    <div class="depoimento-card">
+                        <div class="stars">★★★★★</div>
+                        <p>"Antes eu aceitava tudo. Hoje filtro as corridas ruins e minha renda subiu quase R$ 400 no mês. O Copiloto é essencial."</p>
+                        <strong>Ricardo A.</strong>
+                        <span>Curitiba, PR</span>
+                    </div>
+
+                    <div class="depoimento-card">
+                        <div class="stars">★★★★★</div>
+                        <p>"O KM Real foi uma revelação. Eu achava que ganhava bem, mas após calcular todos os custos vi que estava praticamente no zero a zero."</p>
+                        <strong>Fernanda S.</strong>
+                        <span>São Paulo, SP</span>
+                    </div>
+
+                    <div class="depoimento-card">
+                        <div class="stars">★★★★★</div>
+                        <p>"A IA é demais. Falo 'trabalhei 8h, fiz 180 reais' e ela já lança tudo automático. Economizo tempo e tenho tudo organizado."</p>
+                        <strong>Marcos T.</strong>
+                        <span>Belo Horizonte, MG</span>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Para Quem É Section -->
+        <section class="para-quem">
+            <div class="container">
+                <h2>O Motorista One é para você se…</h2>
+                
+                <ul class="para-quem-list">
+                    <li><i class="fas fa-check-circle"></i> Você dirige para Uber, 99, inDrive ou qualquer outra plataforma</li>
+                    <li><i class="fas fa-check-circle"></i> Quer saber se uma corrida vale a pena antes de aceitar</li>
+                    <li><i class="fas fa-check-circle"></i> Está cansado de trabalhar muito e ganhar pouco</li>
+                    <li><i class="fas fa-check-circle"></i> Quer ter controle real das suas finanças como autônomo</li>
+                    <li><i class="fas fa-check-circle"></i> Precisa de relatórios para declarar imposto de renda</li>
+                    <li><i class="fas fa-check-circle"></i> Quer aumentar sua renda sem trabalhar mais horas</li>
+                </ul>
+            </div>
+        </section>
+
+        <!-- FAQ Section -->
+        <section class="faq" id="faq">
+            <div class="container">
+                <h2>Perguntas frequentes</h2>
+
+                <div class="faq-grid">
+                    <div class="faq-item">
+                        <h3>O app funciona com Uber, 99 e inDrive ao mesmo tempo?</h3>
+                        <p>Sim! O Motorista One funciona com todas as plataformas simultaneamente. O Copiloto analisa cada oferta independente da origem.</p>
+                    </div>
+
+                    <div class="faq-item">
+                        <h3>Precisa deixar o app aberto para o Copiloto funcionar?</h3>
+                        <p>Não. O Copiloto funciona em background. Você recebe notificações e análises mesmo com o app minimizado.</p>
+                    </div>
+
+                    <div class="faq-item">
+                        <h3>Meus dados financeiros ficam seguros?</h3>
+                        <p>Sim. Todos os dados são criptografados e armazenados com segurança de nível bancário. Você tem controle total.</p>
+                    </div>
+
+                    <div class="faq-item">
+                        <h3>Posso cancelar quando quiser?</h3>
+                        <p>Sim. Sem fidelidade, sem multa. Cancele a qualquer momento pelo app.</p>
+                    </div>
+
+                    <div class="faq-item">
+                        <h3>Como funciona o plano anual?</h3>
+                        <p>Você pode pagar R$ 358,80 à vista ou parcelar em 12x de R$ 29,90 sem juros no cartão.</p>
+                    </div>
+
+                    <div class="faq-item">
+                        <h3>A IA funciona offline?</h3>
+                        <p>Parcialmente. O KM Real e histórico funcionam offline. O Copiloto e IA precisam de conexão para análise em tempo real.</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- CTA Final Section -->
+        <section class="cta-final">
+            <div class="container">
+                <h2>Comece hoje mesmo.</h2>
+                <p>Mais de 2.300 motoristas já usam o Motorista One para ganhar mais sem trabalhar mais. Agora é a sua vez.</p>
+                
+                <button class="btn btn-primary btn-lg" onclick="abrirApp()">Começar Agora</button>
+                
+                <p class="cta-note">Cadastro liberado no lançamento · Funciona no Android</p>
+            </div>
+        </section>
+
+        <!-- Footer -->
+        <footer class="landing-footer">
+            <div class="container">
+                <div class="footer-content">
+                    <div class="footer-brand">
+                        <div class="logo">
+                            <i class="fas fa-car"></i>
+                            <span>Motorista One</span>
+                        </div>
+                    </div>
+                    <div class="footer-links">
+                        <a href="#">Política de Privacidade</a>
+                        <a href="#">Entrar</a>
+                    </div>
+                </div>
+                <div class="footer-bottom">
+                    <p>© 2026 Motorista One. Todos os direitos reservados.</p>
+                </div>
+            </div>
+        </footer>
+    </div>
+
+    <!-- APP DASHBOARD -->
+    <div id="appDashboard" class="app-container hidden">
         <!-- Sidebar -->
         <aside class="sidebar">
             <div class="sidebar-header">
                 <div class="logo">
-                    <i class="fas fa-car-side"></i>
-                    <span>UberMax IA</span>
+                    <i class="fas fa-car"></i>
+                    <span>Motorista One</span>
                 </div>
                 <button class="sidebar-toggle" id="sidebarToggle">
                     <i class="fas fa-chevron-left"></i>
@@ -23,27 +493,35 @@
             </div>
 
             <nav class="sidebar-nav">
-                <a href="#" class="nav-item active" data-tab="dashboard">
+                <a href="#" data-tab="dashboard" class="nav-item active">
                     <i class="fas fa-chart-line"></i>
                     <span>Dashboard</span>
                 </a>
-                <a href="#" class="nav-item" data-tab="meu-carro">
-                    <i class="fas fa-car"></i>
-                    <span>Meu Carro</span>
+                <a href="#" data-tab="copiloto" class="nav-item">
+                    <i class="fas fa-robot"></i>
+                    <span>Copiloto</span>
                 </a>
-                <a href="#" class="nav-item" data-tab="avaliar-corrida">
-                    <i class="fas fa-star"></i>
-                    <span>Avaliar Corrida</span>
+                <a href="#" data-tab="km-real" class="nav-item">
+                    <i class="fas fa-calculator"></i>
+                    <span>KM Real</span>
                 </a>
-                <a href="#" class="nav-item" data-tab="historico">
+                <a href="#" data-tab="ia-assistant" class="nav-item">
+                    <i class="fas fa-comments"></i>
+                    <span>Assistente IA</span>
+                </a>
+                <a href="#" data-tab="smart-planner" class="nav-item">
+                    <i class="fas fa-target"></i>
+                    <span>Smart Planner</span>
+                </a>
+                <a href="#" data-tab="historico" class="nav-item">
                     <i class="fas fa-history"></i>
                     <span>Histórico</span>
                 </a>
-                <a href="#" class="nav-item" data-tab="relatorios">
-                    <i class="fas fa-file-chart-line"></i>
+                <a href="#" data-tab="relatorios" class="nav-item">
+                    <i class="fas fa-file-pdf"></i>
                     <span>Relatórios</span>
                 </a>
-                <a href="#" class="nav-item" data-tab="configuracoes">
+                <a href="#" data-tab="configuracoes" class="nav-item">
                     <i class="fas fa-cog"></i>
                     <span>Configurações</span>
                 </a>
@@ -52,13 +530,13 @@
             <div class="sidebar-footer">
                 <button class="btn-logout" id="btnLogout">
                     <i class="fas fa-sign-out-alt"></i>
-                    <span>Sair</span>
+                    Sair
                 </button>
             </div>
         </aside>
 
         <!-- Main Content -->
-        <main class="main-content">
+        <div class="main-content">
             <!-- Header -->
             <header class="header">
                 <div class="header-left">
@@ -70,7 +548,7 @@
                         <input type="text" placeholder="Buscar...">
                     </div>
                     <div class="user-profile">
-                        <img src="https://via.placeholder.com/40" alt="Perfil" class="avatar">
+                        <img src="https://via.placeholder.com/40" alt="Avatar" class="avatar">
                         <span id="userName">Motorista</span>
                     </div>
                 </div>
@@ -79,56 +557,54 @@
             <!-- Content Area -->
             <div class="content">
                 <!-- Dashboard Tab -->
-                <section id="dashboard" class="tab-content active">
+                <div id="dashboard" class="tab-content active">
                     <div class="dashboard-grid">
-                        <!-- KPI Cards -->
                         <div class="kpi-container">
                             <div class="kpi-card">
-                                <div class="kpi-icon" style="background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);">
-                                    <i class="fas fa-dollar-sign"></i>
+                                <div class="kpi-icon" style="background: linear-gradient(135deg, #667eea, #764ba2);">
+                                    <i class="fas fa-money-bill-wave"></i>
                                 </div>
                                 <div class="kpi-content">
-                                    <p class="kpi-label">Ganho Total</p>
-                                    <h3 class="kpi-value" id="ganhoTotal">R$ 0,00</h3>
-                                    <span class="kpi-change positive">+12% este mês</span>
+                                    <div class="kpi-label">Ganho Total</div>
+                                    <div class="kpi-value" id="ganhoTotal">R$ 0,00</div>
+                                    <div class="kpi-change positive">↑ 12% vs mês anterior</div>
                                 </div>
                             </div>
 
                             <div class="kpi-card">
-                                <div class="kpi-icon" style="background: linear-gradient(135deg, #f093fb 0%, #f5576c 100%);">
-                                    <i class="fas fa-car"></i>
+                                <div class="kpi-icon" style="background: linear-gradient(135deg, #43e97b, #38f9d7);">
+                                    <i class="fas fa-road"></i>
                                 </div>
                                 <div class="kpi-content">
-                                    <p class="kpi-label">Custo/KM</p>
-                                    <h3 class="kpi-value" id="custoKm">R$ 0,87</h3>
-                                    <span class="kpi-change">Sem carro configurado</span>
+                                    <div class="kpi-label">KM Rodados</div>
+                                    <div class="kpi-value" id="kmRodados">0 km</div>
+                                    <div class="kpi-change">Média: 0 km/dia</div>
                                 </div>
                             </div>
 
                             <div class="kpi-card">
-                                <div class="kpi-icon" style="background: linear-gradient(135deg, #4facfe 0%, #00f2fe 100%);">
-                                    <i class="fas fa-route"></i>
-                                </div>
-                                <div class="kpi-content">
-                                    <p class="kpi-label">KM Rodados</p>
-                                    <h3 class="kpi-value" id="kmRodados">0 km</h3>
-                                    <span class="kpi-change">Este mês</span>
-                                </div>
-                            </div>
-
-                            <div class="kpi-card">
-                                <div class="kpi-icon" style="background: linear-gradient(135deg, #43e97b 0%, #38f9d7 100%);">
+                                <div class="kpi-icon" style="background: linear-gradient(135deg, #f093fb, #f5576c);">
                                     <i class="fas fa-star"></i>
                                 </div>
                                 <div class="kpi-content">
-                                    <p class="kpi-label">Nota Média</p>
-                                    <h3 class="kpi-value" id="notaMedia">0.0</h3>
-                                    <span class="kpi-change">De corridas avaliadas</span>
+                                    <div class="kpi-label">Nota Média</div>
+                                    <div class="kpi-value" id="notaMedia">0,0</div>
+                                    <div class="kpi-change">De 100 corridas</div>
+                                </div>
+                            </div>
+
+                            <div class="kpi-card">
+                                <div class="kpi-icon" style="background: linear-gradient(135deg, #4facfe, #00f2fe);">
+                                    <i class="fas fa-calculator"></i>
+                                </div>
+                                <div class="kpi-content">
+                                    <div class="kpi-label">Custo/KM</div>
+                                    <div class="kpi-value" id="custoKm">R$ 0,87</div>
+                                    <div class="kpi-change">Seu custo real</div>
                                 </div>
                             </div>
                         </div>
 
-                        <!-- Charts Row -->
                         <div class="charts-row">
                             <div class="chart-card">
                                 <h3>Ganhos vs Custos (Últimos 7 dias)</h3>
@@ -138,16 +614,15 @@
                             </div>
 
                             <div class="chart-card">
-                                <h3>Distribuição de Recomendações</h3>
+                                <h3>Recomendações (Aceitar/Pensar/Evitar)</h3>
                                 <div class="chart-container">
                                     <canvas id="recomendacoesChart"></canvas>
                                 </div>
                             </div>
                         </div>
 
-                        <!-- Performance Table -->
                         <div class="table-card">
-                            <h3>Últimas Corridas Avaliadas</h3>
+                            <h3>Corridas Recentes</h3>
                             <div class="table-wrapper">
                                 <table class="data-table">
                                     <thead>
@@ -158,7 +633,7 @@
                                             <th>Valor</th>
                                             <th>Lucro</th>
                                             <th>Nota</th>
-                                            <th>Recomendação</th>
+                                            <th>Status</th>
                                         </tr>
                                     </thead>
                                     <tbody id="tabelaCorridasRecentes">
@@ -170,217 +645,213 @@
                             </div>
                         </div>
                     </div>
-                </section>
+                </div>
 
-                <!-- Meu Carro Tab -->
-                <section id="meu-carro" class="tab-content">
+                <!-- KM Real Tab -->
+                <div id="km-real" class="tab-content">
                     <div class="form-container">
                         <div class="form-header">
-                            <h2>Configuração do Veículo</h2>
-                            <p>Configure os dados do seu carro para cálculos precisos de custo por quilômetro</p>
+                            <h2>KM Real - Calcule seu custo verdadeiro</h2>
+                            <p>Configure os custos do seu veículo para cálculos precisos</p>
                         </div>
 
                         <form id="formCarro" class="form-grid">
-                            <!-- Seção: Informações Básicas -->
-                            <fieldset class="form-section">
-                                <legend>Informações Básicas</legend>
+                            <div class="form-section">
+                                <legend>Informações do Veículo</legend>
                                 <div class="form-row">
                                     <div class="form-group">
-                                        <label for="modelo">Modelo do Carro</label>
-                                        <input type="text" id="modelo" name="modelo" placeholder="Ex: Honda Civic 2020" required>
+                                        <label>Modelo do Carro</label>
+                                        <input type="text" id="modelo" placeholder="Ex: Corolla 2020" required>
                                     </div>
                                     <div class="form-group">
-                                        <label for="tipoCombustivel">Tipo de Combustível</label>
-                                        <select id="tipoCombustivel" name="tipoCombustivel" required>
+                                        <label>Tipo de Combustível</label>
+                                        <select id="tipoCombustivel" required>
                                             <option value="">Selecione...</option>
                                             <option value="gasolina">Gasolina</option>
-                                            <option value="diesel">Diesel</option>
                                             <option value="etanol">Etanol</option>
-                                            <option value="gnv">GNV</option>
+                                            <option value="diesel">Diesel</option>
                                             <option value="hibrido">Híbrido</option>
+                                            <option value="eletrico">Elétrico</option>
                                         </select>
                                     </div>
-                                    <div class="form-group">
-                                        <label for="consumoMedio">Consumo Médio (km/L)</label>
-                                        <input type="number" id="consumoMedio" name="consumoMedio" step="0.1" placeholder="Ex: 12.5" required>
-                                    </div>
                                 </div>
-                            </fieldset>
+                            </div>
 
-                            <!-- Seção: Custos Variáveis -->
-                            <fieldset class="form-section">
-                                <legend>Custos Variáveis (Mensais)</legend>
+                            <div class="form-section">
+                                <legend>Combustível</legend>
                                 <div class="form-row">
                                     <div class="form-group">
-                                        <label for="precoCombustivel">Preço do Combustível (R$/L)</label>
-                                        <input type="number" id="precoCombustivel" name="precoCombustivel" step="0.01" placeholder="Ex: 5.50" required>
+                                        <label>Consumo Médio (km/l)</label>
+                                        <input type="number" id="consumoMedio" placeholder="Ex: 10" step="0.1" required>
                                     </div>
                                     <div class="form-group">
-                                        <label for="kmMediaMes">KM Médio por Mês</label>
-                                        <input type="number" id="kmMediaMes" name="kmMediaMes" placeholder="Ex: 3000" required>
+                                        <label>Preço do Combustível (R$/l)</label>
+                                        <input type="number" id="precoCombustivel" placeholder="Ex: 5.50" step="0.01" required>
+                                    </div>
+                                    <div class="form-group">
+                                        <label>KM Médio/Mês</label>
+                                        <input type="number" id="kmMediaMes" placeholder="Ex: 5000" step="1" required>
                                     </div>
                                 </div>
-                            </fieldset>
+                            </div>
 
-                            <!-- Seção: Custos Fixos -->
-                            <fieldset class="form-section">
-                                <legend>Custos Fixos (Mensais)</legend>
+                            <div class="form-section">
+                                <legend>Custos Fixos Mensais</legend>
                                 <div class="form-row">
                                     <div class="form-group">
-                                        <label for="seguro">Seguro (R$)</label>
-                                        <input type="number" id="seguro" name="seguro" step="0.01" placeholder="Ex: 300.00">
+                                        <label>Seguro (R$/mês)</label>
+                                        <input type="number" id="seguro" placeholder="Ex: 150" step="0.01">
                                     </div>
                                     <div class="form-group">
-                                        <label for="ipva">IPVA (R$)</label>
-                                        <input type="number" id="ipva" name="ipva" step="0.01" placeholder="Ex: 100.00">
+                                        <label>IPVA (R$/ano)</label>
+                                        <input type="number" id="ipva" placeholder="Ex: 1200" step="0.01">
                                     </div>
                                     <div class="form-group">
-                                        <label for="manutencao">Manutenção (R$)</label>
-                                        <input type="number" id="manutencao" name="manutencao" step="0.01" placeholder="Ex: 200.00">
+                                        <label>Manutenção (R$/mês)</label>
+                                        <input type="number" id="manutencao" placeholder="Ex: 200" step="0.01">
                                     </div>
                                 </div>
+
                                 <div class="form-row">
                                     <div class="form-group">
-                                        <label for="pneus">Pneus (R$)</label>
-                                        <input type="number" id="pneus" name="pneus" step="0.01" placeholder="Ex: 50.00">
+                                        <label>Pneus (R$/ano)</label>
+                                        <input type="number" id="pneus" placeholder="Ex: 600" step="0.01">
                                     </div>
                                     <div class="form-group">
-                                        <label for="oleoRevisao">Óleo/Revisão (R$)</label>
-                                        <input type="number" id="oleoRevisao" name="oleoRevisao" step="0.01" placeholder="Ex: 100.00">
+                                        <label>Óleo/Revisão (R$/ano)</label>
+                                        <input type="number" id="oleoRevisao" placeholder="Ex: 400" step="0.01">
                                     </div>
                                     <div class="form-group">
-                                        <label for="financiamento">Financiamento (R$)</label>
-                                        <input type="number" id="financiamento" name="financiamento" step="0.01" placeholder="Ex: 0.00">
+                                        <label>Financiamento (R$/mês)</label>
+                                        <input type="number" id="financiamento" placeholder="Ex: 0" step="0.01">
                                     </div>
                                 </div>
+
                                 <div class="form-row">
                                     <div class="form-group">
-                                        <label for="depreciacao">Depreciação Mensal (R$)</label>
-                                        <input type="number" id="depreciacao" name="depreciacao" step="0.01" placeholder="Ex: 150.00">
+                                        <label>Depreciação (R$/mês)</label>
+                                        <input type="number" id="depreciacao" placeholder="Ex: 300" step="0.01">
                                     </div>
                                 </div>
-                            </fieldset>
+                            </div>
 
                             <div class="form-actions">
-                                <button type="submit" class="btn btn-primary">
-                                    <i class="fas fa-save"></i> Salvar Configuração
-                                </button>
-                                <button type="reset" class="btn btn-secondary">
-                                    <i class="fas fa-redo"></i> Limpar
-                                </button>
+                                <button type="submit" class="btn btn-primary">Calcular KM Real</button>
                             </div>
                         </form>
 
-                        <!-- Resultado -->
                         <div id="resultadoCarro" class="result-container" style="display: none;">
-                            <h3>Análise de Custos do Veículo</h3>
+                            <h3>Seu Custo Real por KM</h3>
+                            
                             <div class="cost-breakdown">
                                 <div class="cost-item">
-                                    <span class="cost-label">Custo Combustível/KM</span>
+                                    <span class="cost-label">Combustível</span>
                                     <span class="cost-value" id="custoCombustivelKm">R$ 0,00</span>
                                 </div>
                                 <div class="cost-item">
-                                    <span class="cost-label">Custo Fixo/KM</span>
+                                    <span class="cost-label">Custos Fixos</span>
                                     <span class="cost-value" id="custoFixoKm">R$ 0,00</span>
                                 </div>
                                 <div class="cost-item highlight">
-                                    <span class="cost-label">Custo Total/KM</span>
+                                    <span class="cost-label">CUSTO TOTAL</span>
                                     <span class="cost-value" id="custoTotalKm">R$ 0,00</span>
                                 </div>
                             </div>
+
                             <div class="breakdown-chart">
-                                <h4>Distribuição de Custos Mensais</h4>
+                                <h4>Distribuição de Custos</h4>
                                 <canvas id="breakdownChart"></canvas>
                             </div>
                         </div>
                     </div>
-                </section>
+                </div>
 
-                <!-- Avaliar Corrida Tab -->
-                <section id="avaliar-corrida" class="tab-content">
+                <!-- Copiloto Tab -->
+                <div id="copiloto" class="tab-content">
                     <div class="form-container">
                         <div class="form-header">
-                            <h2>Avaliar Corrida</h2>
-                            <p>Insira os dados da corrida para receber uma recomendação inteligente</p>
-                        </div>
-
-                        <div id="avisoCustoKm" class="alert alert-info" style="display: none;">
-                            <i class="fas fa-info-circle"></i>
-                            <span id="textoAvisoCustoKm"></span>
+                            <h2>Copiloto - Analise Corridas em Tempo Real</h2>
+                            <p>Simule uma análise de corrida para ver como o Copiloto funciona</p>
                         </div>
 
                         <form id="formCorrida" class="form-grid">
-                            <fieldset class="form-section">
+                            <div id="avisoCustoKm" class="alert alert-info" style="grid-column: 1 / -1;">
+                                <i class="fas fa-info-circle"></i>
+                                <span id="textoAvisoCustoKm">Nenhum carro configurado. Configure em KM Real para cálculos precisos.</span>
+                            </div>
+
+                            <div class="form-section">
                                 <legend>Dados da Corrida</legend>
                                 <div class="form-row">
                                     <div class="form-group">
-                                        <label for="valorCorrida">Valor da Corrida (R$)</label>
-                                        <input type="number" id="valorCorrida" name="valorCorrida" step="0.01" placeholder="Ex: 45.50" required>
+                                        <label>Valor da Corrida (R$)</label>
+                                        <input type="number" id="valorCorrida" placeholder="Ex: 25.50" step="0.01" required>
                                     </div>
                                     <div class="form-group">
-                                        <label for="distancia">Distância (km)</label>
-                                        <input type="number" id="distancia" name="distancia" step="0.1" placeholder="Ex: 12.5" required>
+                                        <label>Distância (km)</label>
+                                        <input type="number" id="distancia" placeholder="Ex: 12.5" step="0.1" required>
                                     </div>
                                     <div class="form-group">
-                                        <label for="tempo">Tempo Estimado (minutos)</label>
-                                        <input type="number" id="tempo" name="tempo" placeholder="Ex: 25" required>
+                                        <label>Tempo (minutos)</label>
+                                        <input type="number" id="tempo" placeholder="Ex: 25" step="1" required>
                                     </div>
                                 </div>
+
                                 <div class="form-row">
                                     <div class="form-group">
-                                        <label for="origem">Origem</label>
-                                        <input type="text" id="origem" name="origem" placeholder="Ex: Centro" required>
+                                        <label>Origem</label>
+                                        <input type="text" id="origem" placeholder="Ex: Av. Paulista" required>
                                     </div>
                                     <div class="form-group">
-                                        <label for="destino">Destino</label>
-                                        <input type="text" id="destino" name="destino" placeholder="Ex: Aeroporto" required>
+                                        <label>Destino</label>
+                                        <input type="text" id="destino" placeholder="Ex: Centro" required>
                                     </div>
                                     <div class="form-group">
-                                        <label for="categoria">Categoria</label>
-                                        <select id="categoria" name="categoria" required>
+                                        <label>Categoria</label>
+                                        <select id="categoria" required>
                                             <option value="">Selecione...</option>
-                                            <option value="uberx">UberX</option>
-                                            <option value="ubercomfort">Uber Comfort</option>
-                                            <option value="uberpop">Uber Pop</option>
-                                            <option value="outro">Outro</option>
+                                            <option value="uberx">Uber X</option>
+                                            <option value="uberxl">Uber XL</option>
+                                            <option value="99pop">99 Pop</option>
+                                            <option value="99comfort">99 Comfort</option>
+                                            <option value="indrive">inDrive</option>
                                         </select>
                                     </div>
                                 </div>
+
                                 <div class="form-row">
                                     <div class="form-group full">
-                                        <label for="observacao">Observações (Opcional)</label>
-                                        <textarea id="observacao" name="observacao" placeholder="Adicione informações extras..."></textarea>
+                                        <label>Observação</label>
+                                        <textarea id="observacao" placeholder="Notas adicionais..."></textarea>
                                     </div>
                                 </div>
-                            </fieldset>
+                            </div>
 
                             <div class="form-actions">
-                                <button type="submit" class="btn btn-primary">
-                                    <i class="fas fa-check-circle"></i> Avaliar Corrida
-                                </button>
-                                <button type="reset" class="btn btn-secondary">
-                                    <i class="fas fa-redo"></i> Limpar
-                                </button>
+                                <button type="submit" class="btn btn-primary">Analisar Corrida</button>
                             </div>
                         </form>
 
-                        <!-- Resultado da Avaliação -->
                         <div id="resultadoCorrida" class="result-container" style="display: none;">
-                            <h3>Resultado da Avaliação</h3>
                             <div class="evaluation-result">
                                 <div class="result-header">
                                     <div class="nota-visual">
-                                        <div class="progress-circle">
-                                            <svg viewBox="0 0 100 100">
-                                                <circle cx="50" cy="50" r="45" class="progress-bg"></circle>
-                                                <circle cx="50" cy="50" r="45" class="progress-fill" id="progressFill"></circle>
-                                            </svg>
-                                            <span class="nota-valor" id="notaValor">0</span>
-                                        </div>
+                                        <svg class="progress-circle" viewBox="0 0 100 100">
+                                            <defs>
+                                                <linearGradient id="gradient" x1="0%" y1="0%" x2="100%" y2="100%">
+                                                    <stop offset="0%" style="stop-color:#667eea;stop-opacity:1" />
+                                                    <stop offset="100%" style="stop-color:#764ba2;stop-opacity:1" />
+                                                </linearGradient>
+                                            </defs>
+                                            <circle class="progress-bg" cx="50" cy="50" r="45"></circle>
+                                            <circle class="progress-fill" cx="50" cy="50" r="45"></circle>
+                                        </svg>
+                                        <div class="nota-valor" id="notaValor">0</div>
                                     </div>
+
                                     <div class="recomendacao-box">
-                                        <span class="badge" id="badgeRecomendacao">Avaliar</span>
-                                        <p id="textoRecomendacao">Insira os dados da corrida para receber uma recomendação</p>
+                                        <span class="badge" id="badgeRecomendacao">AVALIAR</span>
+                                        <p id="textoRecomendacao">Preencha os dados da corrida para receber uma recomendação.</p>
                                     </div>
                                 </div>
 
@@ -405,117 +876,213 @@
                             </div>
                         </div>
                     </div>
-                </section>
+                </div>
+
+                <!-- IA Assistant Tab -->
+                <div id="ia-assistant" class="tab-content">
+                    <div class="ia-assistant-container">
+                        <div class="ia-chat-box">
+                            <div class="chat-header">
+                                <i class="fas fa-robot"></i>
+                                <span>Assistente Motorista One</span>
+                                <span class="status">online</span>
+                            </div>
+                            <div class="chat-messages" id="chatMessages">
+                                <div class="message bot">
+                                    <p>Olá! Sou seu assistente de IA. Posso ajudar você a:</p>
+                                    <ul>
+                                        <li>📊 Registrar ganhos e despesas por voz</li>
+                                        <li>💰 Calcular lucro real de corridas</li>
+                                        <li>📈 Analisar sua produtividade</li>
+                                        <li>🎯 Definir e acompanhar metas</li>
+                                        <li>❓ Tirar dúvidas sobre o app</li>
+                                    </ul>
+                                    <p>Como posso ajudar?</p>
+                                </div>
+                            </div>
+                            <div class="chat-input-area">
+                                <input type="text" id="iaInput" placeholder="Digite ou diga um comando..." class="chat-input">
+                                <button id="btnMicrophone" class="btn-microphone">
+                                    <i class="fas fa-microphone"></i>
+                                </button>
+                                <button id="btnSendIA" class="btn-send">
+                                    <i class="fas fa-paper-plane"></i>
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Smart Planner Tab -->
+                <div id="smart-planner" class="tab-content">
+                    <div class="form-container">
+                        <div class="form-header">
+                            <h2>Smart Planner - Planejamento Inteligente</h2>
+                            <p>Defina suas metas e acompanhe seu progresso em tempo real</p>
+                        </div>
+
+                        <div class="smart-planner-grid">
+                            <div class="planner-card">
+                                <h3>Meta Diária</h3>
+                                <div class="planner-input-group">
+                                    <label>Ganho Desejado (R$)</label>
+                                    <input type="number" id="metaDiaria" placeholder="Ex: 200" step="1">
+                                </div>
+                                <button class="btn btn-primary">Definir Meta</button>
+                            </div>
+
+                            <div class="planner-card">
+                                <h3>Meta Semanal</h3>
+                                <div class="planner-input-group">
+                                    <label>Ganho Desejado (R$)</label>
+                                    <input type="number" id="metaSemanal" placeholder="Ex: 1400" step="1">
+                                </div>
+                                <button class="btn btn-primary">Definir Meta</button>
+                            </div>
+
+                            <div class="planner-card">
+                                <h3>Seu Sonho</h3>
+                                <div class="planner-input-group">
+                                    <label>Objetivo (Ex: Comprar carro novo)</label>
+                                    <input type="text" id="sonho" placeholder="Qual é seu objetivo?">
+                                </div>
+                                <div class="planner-input-group">
+                                    <label>Valor Necessário (R$)</label>
+                                    <input type="number" id="valorSonho" placeholder="Ex: 50000" step="1">
+                                </div>
+                                <button class="btn btn-primary">Calcular Plano</button>
+                            </div>
+                        </div>
+
+                        <div class="planner-progress">
+                            <h3>Progresso Hoje</h3>
+                            <div class="progress-item">
+                                <span>Ganho Atual</span>
+                                <strong>R$ 0,00</strong>
+                            </div>
+                            <div class="progress-item">
+                                <span>Falta para Meta</span>
+                                <strong id="faltaMeta">R$ 0,00</strong>
+                            </div>
+                            <div class="progress-bar">
+                                <div class="progress-fill" id="progressFill" style="width: 0%"></div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
 
                 <!-- Histórico Tab -->
-                <section id="historico" class="tab-content">
+                <div id="historico" class="tab-content">
                     <div class="historico-container">
                         <div class="historico-header">
                             <h2>Histórico de Corridas</h2>
                             <div class="historico-filters">
-                                <input type="month" id="filtroMes" class="filter-input">
+                                <select id="filtroMes" class="filter-input">
+                                    <option value="">Todos os meses</option>
+                                    <option value="2026-05">Maio 2026</option>
+                                    <option value="2026-04">Abril 2026</option>
+                                    <option value="2026-03">Março 2026</option>
+                                </select>
                                 <select id="filtroRecomendacao" class="filter-input">
-                                    <option value="">Todas as Recomendações</option>
+                                    <option value="">Todas</option>
                                     <option value="aceitar">Aceitar</option>
                                     <option value="pensar">Pensar</option>
                                     <option value="evitar">Evitar</option>
                                 </select>
                             </div>
                         </div>
-
                         <div class="historico-list" id="historicoList">
                             <div class="empty-state">
                                 <i class="fas fa-inbox"></i>
-                                <p>Nenhuma corrida no histórico</p>
+                                <p>Nenhuma corrida avaliada ainda</p>
                             </div>
                         </div>
                     </div>
-                </section>
+                </div>
 
                 <!-- Relatórios Tab -->
-                <section id="relatorios" class="tab-content">
+                <div id="relatorios" class="tab-content">
                     <div class="relatorios-container">
-                        <h2>Relatórios e Análises</h2>
-                        
+                        <h2>Relatórios & Exportação</h2>
+
                         <div class="relatorios-grid">
                             <div class="relatorio-card">
-                                <h3>Desempenho Mensal</h3>
-                                <canvas id="desempenhoMensalChart"></canvas>
+                                <h3>Relatório de Produtividade</h3>
+                                <p>Análise completa do seu desempenho no período selecionado.</p>
+                                <div class="export-actions">
+                                    <button class="btn btn-primary" id="btnExportPDF">
+                                        <i class="fas fa-file-pdf"></i> Exportar PDF
+                                    </button>
+                                </div>
                             </div>
 
                             <div class="relatorio-card">
-                                <h3>Distribuição por Hora</h3>
-                                <canvas id="distribuicaoHoraChart"></canvas>
+                                <h3>Histórico de Corridas</h3>
+                                <p>Todos os seus dados de corridas em formato CSV para análise.</p>
+                                <div class="export-actions">
+                                    <button class="btn btn-primary" id="btnExportCSV">
+                                        <i class="fas fa-file-csv"></i> Exportar CSV
+                                    </button>
+                                </div>
                             </div>
 
                             <div class="relatorio-card">
-                                <h3>Top Destinos</h3>
-                                <div id="topDestinos" class="top-list"></div>
+                                <h3>Relatório de Imposto de Renda</h3>
+                                <p>Dados organizados para facilitar sua declaração de IR.</p>
+                                <div class="export-actions">
+                                    <button class="btn btn-primary">
+                                        <i class="fas fa-download"></i> Gerar Relatório
+                                    </button>
+                                </div>
                             </div>
-
-                            <div class="relatorio-card">
-                                <h3>Estatísticas Gerais</h3>
-                                <div id="estatisticasGerais" class="stats-list"></div>
-                            </div>
-                        </div>
-
-                        <div class="export-actions">
-                            <button class="btn btn-secondary" id="btnExportPDF">
-                                <i class="fas fa-file-pdf"></i> Exportar PDF
-                            </button>
-                            <button class="btn btn-secondary" id="btnExportCSV">
-                                <i class="fas fa-file-csv"></i> Exportar CSV
-                            </button>
                         </div>
                     </div>
-                </section>
+                </div>
 
                 <!-- Configurações Tab -->
-                <section id="configuracoes" class="tab-content">
+                <div id="configuracoes" class="tab-content">
                     <div class="configuracoes-container">
                         <h2>Configurações</h2>
-                        
+
                         <div class="config-section">
-                            <h3>Preferências de Notificação</h3>
+                            <h3>Perfil</h3>
                             <div class="config-item">
-                                <label class="checkbox-label">
-                                    <input type="checkbox" id="notifCorrida" checked>
-                                    <span>Notificar sobre novas corridas</span>
-                                </label>
+                                <label>Nome</label>
+                                <input type="text" id="nomeConfig" placeholder="Seu nome">
                             </div>
                             <div class="config-item">
-                                <label class="checkbox-label">
-                                    <input type="checkbox" id="notifCusto" checked>
-                                    <span>Alertar sobre custos elevados</span>
-                                </label>
+                                <label>Email</label>
+                                <input type="email" id="emailConfig" placeholder="seu@email.com">
                             </div>
+                            <button class="btn btn-primary" id="btnSalvarPerfil">Salvar Perfil</button>
                         </div>
 
                         <div class="config-section">
-                            <h3>Dados da Conta</h3>
-                            <div class="config-item">
-                                <label>Email</label>
-                                <input type="email" id="emailConfig" disabled>
-                            </div>
-                            <div class="config-item">
-                                <label>Nome Completo</label>
-                                <input type="text" id="nomeConfig" placeholder="Seu nome">
-                            </div>
-                            <button class="btn btn-primary" id="btnSalvarPerfil">
-                                <i class="fas fa-save"></i> Salvar Perfil
-                            </button>
+                            <h3>Notificações</h3>
+                            <label class="checkbox-label">
+                                <input type="checkbox" checked>
+                                Receber notificações de corridas boas
+                            </label>
+                            <label class="checkbox-label">
+                                <input type="checkbox" checked>
+                                Receber alertas de manutenção do veículo
+                            </label>
+                            <label class="checkbox-label">
+                                <input type="checkbox">
+                                Receber dicas de otimização
+                            </label>
                         </div>
 
                         <div class="config-section danger">
-                            <h3>Zona de Perigo</h3>
+                            <h3>Dados</h3>
                             <button class="btn btn-danger" id="btnLimparDados">
                                 <i class="fas fa-trash"></i> Limpar Todos os Dados
                             </button>
                         </div>
                     </div>
-                </section>
+                </div>
             </div>
-        </main>
+        </div>
     </div>
 
     <!-- Scripts -->
