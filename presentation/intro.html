@@ -1,0 +1,101 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@900&family=JetBrains+Mono&display=swap" rel="stylesheet">
+    <style>
+        .slide-container {
+            width: 1280px;
+            min-height: 720px;
+            background-color: #FFFFFF;
+            color: #0F172A;
+            font-family: 'JetBrains Mono', monospace;
+            display: grid;
+            grid-template-columns: repeat(12, 1fr);
+            grid-template-rows: repeat(8, 1fr);
+            border: 20px solid #0F172A;
+            box-sizing: border-box;
+        }
+        .header-block {
+            grid-column: 2 / 12;
+            grid-row: 2 / 5;
+            border: 1px solid #0F172A;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            /* keep top padding to preserve title spacing, reduce bottom padding */
+            padding: 40px 30px 0 30px;
+            background-color: #FFFFFF;
+        }
+        h1 {
+            font-family: 'Montserrat', sans-serif;
+            font-weight: 900;
+            font-size: 64px;
+            line-height: 1.1;
+            text-transform: uppercase;
+            margin: 0;
+        }
+        .subtitle {
+            font-size: 24px;
+            margin-top: 20px;
+            color: #10B981;
+            font-weight: bold;
+        }
+        .info-block {
+            grid-column: 2 / 7;
+            grid-row: 6 / 8;
+            border: 1px solid #0F172A;
+            padding: 20px;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+        }
+        .date-block {
+            grid-column: 7 / 12;
+            grid-row: 6 / 8;
+            border: 1px solid #0F172A;
+            border-left: none;
+            padding: 20px;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            background-color: #0F172A;
+            color: #FFFFFF;
+        }
+        .label {
+            font-size: 14px;
+            text-transform: uppercase;
+            letter-spacing: 2px;
+            margin-bottom: 10px;
+            opacity: 0.7;
+        }
+        .value {
+            font-size: 28px;
+            font-weight: bold;
+        }
+        .accent-box {
+            grid-column: 11 / 12;
+            grid-row: 1 / 2;
+            background-color: #F59E0B;
+            border-bottom: 1px solid #0F172A;
+            border-left: 1px solid #0F172A;
+        }
+    </style>
+</head>
+<body>
+    <div class="slide-container">
+        <div class="accent-box"></div>
+        <div class="header-block">
+            <h1>UberMax IA: Melhorias Abrangentes</h1>
+            <div class="subtitle">Otimizando Ganhos e Decisões com Inteligência Artificial</div>
+        </div>
+        <div class="info-block">
+            <div class="label">Apresentador</div>
+            <div class="value">Manus AI</div>
+        </div>
+        <div class="date-block">
+            <div class="label">Data da Apresentação</div>
+            <div class="value">23 de Maio, 2026</div>
+        </div>
+    </div>
+</body>
+</html>

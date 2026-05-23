@@ -1,0 +1,144 @@
+{
+  "project_info": {
+    "title": "UberMax IA: Melhorias Abrangentes para Motoristas Parceiros",
+    "created": 1779550934.288,
+    "last_updated": 1779551430.514,
+    "total_slides": 12
+  },
+  "slides": [
+    {
+      "id": "intro",
+      "state": "edited",
+      "pageNum": 1
+    },
+    {
+      "id": "contexto",
+      "state": "edited",
+      "pageNum": 2
+    },
+    {
+      "id": "visao_geral",
+      "state": "edited",
+      "pageNum": 3
+    },
+    {
+      "id": "html_melhoria",
+      "state": "edited",
+      "pageNum": 4
+    },
+    {
+      "id": "js_melhoria",
+      "state": "edited",
+      "pageNum": 5
+    },
+    {
+      "id": "css_melhoria",
+      "state": "edited",
+      "pageNum": 6
+    },
+    {
+      "id": "sql_melhoria",
+      "state": "edited",
+      "pageNum": 7
+    },
+    {
+      "id": "backend_melhoria",
+      "state": "edited",
+      "pageNum": 8
+    },
+    {
+      "id": "qualidade",
+      "state": "edited",
+      "pageNum": 9
+    },
+    {
+      "id": "beneficios",
+      "state": "edited",
+      "pageNum": 10
+    },
+    {
+      "id": "futuro",
+      "state": "edited",
+      "pageNum": 11
+    },
+    {
+      "id": "encerramento",
+      "state": "edited",
+      "pageNum": 12
+    }
+  ],
+  "outline": [
+    {
+      "id": "intro",
+      "title": "UberMax IA: Melhorias Abrangentes para Motoristas Parceiros",
+      "summary": "Capa da apresentação com título principal e subtítulo sobre otimização de ganhos.",
+      "image_plan": "Use a suitable image if needed"
+    },
+    {
+      "id": "contexto",
+      "title": "Introdução e Contexto: O Desafio do Motorista Parceiro",
+      "summary": "Explica os desafios enfrentados pelos motoristas e como o UberMax IA resolve esses problemas.",
+      "image_plan": "Use a suitable image if needed"
+    },
+    {
+      "id": "visao_geral",
+      "title": "Visão Geral das 8 Melhorias Implementadas",
+      "summary": "Resumo das principais melhorias técnicas e funcionais realizadas no projeto.",
+      "image_plan": "Use a suitable image if needed"
+    },
+    {
+      "id": "html_melhoria",
+      "title": "Melhoria 1: index.html Corrigido e Estruturado",
+      "summary": "Detalhes sobre a reestruturação do frontend, validação e novas abas.",
+      "image_plan": "Use a suitable image if needed"
+    },
+    {
+      "id": "js_melhoria",
+      "title": "Melhoria 2: script.js — A Inteligência por Trás da Plataforma",
+      "summary": "Explicação das novas funções de lógica de negócios e algoritmo de IA.",
+      "image_plan": "Use a suitable image if needed"
+    },
+    {
+      "id": "css_melhoria",
+      "title": "Melhoria 3: style.css — Design Moderno e Responsivo",
+      "summary": "Destaques visuais, barras de progresso dinâmicas e adaptabilidade.",
+      "image_plan": "Use a suitable image if needed"
+    },
+    {
+      "id": "sql_melhoria",
+      "title": "Melhoria 4: alteracoes.sql — Banco de Dados Robusto",
+      "summary": "Estrutura das tabelas, índices de performance e views otimizadas.",
+      "image_plan": "Use a suitable image if needed"
+    },
+    {
+      "id": "backend_melhoria",
+      "title": "Melhoria 5: server.js — Backend Seguro e Eficiente",
+      "summary": "Novas rotas da API, validações e lógica de integração com o banco.",
+      "image_plan": "Use a suitable image if needed"
+    },
+    {
+      "id": "qualidade",
+      "title": "Testes e Qualidade: Garantindo a Estabilidade",
+      "summary": "Resultados dos testes unitários, validação de IDs e consistência de rotas.",
+      "image_plan": "Use a suitable image if needed"
+    },
+    {
+      "id": "beneficios",
+      "title": "Benefícios para o Motorista: Decisões Baseadas em Dados",
+      "summary": "Como as melhorias impactam diretamente a rentabilidade e o dia a dia do motorista.",
+      "image_plan": "Use a suitable image if needed"
+    },
+    {
+      "id": "futuro",
+      "title": "Próximos Passos e Evolução do UberMax IA",
+      "summary": "Visão de futuro, integrações com APIs externas e Machine Learning avançado.",
+      "image_plan": "Use a suitable image if needed"
+    },
+    {
+      "id": "encerramento",
+      "title": "Perguntas e Respostas: Obrigado!",
+      "summary": "Slide de encerramento com agradecimentos e espaço para dúvidas.",
+      "image_plan": "Use a suitable image if needed"
+    }
+  ]
+}

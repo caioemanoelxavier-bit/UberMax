@@ -1,0 +1,135 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@900&family=JetBrains+Mono&display=swap" rel="stylesheet">
+    <style>
+        .slide-container {
+            width: 1280px;
+            min-height: 720px; /* keep as required */
+            background-color: #FFFFFF;
+            color: #0F172A;
+            font-family: 'JetBrains Mono', monospace;
+            display: grid;
+            grid-template-columns: repeat(12, 1fr);
+            grid-template-rows: auto 1fr auto; /* pack header/footer and let content flex */
+            border: 20px solid #0F172A;
+            box-sizing: border-box;
+        }
+        .header-block {
+            grid-column: 1 / 13;
+            grid-row: 1 / 2;
+            border-bottom: 1px solid #0F172A;
+            padding-top: 20px; /* DO NOT shrink */
+            padding-left: 40px;
+            background-color: #0F172A;
+            color: #FFFFFF;
+        }
+        h2 {
+            font-family: 'Montserrat', sans-serif;
+            font-weight: 900;
+            font-size: 32px;
+            text-transform: uppercase;
+            margin: 0;
+        }
+        .main-content {
+            grid-column: 1 / 9;
+            grid-row: 2 / 3;
+            border-right: 1px solid #0F172A;
+            padding-top: 12px; /* reduced inner padding */
+            padding-left: 20px;
+            padding-right: 20px;
+        }
+        .side-content {
+            grid-column: 9 / 13;
+            grid-row: 2 / 3;
+            padding-top: 12px; /* reduced */
+            padding-left: 20px;
+            padding-right: 20px;
+            background-color: #F8FAF8;
+            display: flex;
+            flex-direction: column;
+            gap: 8px;
+        }
+        h3 {
+            font-family: 'Montserrat', sans-serif;
+            font-size: 22px;
+            font-weight: 900;
+            text-transform: uppercase;
+            margin-bottom: 8px; /* reduced */
+            color: #10B981;
+        }
+        ul { list-style: none; padding: 0; margin: 0; }
+        li {
+            font-size: 18px;
+            line-height: 1.3; /* slightly tighter to save vertical space */
+            margin-bottom: 8px; /* reduced */
+            position: relative;
+        }
+        .stat-row { display: flex; gap: 8px; align-items: stretch; }
+        .stat-box {
+            border: 1px solid #0F172A;
+            padding: 8px; /* reduced */
+            margin-bottom: 0;
+            text-align: center;
+            flex: 1;
+            box-sizing: border-box;
+        }
+        .stat-num {
+            font-family: 'Montserrat', sans-serif;
+            font-size: 48px; /* do not shrink font-size */
+            font-weight: 900;
+            color: #F59E0B;
+            display: block;
+        }
+        .stat-label {
+            font-size: 14px;
+            text-transform: uppercase;
+            font-weight: bold;
+        }
+        .footer-block {
+            grid-column: 1 / 13;
+            grid-row: 3 / 4;
+            border-top: 1px solid #0F172A;
+            display: flex;
+            align-items: center;
+            padding-left: 20px;
+            font-size: 14px;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            height: auto;
+        }
+    </style>
+</head>
+<body>
+    <div class="slide-container">
+        <div class="header-block">
+            <h2>Melhoria 1: index.html Corrigido</h2>
+        </div>
+        <div class="main-content">
+            <h3>Reestruturação e Novas Abas</h3>
+            <ul>
+                <li><strong>Validação Completa:</strong> Estrutura HTML5 reconstruída do zero, garantindo semântica correta e acessibilidade.</li>
+                <li><strong>Aba "Meu Carro":</strong> Formulário detalhado para custos fixos e variáveis, permitindo o cálculo do custo real por KM.</li>
+                <li><strong>Aba "Avaliar Corrida":</strong> Interface otimizada para inserção rápida de dados de ofertas com feedback visual dinâmico.</li>
+                <li><strong>UX Aprimorada:</strong> Implementação de barras de nota visual e badges de recomendação coloridos para decisões rápidas.</li>
+            </ul>
+        </div>
+        <div class="side-content">
+            <div class="stat-row">
+                <div class="stat-box">
+                    <span class="stat-num">106</span>
+                    <span class="stat-label">IDs Mapeados</span>
+                </div>
+                <div class="stat-box">
+                    <span class="stat-num">100%</span>
+                    <span class="stat-label">Validado</span>
+                </div>
+            </div>
+            <p style="font-size:14px; line-height:1.3; margin:0;">Todos os elementos interativos possuem IDs únicos sincronizados com a lógica do script.js.</p>
+        </div>
+        <div class="footer-block">
+            UberMax IA Presentation | Frontend Reestruturado
+        </div>
+    </div>
+</body>
+</html>

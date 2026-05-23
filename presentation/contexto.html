@@ -1,0 +1,108 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@900&family=JetBrains+Mono&display=swap" rel="stylesheet">
+    <style>
+        body { margin: 0; }
+        .slide-container {
+            width: 1280px;
+            min-height: 720px;
+            background-color: #FFFFFF;
+            color: #0F172A;
+            font-family: 'JetBrains Mono', monospace;
+            display: grid;
+            grid-template-columns: repeat(12, 1fr);
+            grid-template-rows: repeat(8, 1fr);
+            border: 20px solid #0F172A;
+            box-sizing: border-box;
+        }
+        .header-block {
+            grid-column: 1 / 13;
+            grid-row: 1 / 2;
+            border-bottom: 1px solid #0F172A;
+            padding-top: 20px; /* do not change */
+            padding-left: 40px;
+            background-color: #0F172A;
+            color: #FFFFFF;
+        }
+        h2 {
+            font-family: 'Montserrat', sans-serif;
+            font-weight: 900;
+            font-size: 32px;
+            text-transform: uppercase;
+            margin: 0;
+        }
+        .content-block {
+            padding-top: 20px; /* reduced from 40px to save vertical space */
+            padding-left: 32px;
+            padding-right: 32px;
+            display: flex;
+            flex-direction: column;
+        }
+        .left-content {
+            grid-column: 1 / 7;
+            grid-row: 2 / 8;
+            border-right: 1px solid #0F172A;
+        }
+        .right-content {
+            grid-column: 7 / 13;
+            grid-row: 2 / 8;
+        }
+        .num {
+            font-family: 'Montserrat', sans-serif;
+            font-size: 80px;
+            font-weight: 900;
+            color: #F59E0B;
+            line-height: 1;
+            margin-bottom: 12px; /* reduced spacing */
+        }
+        h3 {
+            font-family: 'Montserrat', sans-serif;
+            font-size: 24px;
+            font-weight: 900;
+            text-transform: uppercase;
+            margin-bottom: 12px; /* reduced spacing */
+            border-bottom: 2px solid #10B981;
+            display: inline-block;
+        }
+        p {
+            font-size: 18px;
+            line-height: 1.6;
+            margin-bottom: 12px; /* reduced spacing */
+        }
+        .footer-block {
+            grid-column: 1 / 13;
+            grid-row: 8 / 9;
+            border-top: 1px solid #0F172A;
+            display: flex;
+            align-items: center;
+            padding-left: 24px;
+            font-size: 14px;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+    </style>
+</head>
+<body>
+    <div class="slide-container">
+        <div class="header-block">
+            <h2>Introdução e Contexto</h2>
+        </div>
+        <div class="content-block left-content">
+            <div class="num">01</div>
+            <h3>O Desafio do Motorista</h3>
+            <p>Motoristas enfrentam o desafio constante de maximizar ganhos e minimizar custos em um ambiente dinâmico.</p>
+            <p>A tomada de decisão sobre qual corrida aceitar e como gerenciar o veículo é crucial para a rentabilidade no final do mês.</p>
+        </div>
+        <div class="content-block right-content">
+            <div class="num">02</div>
+            <h3>A Solução UberMax IA</h3>
+            <p>Uma plataforma inteligente projetada para empoderar motoristas com dados e análises em tempo real.</p>
+            <p>Ferramentas para registrar jornadas, calcular o custo real por KM e avaliar a lucratividade de cada oferta usando IA.</p>
+        </div>
+        <div class="footer-block">
+            UberMax IA Presentation | Contexto e Desafios
+        </div>
+    </div>
+</body>
+</html>

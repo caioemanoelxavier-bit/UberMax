@@ -1,0 +1,137 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@900&family=JetBrains+Mono&display=swap" rel="stylesheet">
+    <style>
+        body { margin: 0; }
+        .slide-container {
+            width: 1280px;
+            min-height: 720px;
+            background-color: #FFFFFF;
+            color: #0F172A;
+            font-family: 'JetBrains Mono', monospace;
+            display: grid;
+            grid-template-columns: repeat(12, 1fr);
+            grid-template-rows: repeat(8, 1fr);
+            border: 20px solid #0F172A;
+            box-sizing: border-box;
+        }
+        .header-block {
+            grid-column: 1 / 13;
+            grid-row: 1 / 2;
+            border-bottom: 1px solid #0F172A;
+            padding-top: 20px;
+            padding-left: 40px;
+            background-color: #0F172A;
+            color: #FFFFFF;
+        }
+        h2 {
+            font-family: 'Montserrat', sans-serif;
+            font-weight: 900;
+            font-size: 32px;
+            text-transform: uppercase;
+            margin: 0;
+        }
+        .main-content {
+            grid-column: 2 / 12;
+            grid-row: 3 / 6;
+            border: 1px solid #0F172A;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            text-align: center;
+            background-color: #FFFFFF;
+        }
+        .thanks-text {
+            font-family: 'Montserrat', sans-serif;
+            font-size: 120px;
+            font-weight: 900;
+            color: #0F172A;
+            line-height: 1;
+            margin: 0;
+            text-transform: uppercase;
+        }
+        .subtitle {
+            font-size: 24px;
+            color: #10B981;
+            font-weight: bold;
+            margin-top: 20px;
+            text-transform: uppercase;
+            letter-spacing: 4px;
+        }
+        .contact-block {
+            grid-column: 2 / 12;
+            grid-row: 6 / 8;
+            border: 1px solid #0F172A;
+            border-top: none;
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            background-color: #F8FAF8;
+        }
+        .contact-item {
+            padding-top: 30px;
+            padding-left: 40px;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+        }
+        .contact-item:first-child {
+            border-right: 1px solid #0F172A;
+        }
+        .label {
+            font-size: 14px;
+            text-transform: uppercase;
+            color: #F59E0B;
+            font-weight: bold;
+            margin-bottom: 10px;
+        }
+        .value {
+            font-size: 20px;
+            font-weight: bold;
+        }
+        .accent-box {
+            grid-column: 1 / 2;
+            grid-row: 1 / 2;
+            background-color: #F59E0B;
+            border-right: 1px solid #FFFFFF;
+        }
+        .footer-block {
+            grid-column: 1 / 13;
+            grid-row: 8 / 9;
+            border-top: 1px solid #0F172A;
+            display: flex;
+            align-items: center;
+            padding-left: 40px;
+            font-size: 14px;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+    </style>
+</head>
+<body>
+    <div class="slide-container">
+        <div class="accent-box"></div>
+        <div class="header-block">
+            <h2>Perguntas e Respostas</h2>
+        </div>
+        <div class="main-content">
+            <h1 class="thanks-text">Obrigado!</h1>
+            <div class="subtitle">UberMax IA: O Futuro do Motorista Parceiro</div>
+        </div>
+        <div class="contact-block">
+            <div class="contact-item">
+                <div class="label">Dúvidas e Suporte</div>
+                <div class="value">contato@ubermaxia.com.br</div>
+            </div>
+            <div class="contact-item">
+                <div class="label">Acesse o Repositório</div>
+                <div class="value">github.com/caioemanoelxavier-bit/UberMax</div>
+            </div>
+        </div>
+        <div class="footer-block">
+            UberMax IA Presentation | Encerramento
+        </div>
+    </div>
+</body>
+</html>

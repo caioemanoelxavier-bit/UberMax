@@ -1,0 +1,166 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@900&family=JetBrains+Mono&display=swap" rel="stylesheet">
+    <style>
+        body{margin:0}
+        .slide-container {
+            width: 1280px;
+            min-height: 720px;
+            background-color: #FFFFFF;
+            color: #0F172A;
+            font-family: 'JetBrains Mono', monospace;
+            display: grid;
+            grid-template-columns: repeat(12, 1fr);
+            grid-template-rows: repeat(8, 1fr);
+            border: 20px solid #0F172A;
+            box-sizing: border-box;
+        }
+        .header-block {
+            grid-column: 1 / 13;
+            grid-row: 1 / 2;
+            border-bottom: 1px solid #0F172A;
+            padding-top: 20px; /* don't change, title top padding must stay */
+            padding-left: 20px;
+            background-color: #0F172A;
+            color: #FFFFFF;
+        }
+        h2 {
+            font-family: 'Montserrat', sans-serif;
+            font-weight: 900;
+            font-size: 32px;
+            text-transform: uppercase;
+            margin: 0;
+        }
+        .main-content {
+            grid-column: 1 / 13;
+            grid-row: 2 / 8;
+            padding-top: 10px;
+            padding-left: 20px;
+            padding-right: 20px;
+            display: flex;
+            flex-direction: column;
+        }
+        h3 {
+            font-family: 'Montserrat', sans-serif;
+            font-size: 22px;
+            font-weight: 900;
+            text-transform: uppercase;
+            margin-bottom: 12px;
+            color: #10B981;
+        }
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-bottom: 12px;
+        }
+        th, td {
+            border: 1px solid #0F172A;
+            padding: 10px;
+            text-align: left;
+            font-size: 14px;
+        }
+        th {
+            background-color: #F8FAF8;
+            font-family: 'Montserrat', sans-serif;
+            font-weight: 900;
+            text-transform: uppercase;
+        }
+        .route-method {
+            font-weight: bold;
+            color: #F59E0B;
+        }
+        .feature-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 12px;
+        }
+        .feature-box {
+            border: 1px solid #0F172A;
+            padding: 10px;
+            background-color: #F8FAF8;
+        }
+        .feature-title {
+            font-family: 'Montserrat', sans-serif;
+            font-weight: 900;
+            font-size: 14px;
+            margin-bottom: 8px;
+            display: block;
+            text-transform: uppercase;
+        }
+        .feature-text {
+            font-size: 12px;
+            line-height: 1.4;
+        }
+        .footer-block {
+            grid-column: 1 / 13;
+            grid-row: 8 / 9;
+            border-top: 1px solid #0F172A;
+            display: flex;
+            align-items: center;
+            padding-left: 20px;
+            font-size: 14px;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+    </style>
+</head>
+<body>
+    <div class="slide-container">
+        <div class="header-block">
+            <h2>Melhoria 5: Backend Seguro e Eficiente</h2>
+        </div>
+        <div class="main-content">
+            <h3>Rotas da API e Lógica de Integração</h3>
+            <table>
+                <thead>
+                    <tr>
+                        <th>Método</th>
+                        <th>Rota</th>
+                        <th>Descrição da Funcionalidade</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td class="route-method">POST</td>
+                        <td>/api/carro/configurar</td>
+                        <td>Upsert de configuração do veículo com cálculo de custo/KM.</td>
+                    </tr>
+                    <tr>
+                        <td class="route-method">POST</td>
+                        <td>/api/corridas/avaliar</td>
+                        <td>Algoritmo de IA no backend para nota e recomendação.</td>
+                    </tr>
+                    <tr>
+                        <td class="route-method">GET</td>
+                        <td>/api/jornadas/:id/mes/:mes</td>
+                        <td>Filtro temporal para relatórios de desempenho mensal.</td>
+                    </tr>
+                    <tr>
+                        <td class="route-method">GET</td>
+                        <td>/api/corridas/:id/stats</td>
+                        <td>Estatísticas agregadas de aceitação e lucratividade.</td>
+                    </tr>
+                </tbody>
+            </table>
+            <div class="feature-grid">
+                <div class="feature-box">
+                    <span class="feature-title">Validações Robustas</span>
+                    <span class="feature-text">Sanitização de entradas e validação de tipos para garantir integridade dos dados financeiros.</span>
+                </div>
+                <div class="feature-box">
+                    <span class="feature-title">Cálculos Automáticos</span>
+                    <span class="feature-text">Processamento de lucro líquido, lucro/hora e lucro/KM diretamente no servidor.</span>
+                </div>
+                <div class="feature-box">
+                    <span class="feature-title">Tratamento de Erros</span>
+                    <span class="feature-text">Sistema de logs e respostas HTTP padronizadas para facilitar o debug e a manutenção.</span>
+                </div>
+            </div>
+        </div>
+        <div class="footer-block">
+            UberMax IA Presentation | Infraestrutura server.js
+        </div>
+    </div>
+</body>
+</html>

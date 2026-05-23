@@ -1,0 +1,145 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@900&family=JetBrains+Mono&display=swap" rel="stylesheet">
+    <style>
+        .slide-container {
+            width: 1280px;
+            min-height: 720px;
+            background-color: #FFFFFF;
+            color: #0F172A;
+            font-family: 'JetBrains Mono', monospace;
+            display: grid;
+            grid-template-columns: repeat(12, 1fr);
+            grid-template-rows: repeat(8, 1fr);
+            border: 12px solid #0F172A; /* reduced from 20px to cut outer height */
+            box-sizing: border-box;
+        }
+        .header-block {
+            grid-column: 1 / 13;
+            grid-row: 1 / 2;
+            border-bottom: 1px solid #0F172A;
+            padding-top: 20px;
+            padding-left: 40px;
+            background-color: #0F172A;
+            color: #FFFFFF;
+        }
+        h2 {
+            font-family: 'Montserrat', sans-serif;
+            font-weight: 900;
+            font-size: 32px;
+            text-transform: uppercase;
+            margin: 0;
+        }
+        .main-content {
+            grid-column: 1 / 9;
+            grid-row: 2 / 8;
+            border-right: 1px solid #0F172A;
+            padding-top: 18px;
+            padding-left: 28px; /* slightly reduced */
+            padding-right: 16px; /* slightly reduced */
+        }
+        .visual-demo {
+            grid-column: 9 / 13;
+            grid-row: 2 / 8;
+            padding-top: 12px;
+            padding-left: 18px; /* slightly reduced */
+            padding-right: 18px;
+            display: flex;
+            flex-direction: column;
+            gap: 10px; /* reduced gap */
+        }
+        h3 {
+            font-family: 'Montserrat', sans-serif;
+            font-size: 22px;
+            font-weight: 900;
+            text-transform: uppercase;
+            margin-bottom: 10px; /* reduced */
+            color: #10B981;
+        }
+        .feature-item {
+            margin-bottom: 10px; /* reduced */
+        }
+        .feature-title {
+            font-weight: bold;
+            font-size: 18px;
+            display: block;
+            margin-bottom: 6px;
+            border-left: 4px solid #F59E0B;
+            padding-left: 12px;
+        }
+        .feature-desc {
+            font-size: 16px;
+            line-height: 1.4;
+        }
+        .color-sample {
+            height: 44px; /* reduced */
+            border: 1px solid #0F172A;
+            display: flex;
+            align-items: center;
+            padding-left: 12px;
+            font-weight: bold;
+            font-size: 14px;
+        }
+        .green-sample { background-color: #10B981; color: white; }
+        .orange-sample { background-color: #F59E0B; color: #0F172A; }
+        .blue-sample { background-color: #2563EB; color: white; }
+        .progress-mock {
+            height: 16px; /* slightly reduced */
+            border: 1px solid #0F172A;
+            background-color: #EEE;
+            position: relative;
+        }
+        .progress-fill {
+            height: 100%;
+            background-color: #10B981;
+            width: 75%;
+        }
+        .footer-block {
+            grid-column: 1 / 13;
+            grid-row: 8 / 9;
+            border-top: 1px solid #0F172A;
+            display: flex;
+            align-items: center;
+            padding-left: 40px;
+            font-size: 14px;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+    </style>
+</head>
+<body>
+    <div class="slide-container">
+        <div class="header-block">
+            <h2>Melhoria 3: style.css — Design</h2>
+        </div>
+        <div class="main-content">
+            <h3>UX Visual e Responsividade</h3>
+            <div class="feature-item">
+                <span class="feature-title">Feedback Visual Dinâmico</span>
+                <span class="feature-desc">Barras de progresso e indicadores de nota que mudam de cor conforme a lucratividade da corrida.</span>
+            </div>
+            <div class="feature-item">
+                <span class="feature-title">Breakdown de Custos</span>
+                <span class="feature-desc">Visualização proporcional dos gastos mensais do veículo, facilitando a identificação de gargalos financeiros.</span>
+            </div>
+            <div class="feature-item">
+                <span class="feature-title">Adaptabilidade Total</span>
+                <span class="feature-desc">Layout 100% responsivo, otimizado para o uso em smartphones durante a jornada de trabalho.</span>
+            </div>
+        </div>
+        <div class="visual-demo">
+            <div class="color-sample green-sample">ACEITAR / SUCESSO</div>
+            <div class="color-sample orange-sample">PENSAR / ALERTA</div>
+            <div class="color-sample blue-sample">CUSTOS FIXOS</div>
+            <div style="font-size: 12px; font-weight: bold; margin-top: 6px;">EXEMPLO DE BARRA DE NOTA:</div>
+            <div class="progress-mock">
+                <div class="progress-fill"></div>
+            </div>
+        </div>
+        <div class="footer-block">
+            UberMax IA Presentation | Design e Responsividade
+        </div>
+    </div>
+</body>
+</html>

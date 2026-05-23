@@ -1,0 +1,167 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@900&family=JetBrains+Mono&display=swap" rel="stylesheet">
+    <style>
+        .slide-container {
+            width: 1280px;
+            min-height: 720px;
+            background-color: #FFFFFF;
+            color: #0F172A;
+            font-family: 'JetBrains Mono', monospace;
+            display: grid;
+            grid-template-columns: repeat(12, 1fr);
+            grid-template-rows: repeat(8, 1fr);
+            border: 20px solid #0F172A;
+            box-sizing: border-box;
+        }
+        .header-block {
+            grid-column: 1 / 13;
+            grid-row: 1 / 2;
+            border-bottom: 1px solid #0F172A;
+            padding-top: 20px; /* keep title top padding */
+            padding-left: 40px;
+            background-color: #0F172A;
+            color: #FFFFFF;
+        }
+        h2 {
+            font-family: 'Montserrat', sans-serif;
+            font-weight: 900;
+            font-size: 32px;
+            text-transform: uppercase;
+            margin: 0;
+        }
+        .main-content {
+            grid-column: 1 / 9;
+            grid-row: 2 / 8;
+            border-right: 1px solid #0F172A;
+            padding-top: 18px; /* reduced to save height */
+            padding-left: 32px;
+            padding-right: 20px;
+        }
+        .side-content {
+            grid-column: 9 / 13;
+            grid-row: 2 / 8;
+            padding-top: 18px; /* reduced */
+            padding-left: 18px;
+            padding-right: 18px;
+            background-color: #F8FAF8;
+        }
+        h3 {
+            font-family: 'Montserrat', sans-serif;
+            font-size: 22px;
+            font-weight: 900;
+            text-transform: uppercase;
+            margin-bottom: 12px; /* reduced */
+            color: #10B981;
+        }
+        .table-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 12px; /* reduced gap */
+        }
+        .table-box {
+            border: 1px solid #0F172A;
+            padding-top: 10px; /* reduced */
+            padding-left: 10px;
+            padding-right: 10px;
+            min-height: 90px; /* reduced */
+        }
+        .table-name {
+            font-family: 'Montserrat', sans-serif;
+            font-weight: 900;
+            font-size: 16px;
+            display: block;
+            margin-bottom: 8px; /* reduced */
+            border-bottom: 1px solid #F59E0B;
+        }
+        .table-desc {
+            font-size: 13px;
+            line-height: 1.4;
+        }
+        .feature-box {
+            border: 1px solid #0F172A;
+            padding-top: 12px; /* reduced */
+            padding-left: 12px;
+            padding-right: 12px;
+            margin-bottom: 12px; /* reduced */
+        }
+        .feature-title {
+            font-family: 'Montserrat', sans-serif;
+            font-weight: 900;
+            font-size: 16px;
+            margin-bottom: 8px; /* reduced */
+            display: block;
+            color: #F59E0B;
+        }
+        .feature-item {
+            font-size: 13px;
+            margin-bottom: 6px; /* reduced */
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+        .dot {
+            width: 6px;
+            height: 6px;
+            background-color: #10B981;
+        }
+        .footer-block {
+            grid-column: 1 / 13;
+            grid-row: 8 / 9;
+            border-top: 1px solid #0F172A;
+            display: flex;
+            align-items: center;
+            padding-left: 20px; /* reduced to save height */
+            font-size: 14px;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+    </style>
+</head>
+<body>
+    <div class="slide-container">
+        <div class="header-block">
+            <h2>Melhoria 4: Banco de Dados Robusto</h2>
+        </div>
+        <div class="main-content">
+            <h3>Estrutura de Tabelas Otimizada</h3>
+            <div class="table-grid">
+                <div class="table-box">
+                    <span class="table-name">motoristas</span>
+                    <span class="table-desc">Cadastro centralizado com validação de email único e índices de busca rápida.</span>
+                </div>
+                <div class="table-box">
+                    <span class="table-name">jornadas</span>
+                    <span class="table-desc">Registro histórico de ganhos, KM e horas com suporte a cálculos retroativos.</span>
+                </div>
+                <div class="table-box">
+                    <span class="table-name">configuracao_carro</span>
+                    <span class="table-desc">Gestão de custos reais por KM com suporte a Upsert (ON CONFLICT).</span>
+                </div>
+                <div class="table-box">
+                    <span class="table-name">avaliacoes_corrida</span>
+                    <span class="table-desc">Log detalhado de ofertas, notas de IA e recomendações de aceitação.</span>
+                </div>
+            </div>
+        </div>
+        <div class="side-content">
+            <div class="feature-box">
+                <span class="feature-title">Performance</span>
+                <div class="feature-item"><div class="dot"></div><span>8 Índices Estratégicos</span></div>
+                <div class="feature-item"><div class="dot"></div><span>Views de Resumo</span></div>
+                <div class="feature-item"><div class="dot"></div><span>Consultas Otimizadas</span></div>
+            </div>
+            <div class="feature-box">
+                <span class="feature-title">Segurança</span>
+                <div class="feature-item"><div class="dot"></div><span>IF NOT EXISTS</span></div>
+                <div class="feature-item"><div class="dot"></div><span>Integridade Referencial</span></div>
+                <div class="feature-item"><div class="dot"></div><span>Scripts de Migração</span></div>
+            </div>
+        </div>
+        <div class="footer-block">
+            UberMax IA Presentation | Arquitetura SQL
+        </div>
+    </div>
+</body>
+</html>

@@ -1,0 +1,134 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@900&family=JetBrains+Mono&display=swap" rel="stylesheet">
+    <style>
+        body { margin: 0; }
+        .slide-container {
+            width: 1280px;
+            min-height: 720px;
+            background-color: #FFFFFF;
+            color: #0F172A;
+            font-family: 'JetBrains Mono', monospace;
+            display: grid;
+            grid-template-columns: repeat(12, 1fr);
+            grid-template-rows: repeat(8, 1fr);
+            border: 20px solid #0F172A;
+            box-sizing: border-box;
+        }
+        .header-block {
+            grid-column: 1 / 13;
+            grid-row: 1 / 2;
+            border-bottom: 1px solid #0F172A;
+            padding-top: 20px;
+            padding-left: 40px;
+            background-color: #0F172A;
+            color: #FFFFFF;
+        }
+        h2 {
+            font-family: 'Montserrat', sans-serif;
+            font-weight: 900;
+            font-size: 32px;
+            text-transform: uppercase;
+            margin: 0;
+        }
+        .evolution-grid {
+            grid-column: 1 / 13;
+            grid-row: 2 / 8;
+            display: grid;
+            grid-template-columns: 1fr 1fr 1fr;
+            height: 100%;
+        }
+        .evolution-block {
+            border-right: 1px solid #0F172A;
+            padding-top: 30px;
+            padding-left: 30px;
+            padding-right: 30px;
+            display: flex;
+            flex-direction: column;
+        }
+        .evolution-block:last-child {
+            border-right: none;
+        }
+        .num {
+            font-family: 'Montserrat', sans-serif;
+            font-size: 64px;
+            font-weight: 900;
+            color: #F59E0B;
+            line-height: 1;
+            margin-bottom: 20px;
+        }
+        h3 {
+            font-family: 'Montserrat', sans-serif;
+            font-size: 20px;
+            font-weight: 900;
+            text-transform: uppercase;
+            margin-bottom: 20px;
+            color: #10B981;
+            border-bottom: 2px solid #0F172A;
+            padding-bottom: 10px;
+        }
+        .feature-list {
+            list-style: none;
+            padding: 0;
+        }
+        .feature-item {
+            font-size: 14px;
+            line-height: 1.6;
+            margin-bottom: 15px;
+            padding-left: 15px;
+            border-left: 3px solid #F59E0B;
+        }
+        .footer-block {
+            grid-column: 1 / 13;
+            grid-row: 8 / 9;
+            border-top: 1px solid #0F172A;
+            display: flex;
+            align-items: center;
+            padding-left: 40px;
+            font-size: 14px;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+    </style>
+</head>
+<body>
+    <div class="slide-container">
+        <div class="header-block">
+            <h2>Próximos Passos e Evolução</h2>
+        </div>
+        <div class="evolution-grid">
+            <div class="evolution-block">
+                <div class="num">01</div>
+                <h3>Integrações</h3>
+                <ul class="feature-list">
+                    <li class="feature-item">Conexão direta com APIs de Mapas para trânsito em tempo real.</li>
+                    <li class="feature-item">Sincronização com preços de combustíveis por região.</li>
+                    <li class="feature-item">Importação automática de dados das plataformas (Uber/99).</li>
+                </ul>
+            </div>
+            <div class="evolution-block">
+                <div class="num">02</div>
+                <h3>Funcionalidades</h3>
+                <ul class="feature-list">
+                    <li class="feature-item">Gamificação para incentivar a otimização de performance.</li>
+                    <li class="feature-item">Relatórios financeiros avançados com exportação em PDF/Excel.</li>
+                    <li class="feature-item">Alertas inteligentes de manutenção e custos elevados.</li>
+                </ul>
+            </div>
+            <div class="evolution-block">
+                <div class="num">03</div>
+                <h3>IA Avançada</h3>
+                <ul class="feature-list">
+                    <li class="feature-item">Modelos de Machine Learning personalizados por motorista.</li>
+                    <li class="feature-item">Predição de demanda baseada em eventos locais e clima.</li>
+                    <li class="feature-item">Chatbot assistente para suporte em tempo real na jornada.</li>
+                </ul>
+            </div>
+        </div>
+        <div class="footer-block">
+            UberMax IA Presentation | Visão de Futuro
+        </div>
+    </div>
+</body>
+</html>

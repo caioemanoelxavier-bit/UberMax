@@ -1,0 +1,103 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@900&family=JetBrains+Mono&display=swap" rel="stylesheet">
+    <style>
+        body{margin:0}
+        .slide-container {
+            width: 1280px;
+            min-height: 720px;
+            background-color: #FFFFFF;
+            color: #0F172A;
+            font-family: 'JetBrains Mono', monospace;
+            display: grid;
+            grid-template-columns: repeat(12, 1fr);
+            grid-template-rows: repeat(8, 1fr);
+            border: 12px solid #0F172A;
+            box-sizing: border-box;
+        }
+        .header-block {
+            grid-column: 1 / 13;
+            grid-row: 1 / 2;
+            border-bottom: 1px solid #0F172A;
+            padding-top: 20px; /* keep as required */
+            padding-left: 32px;
+            background-color: #0F172A;
+            color: #FFFFFF;
+        }
+        h2 {font-family: 'Montserrat', sans-serif;font-weight:900;font-size:32px;text-transform:uppercase;margin:0}
+        .main-content {
+            grid-column: 1 / 8;
+            grid-row: 2 / 8;
+            border-right: 1px solid #0F172A;
+            padding-top: 18px;
+            padding-left: 28px;
+            padding-right: 18px;
+        }
+        .side-content {
+            grid-column: 8 / 13;
+            grid-row: 2 / 8;
+            padding-top: 18px;
+            padding-left: 18px;
+            padding-right: 28px;
+            background-color: #F8FAF8;
+        }
+        h3 {font-family:'Montserrat',sans-serif;font-size:22px;font-weight:900;text-transform:uppercase;margin-bottom:14px;color:#10B981}
+        .function-list {list-style:none;padding:0;margin:0}
+        .function-item {
+            border: 1px solid #0F172A;
+            margin-bottom: 12px;
+            padding-top: 8px;
+            padding-left: 12px;
+            padding-right: 12px;
+            min-height: 64px; /* reduced */
+        }
+        .function-name {font-weight:bold;color:#0F172A;font-size:16px;display:block;margin-bottom:4px}
+        .function-desc {font-size:14px;line-height:1.4}
+        .algo-box {border:1px solid #0F172A;padding-top:12px;padding-left:12px;padding-right:12px}
+        .algo-title {font-family:'Montserrat',sans-serif;font-weight:900;font-size:18px;margin-bottom:10px;display:block}
+        .algo-step {font-size:13px;margin-bottom:8px;display:flex;align-items:flex-start;gap:8px}
+        .step-num {color:#F59E0B;font-weight:bold}
+        .footer-block {
+            grid-column: 1 / 13;
+            grid-row: 8 / 9;
+            border-top: 1px solid #0F172A;
+            display:flex;align-items:center;padding-left:32px;font-size:14px;text-transform:uppercase;letter-spacing:1px;padding-top:6px;padding-bottom:6px
+        }
+    </style>
+</head>
+<body>
+    <div class="slide-container">
+        <div class="header-block">
+            <h2>Melhoria 2: script.js — Inteligência</h2>
+        </div>
+        <div class="main-content">
+            <h3>Lógica de Negócios Avançada</h3>
+            <div class="function-list">
+                <div class="function-item">
+                    <span class="function-name">salvarCarro()</span>
+                    <span class="function-desc">Cálculo dinâmico de custo real por KM (Combustível + Custos Fixos + Depreciação).</span>
+                </div>
+                <div class="function-item">
+                    <span class="function-name">avaliarCorrida()</span>
+                    <span class="function-desc">Integração frontend-backend para processamento de ofertas em tempo real.</span>
+                </div>
+                <div class="function-item">
+                    <span class="function-name">gerarAnaliseGeral()</span>
+                    <span class="function-desc">IA Local que interpreta o histórico de jornadas e sugere melhorias de performance.</span>
+                </div>
+            </div>
+        </div>
+        <div class="side-content">
+            <div class="algo-box">
+                <span class="algo-title">Algoritmo de Avaliação</span>
+                <div class="algo-step"><span class="step-num">01</span><span>Ponderação de Lucro/Hora (35%) e Lucro/KM (30%).</span></div>
+                <div class="algo-step"><span class="step-num">02</span><span>Análise de Destino e Histórico de Região (20%).</span></div>
+                <div class="algo-step"><span class="step-num">03</span><span>Cálculo de Densidade de Trânsito (Tempo/KM) (10%).</span></div>
+                <div class="algo-step"><span class="step-num">04</span><span>Fator de Eventos e Demanda Local (5%).</span></div>
+            </div>
+        </div>
+        <div class="footer-block">UberMax IA Presentation | Lógica e Algoritmos</div>
+    </div>
+</body>
+</html>

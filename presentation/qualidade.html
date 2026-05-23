@@ -1,0 +1,160 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@900&family=JetBrains+Mono&display=swap" rel="stylesheet">
+    <style>
+        body { margin: 0; }
+        .slide-container {
+            width: 1280px;
+            min-height: 720px;
+            background-color: #FFFFFF;
+            color: #0F172A;
+            font-family: 'JetBrains Mono', monospace;
+            display: grid;
+            grid-template-columns: repeat(12, 1fr);
+            grid-template-rows: repeat(8, 1fr);
+            border: 20px solid #0F172A;
+            box-sizing: border-box;
+        }
+        .header-block {
+            grid-column: 1 / 13;
+            grid-row: 1 / 2;
+            border-bottom: 1px solid #0F172A;
+            padding-top: 20px;
+            padding-left: 40px;
+            background-color: #0F172A;
+            color: #FFFFFF;
+        }
+        h2 {
+            font-family: 'Montserrat', sans-serif;
+            font-weight: 900;
+            font-size: 32px;
+            text-transform: uppercase;
+            margin: 0;
+        }
+        .main-content {
+            grid-column: 1 / 9;
+            grid-row: 2 / 8;
+            border-right: 1px solid #0F172A;
+            padding-top: 30px;
+            padding-left: 40px;
+            padding-right: 30px;
+        }
+        .side-content {
+            grid-column: 9 / 13;
+            grid-row: 2 / 8;
+            padding-top: 30px;
+            padding-left: 30px;
+            padding-right: 30px;
+            background-color: #F8FAF8;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+        }
+        h3 {
+            font-family: 'Montserrat', sans-serif;
+            font-size: 22px;
+            font-weight: 900;
+            text-transform: uppercase;
+            margin-bottom: 20px;
+            color: #10B981;
+        }
+        .test-item {
+            border: 1px solid #0F172A;
+            margin-bottom: 15px;
+            padding-top: 12px;
+            padding-left: 15px;
+            padding-right: 15px;
+            display: flex;
+            align-items: center;
+            gap: 15px;
+        }
+        .status-tag {
+            background-color: #10B981;
+            color: white;
+            font-weight: bold;
+            padding: 4px 8px;
+            font-size: 12px;
+            text-transform: uppercase;
+        }
+        .test-info {
+            font-size: 16px;
+            font-weight: bold;
+        }
+        .stat-box {
+            border: 1px solid #0F172A;
+            padding: 20px;
+            text-align: center;
+            background-color: #FFFFFF;
+        }
+        .stat-num {
+            font-family: 'Montserrat', sans-serif;
+            font-size: 64px;
+            font-weight: 900;
+            color: #10B981;
+            display: block;
+            line-height: 1;
+        }
+        .stat-label {
+            font-size: 14px;
+            text-transform: uppercase;
+            font-weight: bold;
+            margin-top: 10px;
+            display: block;
+        }
+        .footer-block {
+            grid-column: 1 / 13;
+            grid-row: 8 / 9;
+            border-top: 1px solid #0F172A;
+            display: flex;
+            align-items: center;
+            padding-left: 40px;
+            font-size: 14px;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+    </style>
+</head>
+<body>
+    <div class="slide-container">
+        <div class="header-block">
+            <h2>Testes e Qualidade</h2>
+        </div>
+        <div class="main-content">
+            <h3>Garantindo a Estabilidade</h3>
+            <div class="test-item">
+                <div class="status-tag">Passou</div>
+                <div class="test-info">Testes Unitários de Lógica do Backend</div>
+            </div>
+            <div class="test-item">
+                <div class="status-tag">Passou</div>
+                <div class="test-info">Validação de IDs e Referências Frontend</div>
+            </div>
+            <div class="test-item">
+                <div class="status-tag">Passou</div>
+                <div class="test-info">Verificação de Sintaxe JS (Node --check)</div>
+            </div>
+            <div class="test-item">
+                <div class="status-tag">Passou</div>
+                <div class="test-info">Consistência de Rotas API (Front vs Back)</div>
+            </div>
+            <div class="test-item">
+                <div class="status-tag">Passou</div>
+                <div class="test-info">Validação de Estrutura HTML5 Semântica</div>
+            </div>
+        </div>
+        <div class="side-content">
+            <div class="stat-box">
+                <span class="stat-num">16/16</span>
+                <span class="stat-label">Testes Aprovados</span>
+            </div>
+            <p style="font-size: 14px; line-height: 1.4; margin-top: 20px; text-align: center;">
+                Cobertura completa das funções críticas de cálculo e avaliação de corridas.
+            </p>
+        </div>
+        <div class="footer-block">
+            UberMax IA Presentation | Qualidade e Estabilidade
+        </div>
+    </div>
+</body>
+</html>
