@@ -1,6 +1,7 @@
-// ============================================
-// MOTORISTA ONE - JAVASCRIPT CORE
-// ============================================
+// =========================================================
+// UberMax - JAVASCRIPT CORE
+// Simulador de Corridas para Motoristas
+// =========================================================
 
 const state = {
     usuario: null,
@@ -42,26 +43,17 @@ function configurarEventListeners() {
     document.getElementById('formCarro')?.addEventListener('submit', salvarCarro);
     document.getElementById('formCorrida')?.addEventListener('submit', avaliarCorrida);
 
-    // IA Assistant
-    document.getElementById('btnSendIA')?.addEventListener('click', enviarMensagemIA);
-    document.getElementById('iaInput')?.addEventListener('keypress', (e) => {
-        if (e.key === 'Enter') enviarMensagemIA();
-    });
-
-    document.getElementById('btnMicrophone')?.addEventListener('click', iniciarReconhecimentoVoz);
-
     // Relatórios
-    document.getElementById('btnExportPDF')?.addEventListener('click', exportarPDF);
     document.getElementById('btnExportCSV')?.addEventListener('click', exportarCSV);
+    document.getElementById('btnLimparHistorico')?.addEventListener('click', limparHistorico);
 
     // Configurações
-    document.getElementById('btnSalvarPerfil')?.addEventListener('click', salvarPerfil);
     document.getElementById('btnLimparDados')?.addEventListener('click', limparDados);
 }
 
-// ============================================
+// =========================================================
 // LANDING PAGE
-// ============================================
+// =========================================================
 
 function mostrarLandingPage() {
     document.getElementById('landingPage').classList.remove('hidden');
@@ -70,8 +62,8 @@ function mostrarLandingPage() {
 
 function abrirApp() {
     state.usuario = {
-        nome: 'Usuário',
-        email: 'usuario@ubermax-ia.com',
+        nome: 'Motorista',
+        email: 'usuario@ubermax.local',
         id: 1
     };
     
@@ -92,9 +84,9 @@ function logout() {
     mostrarLandingPage();
 }
 
-// ============================================
+// =========================================================
 // NAVIGATION
-// ============================================
+// =========================================================
 
 function mudarAba(tabName) {
     document.querySelectorAll('.tab-content').forEach(tab => {
@@ -117,12 +109,9 @@ function mudarAba(tabName) {
     
     const titles = {
         'dashboard': 'Dashboard',
-        'copiloto': 'Copiloto',
+        'copiloto': 'Simulador',
         'km-real': 'KM Real',
-        'ia-assistant': 'Assistente IA',
-        'smart-planner': 'Smart Planner',
         'historico': 'Histórico',
-        'relatorios': 'Relatórios',
         'configuracoes': 'Configurações'
     };
     
@@ -139,161 +128,55 @@ function mudarAba(tabName) {
     }
 }
 
-// ============================================
+// =========================================================
 // DASHBOARD
-// ============================================
+// =========================================================
 
 function atualizarDashboard() {
-    const totalGanho = state.corridas.reduce((sum, c) => sum + (c.valor || 0), 0);
+    const totalGanho = state.corridas.reduce((sum, c) => sum + (c.lucro || 0), 0);
     const totalKm = state.corridas.reduce((sum, c) => sum + (c.distancia || 0), 0);
-    const notaMedia = state.corridas.length > 0 
-        ? (state.corridas.reduce((sum, c) => sum + (c.nota || 0), 0) / state.corridas.length).toFixed(1)
-        : 0;
+    const totalSimulacoes = state.corridas.length;
     
     document.getElementById('ganhoTotal').textContent = `R$ ${totalGanho.toFixed(2)}`;
     document.getElementById('kmRodados').textContent = `${totalKm.toFixed(1)} km`;
-    document.getElementById('notaMedia').textContent = notaMedia;
+    document.getElementById('totalSimulacoes').textContent = totalSimulacoes;
     document.getElementById('custoKm').textContent = `R$ ${state.custoKmReal.toFixed(2)}`;
     
     atualizarTabelaCorridasRecentes();
-    
-    setTimeout(() => {
-        criarGraficoGanhosCustos();
-        criarGraficoRecomendacoes();
-    }, 100);
 }
 
 function atualizarTabelaCorridasRecentes() {
     const tbody = document.getElementById('tabelaCorridasRecentes');
     
     if (state.corridas.length === 0) {
-        tbody.innerHTML = '<tr><td colspan="7" class="empty-state">Nenhuma corrida avaliada ainda</td></tr>';
+        tbody.innerHTML = '<tr><td colspan="6" class="empty-state">Nenhuma simulação realizada ainda</td></tr>';
         return;
     }
     
-    const recentes = state.corridas.slice(-5).reverse();
+    const recentes = state.corridas.slice(-10).reverse();
     tbody.innerHTML = recentes.map(corrida => `
         <tr>
             <td>${new Date(corrida.data).toLocaleDateString('pt-BR')}</td>
-            <td>${corrida.origem}</td>
-            <td>${corrida.destino}</td>
             <td>R$ ${corrida.valor.toFixed(2)}</td>
+            <td>${corrida.distancia.toFixed(1)} km</td>
+            <td>${corrida.tempo} min</td>
             <td>R$ ${corrida.lucro.toFixed(2)}</td>
-            <td>${corrida.nota.toFixed(1)}</td>
             <td><span class="badge ${corrida.recomendacao}">${corrida.recomendacao.toUpperCase()}</span></td>
         </tr>
     `).join('');
 }
 
-function criarGraficoGanhosCustos() {
-    const ctx = document.getElementById('ganhosCustosChart');
-    if (!ctx) return;
-    
-    if (state.charts.ganhosCustos) {
-        state.charts.ganhosCustos.destroy();
-    }
-    
-    const ultimos7Dias = [];
-    for (let i = 6; i >= 0; i--) {
-        const data = new Date();
-        data.setDate(data.getDate() - i);
-        ultimos7Dias.push(data.toLocaleDateString('pt-BR', { weekday: 'short' }));
-    }
-    
-    const ganhosPorDia = ultimos7Dias.map((_, i) => Math.random() * 500 + 100);
-    const custosPorDia = ultimos7Dias.map((_, i) => Math.random() * 200 + 50);
-    
-    state.charts.ganhosCustos = new Chart(ctx, {
-        type: 'bar',
-        data: {
-            labels: ultimos7Dias,
-            datasets: [
-                {
-                    label: 'Ganhos',
-                    data: ganhosPorDia,
-                    backgroundColor: 'rgba(67, 233, 123, 0.8)',
-                    borderColor: 'rgba(67, 233, 123, 1)',
-                    borderWidth: 1,
-                    borderRadius: 6
-                },
-                {
-                    label: 'Custos',
-                    data: custosPorDia,
-                    backgroundColor: 'rgba(245, 87, 108, 0.8)',
-                    borderColor: 'rgba(245, 87, 108, 1)',
-                    borderWidth: 1,
-                    borderRadius: 6
-                }
-            ]
-        },
-        options: {
-            responsive: true,
-            maintainAspectRatio: false,
-            plugins: {
-                legend: {
-                    display: true,
-                    position: 'top'
-                }
-            },
-            scales: {
-                y: {
-                    beginAtZero: true
-                }
-            }
-        }
-    });
-}
-
-function criarGraficoRecomendacoes() {
-    const ctx = document.getElementById('recomendacoesChart');
-    if (!ctx) return;
-    
-    if (state.charts.recomendacoes) {
-        state.charts.recomendacoes.destroy();
-    }
-    
-    const aceitar = state.corridas.filter(c => c.recomendacao === 'aceitar').length;
-    const pensar = state.corridas.filter(c => c.recomendacao === 'pensar').length;
-    const evitar = state.corridas.filter(c => c.recomendacao === 'evitar').length;
-    
-    state.charts.recomendacoes = new Chart(ctx, {
-        type: 'doughnut',
-        data: {
-            labels: ['Aceitar', 'Pensar', 'Evitar'],
-            datasets: [{
-                data: [aceitar, pensar, evitar],
-                backgroundColor: [
-                    'rgba(67, 233, 123, 0.8)',
-                    'rgba(245, 87, 108, 0.8)',
-                    'rgba(160, 174, 192, 0.8)'
-                ],
-                borderColor: [
-                    'rgba(67, 233, 123, 1)',
-                    'rgba(245, 87, 108, 1)',
-                    'rgba(160, 174, 192, 1)'
-                ],
-                borderWidth: 2
-            }]
-        },
-        options: {
-            responsive: true,
-            maintainAspectRatio: false,
-            plugins: {
-                legend: {
-                    display: true,
-                    position: 'bottom'
-                }
-            }
-        }
-    });
-}
-
-// ============================================
-// KM REAL
-// ============================================
+// =========================================================
+// KM REAL - CONFIGURAÇÃO DO VEÍCULO
+// =========================================================
 
 function carregarFormularioCarro() {
     if (state.carro) {
+        document.getElementById('avisoCustoKm').classList.remove('alert-info');
+        document.getElementById('avisoCustoKm').classList.add('alert-success');
+        document.getElementById('textoAvisoCustoKm').textContent = `Seu custo/km configurado: R$ ${state.custoKmReal.toFixed(2)}`;
+        
+        // Preencher formulário com dados salvos
         document.getElementById('modelo').value = state.carro.modelo || '';
         document.getElementById('tipoCombustivel').value = state.carro.tipoCombustivel || '';
         document.getElementById('consumoMedio').value = state.carro.consumoMedio || '';
@@ -306,15 +189,17 @@ function carregarFormularioCarro() {
         document.getElementById('oleoRevisao').value = state.carro.oleoRevisao || '';
         document.getElementById('financiamento').value = state.carro.financiamento || '';
         document.getElementById('depreciacao').value = state.carro.depreciacao || '';
-        
-        mostrarResultadoCarro();
+    } else {
+        document.getElementById('avisoCustoKm').classList.add('alert-info');
+        document.getElementById('avisoCustoKm').classList.remove('alert-success');
+        document.getElementById('textoAvisoCustoKm').textContent = 'Nenhum carro configurado. Configure em KM Real para cálculos precisos.';
     }
 }
 
 function salvarCarro(e) {
     e.preventDefault();
     
-    state.carro = {
+    const carro = {
         modelo: document.getElementById('modelo').value,
         tipoCombustivel: document.getElementById('tipoCombustivel').value,
         consumoMedio: parseFloat(document.getElementById('consumoMedio').value),
@@ -329,115 +214,42 @@ function salvarCarro(e) {
         depreciacao: parseFloat(document.getElementById('depreciacao').value) || 0
     };
     
-    calcularCustoKmReal();
-    mostrarResultadoCarro();
+    // Calcular custo por km
+    const custoCombustivelKm = carro.precoCombustivel / carro.consumoMedio;
+    
+    const custoFixoMensal = 
+        carro.seguro +
+        (carro.ipva / 12) +
+        carro.manutencao +
+        (carro.pneus / 12) +
+        (carro.oleoRevisao / 12) +
+        carro.financiamento +
+        carro.depreciacao;
+    
+    const custoFixoKm = custoFixoMensal / carro.kmMediaMes;
+    const custoTotalKm = custoCombustivelKm + custoFixoKm;
+    
+    state.carro = carro;
+    state.custoKmReal = custoTotalKm;
     salvarDados();
-    mostrarAlerta('Carro configurado com sucesso!', 'success');
-}
-
-function calcularCustoKmReal() {
-    if (!state.carro) return;
     
-    const { consumoMedio, precoCombustivel, kmMediaMes, seguro, ipva, manutencao, pneus, oleoRevisao, financiamento, depreciacao } = state.carro;
-    
-    const custoCombustivelKm = precoCombustivel / consumoMedio;
-    const custoFixoMensal = seguro + (ipva / 12) + manutencao + (pneus / 12) + (oleoRevisao / 12) + financiamento + depreciacao;
-    const custoFixoKm = custoFixoMensal / kmMediaMes;
-    
-    state.custoKmReal = custoCombustivelKm + custoFixoKm;
-    
-    state.custoBreakdown = {
-        combustivel: custoCombustivelKm,
-        seguro: (seguro / kmMediaMes),
-        ipva: ((ipva / 12) / kmMediaMes),
-        manutencao: (manutencao / kmMediaMes),
-        pneus: ((pneus / 12) / kmMediaMes),
-        oleoRevisao: ((oleoRevisao / 12) / kmMediaMes),
-        financiamento: (financiamento / kmMediaMes),
-        depreciacao: (depreciacao / kmMediaMes)
-    };
-}
-
-function mostrarResultadoCarro() {
-    const resultContainer = document.getElementById('resultadoCarro');
-    resultContainer.style.display = 'block';
-    
-    const custoCombustivelKm = state.custoBreakdown.combustivel;
-    const custoFixoKm = state.custoKmReal - custoCombustivelKm;
-    
+    // Mostrar resultado
     document.getElementById('custoCombustivelKm').textContent = `R$ ${custoCombustivelKm.toFixed(2)}`;
     document.getElementById('custoFixoKm').textContent = `R$ ${custoFixoKm.toFixed(2)}`;
-    document.getElementById('custoTotalKm').textContent = `R$ ${state.custoKmReal.toFixed(2)}`;
+    document.getElementById('custoTotalKm').textContent = `R$ ${custoTotalKm.toFixed(2)}`;
+    document.getElementById('resultadoCarro').style.display = 'block';
     
-    criarGraficoBreakdownCarro();
+    // Atualizar aviso no formulário de corrida
+    document.getElementById('avisoCustoKm').classList.remove('alert-info');
+    document.getElementById('avisoCustoKm').classList.add('alert-success');
+    document.getElementById('textoAvisoCustoKm').textContent = `Seu custo/km configurado: R$ ${state.custoKmReal.toFixed(2)}`;
+    
+    alert('Configuração de veículo salva com sucesso!');
 }
 
-function criarGraficoBreakdownCarro() {
-    const ctx = document.getElementById('breakdownChart');
-    if (!ctx) return;
-    
-    if (state.charts.breakdown) {
-        state.charts.breakdown.destroy();
-    }
-    
-    const breakdown = state.custoBreakdown;
-    const labels = ['Combustível', 'Seguro', 'IPVA', 'Manutenção', 'Pneus', 'Óleo', 'Financiamento', 'Depreciação'];
-    const data = [
-        breakdown.combustivel,
-        breakdown.seguro,
-        breakdown.ipva,
-        breakdown.manutencao,
-        breakdown.pneus,
-        breakdown.oleoRevisao,
-        breakdown.financiamento,
-        breakdown.depreciacao
-    ];
-    
-    state.charts.breakdown = new Chart(ctx, {
-        type: 'doughnut',
-        data: {
-            labels: labels,
-            datasets: [{
-                data: data,
-                backgroundColor: [
-                    'rgba(102, 126, 234, 0.8)',
-                    'rgba(118, 75, 162, 0.8)',
-                    'rgba(240, 147, 251, 0.8)',
-                    'rgba(67, 233, 123, 0.8)',
-                    'rgba(56, 249, 215, 0.8)',
-                    'rgba(79, 172, 254, 0.8)',
-                    'rgba(245, 87, 108, 0.8)',
-                    'rgba(255, 187, 51, 0.8)'
-                ],
-                borderColor: [
-                    'rgba(102, 126, 234, 1)',
-                    'rgba(118, 75, 162, 1)',
-                    'rgba(240, 147, 251, 1)',
-                    'rgba(67, 233, 123, 1)',
-                    'rgba(56, 249, 215, 1)',
-                    'rgba(79, 172, 254, 1)',
-                    'rgba(245, 87, 108, 1)',
-                    'rgba(255, 187, 51, 1)'
-                ],
-                borderWidth: 2
-            }]
-        },
-        options: {
-            responsive: true,
-            maintainAspectRatio: false,
-            plugins: {
-                legend: {
-                    display: true,
-                    position: 'right'
-                }
-            }
-        }
-    });
-}
-
-// ============================================
-// COPILOTO
-// ============================================
+// =========================================================
+// SIMULADOR DE CORRIDAS
+// =========================================================
 
 function carregarFormularioCorrida() {
     if (state.carro) {
@@ -459,8 +271,8 @@ function avaliarCorrida(e) {
         valor: parseFloat(document.getElementById('valorCorrida').value),
         distancia: parseFloat(document.getElementById('distancia').value),
         tempo: parseFloat(document.getElementById('tempo').value),
-        origem: document.getElementById('origem').value,
-        destino: document.getElementById('destino').value,
+        origem: document.getElementById('origem').value || 'Origem desconhecida',
+        destino: document.getElementById('destino').value || 'Destino desconhecido',
         categoria: document.getElementById('categoria').value,
         observacao: document.getElementById('observacao').value
     };
@@ -479,361 +291,235 @@ function avaliarCorrida(e) {
 }
 
 function calcularAvaliacaoCorrida(corrida) {
-    let nota = 0;
-    let motivo = [];
+    // Lógica de classificação baseada em critérios reais
+    let recomendacao = 'MEIO_TERMO';
+    let motivos = [];
     
+    // Critérios principais
     const lucroHoraIdeal = 50;
-    const scoreLucroHora = Math.min((corrida.lucroHora / lucroHoraIdeal) * 100, 100);
-    nota += scoreLucroHora * 0.35;
-    
     const lucroKmIdeal = 2;
-    const scoreLucroKm = Math.min((corrida.lucroKm / lucroKmIdeal) * 100, 100);
-    nota += scoreLucroKm * 0.30;
     
-    const distanciaIdeal = 10;
-    const scoreDistancia = Math.max(100 - (Math.abs(corrida.distancia - distanciaIdeal) / distanciaIdeal) * 50, 0);
-    nota += scoreDistancia * 0.15;
-    
-    const velocidadeIdeal = 40;
-    const scoreVelocidade = Math.max(100 - (Math.abs(corrida.velocidadeMedia - velocidadeIdeal) / velocidadeIdeal) * 50, 0);
-    nota += scoreVelocidade * 0.10;
-    
-    const valorIdeal = 25;
-    const scoreValor = Math.min((corrida.valor / valorIdeal) * 100, 100);
-    nota += scoreValor * 0.10;
-    
-    corrida.nota = Math.round(nota);
-    
-    if (corrida.nota >= 70) {
-        corrida.recomendacao = 'aceitar';
-        motivo.push('Ótima oportunidade!');
-    } else if (corrida.nota >= 50) {
-        corrida.recomendacao = 'pensar';
-        motivo.push('Corrida mediana');
+    // Verificar se compensa
+    if (corrida.lucroHora >= lucroHoraIdeal && corrida.lucroKm >= lucroKmIdeal) {
+        recomendacao = 'COMPENSA';
+        motivos.push('Lucro/hora e lucro/km acima do esperado');
+    } else if (corrida.lucroHora < 30 || corrida.lucroKm < 1 || corrida.lucro < 5) {
+        recomendacao = 'NAO_COMPENSA';
+        motivos.push('Lucro insuficiente para o esforço');
     } else {
-        corrida.recomendacao = 'evitar';
-        motivo.push('Não compensa');
+        recomendacao = 'MEIO_TERMO';
+        motivos.push('Corrida aceitável, mas não excelente');
     }
     
-    if (corrida.lucroHora < 30) motivo.push('Lucro/hora baixo');
-    if (corrida.lucroKm < 1) motivo.push('Lucro/km insuficiente');
-    if (corrida.distancia > 20) motivo.push('Distância longa');
-    if (corrida.velocidadeMedia < 20) motivo.push('Trânsito intenso');
+    // Detalhes adicionais
+    if (corrida.lucroHora < 30) motivos.push('Lucro/hora baixo');
+    if (corrida.lucroKm < 1) motivos.push('Lucro/km insuficiente');
+    if (corrida.distancia > 20) motivos.push('Distância longa');
+    if (corrida.velocidadeMedia < 20) motivos.push('Velocidade média baixa (trânsito?)');
+    if (corrida.lucro <= 0) motivos.push('Sem lucro ou prejuízo');
     
-    corrida.motivo = motivo.join(' • ');
+    corrida.recomendacao = recomendacao;
+    corrida.motivos = motivos;
+    
+    // Calcular nota de 0 a 100
+    let nota = 50; // Base
+    
+    if (corrida.lucroHora >= lucroHoraIdeal) {
+        nota += 25;
+    } else if (corrida.lucroHora >= 30) {
+        nota += 15;
+    } else if (corrida.lucroHora >= 20) {
+        nota += 5;
+    }
+    
+    if (corrida.lucroKm >= lucroKmIdeal) {
+        nota += 25;
+    } else if (corrida.lucroKm >= 1) {
+        nota += 15;
+    } else if (corrida.lucroKm >= 0.5) {
+        nota += 5;
+    }
+    
+    corrida.nota = Math.min(Math.max(nota, 0), 100);
 }
 
 function mostrarResultadoCorrida(corrida) {
     const resultContainer = document.getElementById('resultadoCorrida');
     resultContainer.style.display = 'block';
     
-    document.getElementById('notaValor').textContent = corrida.nota;
+    // Nota
+    document.getElementById('notaValor').textContent = Math.round(corrida.nota);
     
+    // Progresso circular
     const circle = document.querySelector('.progress-fill');
-    const circumference = 2 * Math.PI * 45;
-    const offset = circumference - (corrida.nota / 100) * circumference;
-    circle.style.strokeDasharray = circumference;
-    circle.style.strokeDashoffset = offset;
+    if (circle) {
+        const circumference = 2 * Math.PI * 45;
+        const offset = circumference - (corrida.nota / 100) * circumference;
+        circle.style.strokeDasharray = circumference;
+        circle.style.strokeDashoffset = offset;
+    }
     
+    // Badge de recomendação
     const badge = document.getElementById('badgeRecomendacao');
-    badge.textContent = corrida.recomendacao.toUpperCase();
-    badge.className = `badge ${corrida.recomendacao}`;
-    
-    const textoRecomendacao = {
-        'aceitar': '✅ Aceite esta corrida! Ótima oportunidade de ganho.',
-        'pensar': '⚠️ Pense bem. Corrida mediana, considere outras opções.',
-        'evitar': '❌ Evite. Não compensa o custo e tempo investido.'
+    const recomendacaoTexto = {
+        'COMPENSA': '✅ COMPENSA',
+        'MEIO_TERMO': '⚠️ MEIO TERMO',
+        'NAO_COMPENSA': '❌ NÃO COMPENSA'
     };
     
-    document.getElementById('textoRecomendacao').textContent = textoRecomendacao[corrida.recomendacao];
+    badge.textContent = recomendacaoTexto[corrida.recomendacao] || 'ANALISAR';
+    badge.className = `badge ${corrida.recomendacao.toLowerCase()}`;
     
+    // Texto de recomendação
+    const textoDetalhado = {
+        'COMPENSA': 'Ótima oportunidade! Esta corrida oferece bom lucro considerando tempo e distância.',
+        'MEIO_TERMO': 'Corrida aceitável. Considere se vale a pena neste momento.',
+        'NAO_COMPENSA': 'Não compensa. O lucro é baixo demais para o tempo e custo investido.'
+    };
+    
+    document.getElementById('textoRecomendacao').textContent = textoDetalhado[corrida.recomendacao] || 'Análise concluída';
+    
+    // Detalhes
     document.getElementById('lucroEstimado').textContent = `R$ ${corrida.lucro.toFixed(2)}`;
     document.getElementById('lucroHora').textContent = `R$ ${corrida.lucroHora.toFixed(2)}`;
     document.getElementById('lucroKm').textContent = `R$ ${corrida.lucroKm.toFixed(2)}`;
-    document.getElementById('motivoAvaliacao').textContent = corrida.motivo || '-';
+    document.getElementById('custoCorrida').textContent = `R$ ${(corrida.distancia * state.custoKmReal).toFixed(2)}`;
     
-    mostrarAlerta(`Corrida avaliada: ${corrida.recomendacao.toUpperCase()}`, 'success');
-}
-
-// ============================================
-// IA ASSISTANT
-// ============================================
-
-function enviarMensagemIA() {
-    const input = document.getElementById('iaInput');
-    const mensagem = input.value.trim();
+    // Motivos
+    document.getElementById('motivoAnalise').textContent = corrida.motivos.join(' • ');
     
-    if (!mensagem) return;
-    
-    adicionarMensagemChat('user', mensagem);
-    input.value = '';
-    processarComandoIA(mensagem);
-}
-
-function adicionarMensagemChat(tipo, texto) {
-    const chatMessages = document.getElementById('chatMessages');
-    const messageDiv = document.createElement('div');
-    messageDiv.className = `message ${tipo}`;
-    
-    const p = document.createElement('p');
-    p.textContent = texto;
-    
-    messageDiv.appendChild(p);
-    chatMessages.appendChild(messageDiv);
-    chatMessages.scrollTop = chatMessages.scrollHeight;
-}
-
-function processarComandoIA(mensagem) {
-    const msg = mensagem.toLowerCase();
-    let resposta = '';
-    
-    if (msg.includes('trabalhei') && msg.includes('fiz')) {
-        const horas = extrairNumero(msg, 'trabalhei');
-        const valor = extrairNumero(msg, 'fiz');
-        
-        if (horas && valor) {
-            resposta = `Entendido! R$ ${(valor / horas).toFixed(2)}/hora. Quer que eu salve esse turno agora?`;
-            window.turnoTemp = { horas, valor };
-        }
-    } else if (msg.includes('sim') && window.turnoTemp) {
-        resposta = `Salvo ✓ — Lucro: R$ ${window.turnoTemp.valor.toFixed(2)} · R$ ${(window.turnoTemp.valor / window.turnoTemp.horas).toFixed(2)}/hora. Tudo certo?`;
-        window.turnoTemp = null;
-    } else if (msg.includes('copiloto')) {
-        resposta = 'O Copiloto do UberMax IA analisa cada corrida em tempo real e te diz se vale a pena aceitar. Veja a aba "Copiloto" para testar!';
-    } else if (msg.includes('km real')) {
-        resposta = 'KM Real do UberMax IA calcula seu custo verdadeiro por km, incluindo combustível, depreciação, IPVA, seguro, pneus e óleo. Configure na aba "KM Real"!';
-    } else if (msg.includes('meta')) {
-        resposta = 'No UberMax IA, você pode definir metas diárias e semanais na aba "Smart Planner". Acompanhe seu progresso em tempo real!';
-    } else if (msg.includes('ajuda')) {
-        resposta = 'Sou o Assistente do UberMax IA. Posso ajudar você com:\n• 📊 Registrar ganhos e despesas\n• 💰 Calcular lucro de corridas\n• 📈 Analisar produtividade\n• 🎯 Definir metas\n• ❓ Tirar dúvidas sobre o app';
-    } else {
-        resposta = 'Desculpe, não entendi. Sou o Assistente do UberMax IA. Tente falar sobre seus ganhos, corridas, metas ou pedir ajuda sobre o app!';
-    }
-    
+    // Scroll para resultado
     setTimeout(() => {
-        adicionarMensagemChat('bot', resposta);
-    }, 500);
+        resultContainer.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
+    }, 100);
 }
 
-function extrairNumero(texto, palavra) {
-    const regex = new RegExp(`${palavra}\\s+(\\d+(?:[.,]\\d+)?)`);
-    const match = texto.match(regex);
-    return match ? parseFloat(match[1].replace(',', '.')) : null;
+function salvarCorrida() {
+    alert('Simulação salva no histórico!');
+    document.getElementById('resultadoCorrida').style.display = 'none';
+    document.getElementById('formCorrida').reset();
+    carregarHistorico();
 }
 
-function iniciarReconhecimentoVoz() {
-    const SpeechRecognition = window.SpeechRecognition || window.webkitSpeechRecognition;
-    
-    if (!SpeechRecognition) {
-        mostrarAlerta('Reconhecimento de voz não suportado neste navegador', 'warning');
-        return;
-    }
-    
-    const recognition = new SpeechRecognition();
-    recognition.lang = 'pt-BR';
-    
-    recognition.onstart = () => {
-        document.getElementById('btnMicrophone').style.opacity = '0.5';
-    };
-    
-    recognition.onresult = (event) => {
-        const transcript = event.results[0][0].transcript;
-        document.getElementById('iaInput').value = transcript;
-        document.getElementById('btnMicrophone').style.opacity = '1';
-    };
-    
-    recognition.onerror = () => {
-        document.getElementById('btnMicrophone').style.opacity = '1';
-    };
-    
-    recognition.start();
-}
-
-// ============================================
+// =========================================================
 // HISTÓRICO
-// ============================================
+// =========================================================
 
 function carregarHistorico() {
-    const historicoList = document.getElementById('historicoList');
+    const tbody = document.getElementById('tabelaHistorico');
     
     if (state.corridas.length === 0) {
-        historicoList.innerHTML = '<div class="empty-state"><i class="fas fa-inbox"></i><p>Nenhuma corrida avaliada ainda</p></div>';
+        tbody.innerHTML = '<tr><td colspan="8" class="empty-state">Nenhuma simulação no histórico</td></tr>';
         return;
     }
     
-    const filtroMes = document.getElementById('filtroMes')?.value || '';
-    const filtroRecomendacao = document.getElementById('filtroRecomendacao')?.value || '';
-    
-    let corridas = state.corridas;
-    
-    if (filtroMes) {
-        corridas = corridas.filter(c => new Date(c.data).toISOString().startsWith(filtroMes));
-    }
-    
-    if (filtroRecomendacao) {
-        corridas = corridas.filter(c => c.recomendacao === filtroRecomendacao);
-    }
-    
-    historicoList.innerHTML = corridas.reverse().map(corrida => `
-        <div class="historico-item">
-            <div>
-                <strong>${corrida.origem} → ${corrida.destino}</strong>
-                <p>${new Date(corrida.data).toLocaleDateString('pt-BR')} às ${new Date(corrida.data).toLocaleTimeString('pt-BR', { hour: '2-digit', minute: '2-digit' })}</p>
-            </div>
-            <div>
-                <span class="badge ${corrida.recomendacao}">${corrida.recomendacao.toUpperCase()}</span>
-                <strong>R$ ${corrida.lucro.toFixed(2)}</strong>
-            </div>
-        </div>
+    const historico = state.corridas.slice().reverse();
+    tbody.innerHTML = historico.map((corrida, index) => `
+        <tr>
+            <td>${new Date(corrida.data).toLocaleDateString('pt-BR')}</td>
+            <td>R$ ${corrida.valor.toFixed(2)}</td>
+            <td>${corrida.distancia.toFixed(1)} km</td>
+            <td>${corrida.tempo} min</td>
+            <td>R$ ${corrida.lucro.toFixed(2)}</td>
+            <td>R$ ${corrida.lucroHora.toFixed(2)}</td>
+            <td><span class="badge ${corrida.recomendacao.toLowerCase()}">${corrida.recomendacao.replace('_', ' ')}</span></td>
+            <td>
+                <button class="btn-small" onclick="removerCorrida(${index})">
+                    <i class="fas fa-trash"></i>
+                </button>
+            </td>
+        </tr>
     `).join('');
 }
 
-// ============================================
-// RELATÓRIOS
-// ============================================
-
-function exportarPDF() {
-    const conteudo = `
-RELATÓRIO DE PRODUTIVIDADE - MOTORISTA ONE
-Data: ${new Date().toLocaleDateString('pt-BR')}
-
-RESUMO
-- Total de Corridas: ${state.corridas.length}
-- Ganho Total: R$ ${state.corridas.reduce((sum, c) => sum + c.valor, 0).toFixed(2)}
-- Lucro Total: R$ ${state.corridas.reduce((sum, c) => sum + c.lucro, 0).toFixed(2)}
-- KM Rodados: ${state.corridas.reduce((sum, c) => sum + c.distancia, 0).toFixed(1)} km
-- Nota Média: ${(state.corridas.reduce((sum, c) => sum + c.nota, 0) / state.corridas.length).toFixed(1)}
-
-RECOMENDAÇÕES
-- Aceitar: ${state.corridas.filter(c => c.recomendacao === 'aceitar').length}
-- Pensar: ${state.corridas.filter(c => c.recomendacao === 'pensar').length}
-- Evitar: ${state.corridas.filter(c => c.recomendacao === 'evitar').length}
-
-CUSTO DO VEÍCULO
-- Custo/KM: R$ ${state.custoKmReal.toFixed(2)}
-- Modelo: ${state.carro?.modelo || 'Não configurado'}
-    `;
-    
-    const blob = new Blob([conteudo], { type: 'text/plain' });
-    const url = window.URL.createObjectURL(blob);
-    const a = document.createElement('a');
-    a.href = url;
-    a.download = `relatorio-ubermax-ia-${new Date().toISOString().split('T')[0]}.txt`;
-    a.click();
-    
-    mostrarAlerta('Relatório exportado com sucesso!', 'success');
-}
-
-function exportarCSV() {
-    let csv = 'Data,Origem,Destino,Valor,Lucro,Nota,Recomendação,Lucro/Hora,Lucro/KM\n';
-    
-    state.corridas.forEach(corrida => {
-        csv += `${new Date(corrida.data).toLocaleDateString('pt-BR')},${corrida.origem},${corrida.destino},${corrida.valor},${corrida.lucro},${corrida.nota},${corrida.recomendacao},${corrida.lucroHora},${corrida.lucroKm}\n`;
-    });
-    
-    const blob = new Blob([csv], { type: 'text/csv' });
-    const url = window.URL.createObjectURL(blob);
-    const a = document.createElement('a');
-    a.href = url;
-    a.download = `corridas-ubermax-ia-${new Date().toISOString().split('T')[0]}.csv`;
-    a.click();
-    
-    mostrarAlerta('CSV exportado com sucesso!', 'success');
-}
-
-// ============================================
-// CONFIGURAÇÕES
-// ============================================
-
-function salvarPerfil() {
-    state.usuario.nome = document.getElementById('nomeConfig').value;
-    state.usuario.email = document.getElementById('emailConfig').value;
-    
-    document.getElementById('userName').textContent = state.usuario.nome;
-    salvarDados();
-    
-    mostrarAlerta('Perfil salvo com sucesso!', 'success');
-}
-
-function limparDados() {
-    if (confirm('Tem certeza que deseja limpar todos os dados? Esta ação não pode ser desfeita.')) {
-        state.corridas = [];
-        state.carro = null;
+function removerCorrida(index) {
+    if (confirm('Deseja remover esta simulação?')) {
+        state.corridas.splice(state.corridas.length - 1 - index, 1);
         salvarDados();
-        location.reload();
+        carregarHistorico();
     }
 }
 
-// ============================================
-// UTILITÁRIOS
-// ============================================
-
-function mostrarAlerta(mensagem, tipo = 'info') {
-    const alerta = document.createElement('div');
-    alerta.className = `alert alert-${tipo}`;
-    alerta.style.cssText = `
-        position: fixed;
-        top: 20px;
-        right: 20px;
-        z-index: 9999;
-        animation: slideIn 0.3s ease;
-    `;
-    alerta.innerHTML = `<i class="fas fa-check-circle"></i> <span>${mensagem}</span>`;
-    
-    document.body.appendChild(alerta);
-    
-    setTimeout(() => {
-        alerta.style.animation = 'slideOut 0.3s ease';
-        setTimeout(() => alerta.remove(), 300);
-    }, 3000);
+function limparHistorico() {
+    if (confirm('Deseja limpar todo o histórico de simulações?')) {
+        state.corridas = [];
+        salvarDados();
+        carregarHistorico();
+        atualizarDashboard();
+    }
 }
 
+function exportarCSV() {
+    if (state.corridas.length === 0) {
+        alert('Nenhuma simulação para exportar');
+        return;
+    }
+    
+    let csv = 'Data,Valor,Distância (km),Tempo (min),Lucro,Lucro/Hora,Lucro/km,Recomendação,Origem,Destino\n';
+    
+    state.corridas.forEach(corrida => {
+        csv += `"${new Date(corrida.data).toLocaleDateString('pt-BR')}",`;
+        csv += `"R$ ${corrida.valor.toFixed(2)}",`;
+        csv += `"${corrida.distancia.toFixed(1)}",`;
+        csv += `"${corrida.tempo}",`;
+        csv += `"R$ ${corrida.lucro.toFixed(2)}",`;
+        csv += `"R$ ${corrida.lucroHora.toFixed(2)}",`;
+        csv += `"R$ ${corrida.lucroKm.toFixed(2)}",`;
+        csv += `"${corrida.recomendacao}",`;
+        csv += `"${corrida.origem}",`;
+        csv += `"${corrida.destino}"\n`;
+    });
+    
+    const blob = new Blob([csv], { type: 'text/csv;charset=utf-8;' });
+    const link = document.createElement('a');
+    const url = URL.createObjectURL(blob);
+    
+    link.setAttribute('href', url);
+    link.setAttribute('download', `ubermax_simulacoes_${new Date().toISOString().split('T')[0]}.csv`);
+    link.style.visibility = 'hidden';
+    
+    document.body.appendChild(link);
+    link.click();
+    document.body.removeChild(link);
+}
+
+// =========================================================
+// DADOS LOCAIS
+// =========================================================
+
 function salvarDados() {
-    localStorage.setItem('ubermaxIAData', JSON.stringify({
+    const dados = {
         usuario: state.usuario,
         carro: state.carro,
         corridas: state.corridas,
         custoKmReal: state.custoKmReal
-    }));
+    };
+    localStorage.setItem('ubermax_dados', JSON.stringify(dados));
 }
 
 function carregarDados() {
-    const dados = localStorage.getItem('ubermaxIAData');
+    const dados = localStorage.getItem('ubermax_dados');
     if (dados) {
-        const parsed = JSON.parse(dados);
-        state.usuario = parsed.usuario;
-        state.carro = parsed.carro;
-        state.corridas = parsed.corridas || [];
-        state.custoKmReal = parsed.custoKmReal || 0.87;
-        
-        if (state.carro) {
-            calcularCustoKmReal();
+        try {
+            const parsed = JSON.parse(dados);
+            state.usuario = parsed.usuario;
+            state.carro = parsed.carro;
+            state.corridas = parsed.corridas || [];
+            state.custoKmReal = parsed.custoKmReal || 0.87;
+        } catch (e) {
+            console.error('Erro ao carregar dados:', e);
         }
     }
 }
 
-const style = document.createElement('style');
-style.textContent = `
-    @keyframes slideIn {
-        from {
-            transform: translateX(400px);
-            opacity: 0;
-        }
-        to {
-            transform: translateX(0);
-            opacity: 1;
-        }
+function limparDados() {
+    if (confirm('Deseja limpar TODOS os dados salvos? Esta ação não pode ser desfeita.')) {
+        state.usuario = null;
+        state.carro = null;
+        state.corridas = [];
+        state.custoKmReal = 0.87;
+        localStorage.removeItem('ubermax_dados');
+        alert('Todos os dados foram limpos.');
+        logout();
     }
-    
-    @keyframes slideOut {
-        from {
-            transform: translateX(0);
-            opacity: 1;
-        }
-        to {
-            transform: translateX(400px);
-            opacity: 0;
-        }
-    }
-`;
-document.head.appendChild(style);
+}

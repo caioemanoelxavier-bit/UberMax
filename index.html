@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>UberMax IA - Ganhe Mais, Trabalhe Menos</title>
+    <title>UberMax - Simulador de Corridas para Motoristas</title>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="style.css">
@@ -17,15 +17,15 @@
                 <div class="header-content">
                     <div class="logo">
                         <i class="fas fa-car"></i>
-                        <span>UberMax IA</span>
+                        <span>UberMax</span>
                     </div>
                     <nav class="nav-links">
-                        <a href="#recursos">Recursos</a>
-                        <a href="#precos">Preços</a>
-                        <a href="#depoimentos">Depoimentos</a>
+                        <a href="#simulador">Simulador</a>
+                        <a href="#roadmap">Roadmap</a>
+                        <a href="#futuro">Futuro</a>
                         <a href="#faq">FAQ</a>
                     </nav>
-                    <button class="btn btn-primary" onclick="abrirApp()">Entrar</button>
+                    <button class="btn btn-primary" onclick="abrirApp()">Acessar</button>
                 </div>
             </div>
         </header>
@@ -34,38 +34,21 @@
         <section class="hero">
             <div class="container">
                 <div class="hero-content">
-                    <h1>UberMax IA</h1>
-                    <p class="hero-subtitle">Entrar</p>
-                    <p class="hero-desc">Agora com Assistente de Inteligência Artificial</p>
-                    <h2 class="hero-title">Pare de trabalhar no escuro.</h2>
-                    <p class="hero-text">Saiba quanto você realmente ganha.</p>
-                    <p class="hero-long">O UberMax IA é o único app que analisa cada oferta em tempo real, calcula seu custo verdadeiro por km e ainda te diz quando vale a pena aceitar ou recusar uma corrida.</p>
+                    <div class="badge-pre-launch">
+                        <i class="fas fa-rocket"></i>
+                        Projeto em desenvolvimento
+                    </div>
+                    <h1>UberMax</h1>
+                    <h2 class="hero-title">Calcule se uma corrida compensa antes de aceitar</h2>
+                    <p class="hero-text">Versão inicial para simular corridas e analisar lucro real.</p>
+                    <p class="hero-long">O UberMax é uma ferramenta em construção que ajuda motoristas de aplicativo a tomar decisões melhores. Simule corridas, configure o custo real do seu veículo e descubra se vale a pena aceitar ou recusar cada oferta.</p>
                     
                     <div class="hero-actions">
-                        <button class="btn btn-primary btn-lg" onclick="abrirApp()">Começar Agora</button>
-                        <button class="btn btn-outline btn-lg">Já tenho conta</button>
+                        <button class="btn btn-primary btn-lg" onclick="abrirApp()">Testar Simulador</button>
+                        <a href="#simulador" class="btn btn-outline btn-lg">Ver como funciona</a>
                     </div>
 
-                    <p class="hero-note">Estamos em pré-lançamento fechado. Cadastro liberado em breve.</p>
-                </div>
-
-                <div class="hero-stats">
-                    <div class="stat">
-                        <div class="stat-number">2.300+</div>
-                        <div class="stat-label">Motoristas ativos</div>
-                    </div>
-                    <div class="stat">
-                        <div class="stat-number">R$ 850k+</div>
-                        <div class="stat-label">Em corridas analisadas</div>
-                    </div>
-                    <div class="stat">
-                        <div class="stat-number">4,8★</div>
-                        <div class="stat-label">Avaliação média</div>
-                    </div>
-                    <div class="stat">
-                        <div class="stat-number">12%</div>
-                        <div class="stat-label">A mais por mês em média</div>
-                    </div>
+                    <p class="hero-note">Ferramenta gratuita em fase inicial. Sem cadastro obrigatório.</p>
                 </div>
             </div>
         </section>
@@ -73,136 +56,93 @@
         <!-- Problema Section -->
         <section class="problems">
             <div class="container">
-                <h2>Você provavelmente está perdendo dinheiro agora mesmo</h2>
-                <p>A maioria dos motoristas aceita corridas por impulso, sem saber se elas valem a pena. Resultado? Trabalha mais, ganha menos.</p>
+                <h2>Por que UberMax?</h2>
+                <p>Motoristas de aplicativo frequentemente aceitam corridas sem saber se elas realmente valem a pena.</p>
 
                 <div class="problems-grid">
                     <div class="problem-card">
-                        <div class="problem-icon">😵</div>
-                        <h3>Aceita no automático</h3>
-                        <p>Uma corrida de R$ 8 para 7km parece boa, mas depois do combustível e desgaste, você pode estar lucrando R$ 1,20.</p>
+                        <div class="problem-icon">🤔</div>
+                        <h3>Decisões no automático</h3>
+                        <p>Sem análise rápida, é fácil aceitar corridas que parecem boas mas deixam pouco lucro após custos.</p>
                     </div>
                     <div class="problem-card">
-                        <div class="problem-icon">🕐</div>
-                        <h3>Não sabe o custo real</h3>
-                        <p>Depreciação, IPVA, seguro e pneus custam mais de R$ 0,80 por km. Você inclui isso nas suas contas?</p>
+                        <div class="problem-icon">💰</div>
+                        <h3>Custo real desconhecido</h3>
+                        <p>Combustível, depreciação, IPVA, seguro e manutenção custam mais do que muitos motoristas imaginam.</p>
                     </div>
                     <div class="problem-card">
-                        <div class="problem-icon">📉</div>
-                        <h3>Sem controle financeiro</h3>
-                        <p>Sem registros e relatórios, é impossível saber se você evoluiu ou regrediu de um mês para o outro.</p>
+                        <div class="problem-icon">📊</div>
+                        <h3>Sem controle de dados</h3>
+                        <p>Sem registros, é impossível saber se você está evoluindo ou regredindo ao longo do tempo.</p>
                     </div>
                 </div>
             </div>
         </section>
 
-        <!-- Copiloto Feature -->
-        <section class="feature copiloto">
+        <!-- Simulador Section -->
+        <section class="feature simulador" id="simulador">
             <div class="container">
                 <div class="feature-content">
-                    <h2>RECURSO PRINCIPAL</h2>
-                    <h3>Copiloto — o overlay que analisa cada corrida</h3>
-                    <p>Um card aparece automaticamente sobre a tela de oferta do Uber, 99 e inDrive. Você vê instantaneamente:</p>
+                    <h2>Simulador de Corridas</h2>
+                    <h3>Versão inicial para análise manual</h3>
+                    <p>O UberMax começa com um simulador onde você insere os dados de uma corrida e recebe uma análise sobre se compensa ou não.</p>
                     
-                    <ul class="feature-list">
-                        <li><strong>R$ por km</strong> — vale o desgaste?</li>
-                        <li><strong>R$ por hora</strong> — sua hora está sendo bem paga?</li>
-                        <li><strong>Avaliação do passageiro</strong></li>
-                        <li><strong>Distância e tempo até o pickup</strong></li>
-                        <li><strong>Indicador verde / amarelo / vermelho</strong></li>
-                    </ul>
+                    <div class="simulador-info">
+                        <p><strong>O que você pode fazer agora:</strong></p>
+                        <ul>
+                            <li>Inserir valor da corrida, distância e tempo</li>
+                            <li>Configurar o custo real por km do seu veículo</li>
+                            <li>Receber uma classificação: <strong>COMPENSA</strong>, <strong>MEIO TERMO</strong> ou <strong>NÃO COMPENSA</strong></li>
+                            <li>Ver detalhes de lucro por hora e por km</li>
+                            <li>Histórico local das corridas simuladas</li>
+                        </ul>
+                    </div>
 
-                    <p class="feature-note">Funciona em segundo plano. Você não precisa nem abrir o UberMax IA.</p>
-
-                    <div class="copiloto-card">
-                        <div class="copiloto-header">✗ NÃO COMPENSA</div>
-                        <div class="copiloto-platform">Uber</div>
-                        <div class="copiloto-value">R$ 14,20</div>
-                        <div class="copiloto-distance">10,5 km</div>
-                        <div class="copiloto-time">22 min</div>
-                        
-                        <div class="copiloto-metrics">
-                            <div class="metric">
-                                <span class="metric-label">R$/Km</span>
-                                <span class="metric-value">1,35</span>
+                    <div class="simulador-demo">
+                        <div class="demo-card">
+                            <div class="demo-header">Exemplo de análise</div>
+                            <div class="demo-body">
+                                <div class="demo-row">
+                                    <span>Valor da corrida:</span>
+                                    <strong>R$ 25,00</strong>
+                                </div>
+                                <div class="demo-row">
+                                    <span>Distância:</span>
+                                    <strong>10 km</strong>
+                                </div>
+                                <div class="demo-row">
+                                    <span>Tempo:</span>
+                                    <strong>20 minutos</strong>
+                                </div>
+                                <div class="demo-row">
+                                    <span>Custo/km:</span>
+                                    <strong>R$ 0,87</strong>
+                                </div>
+                                <hr>
+                                <div class="demo-result">
+                                    <div class="result-label">Lucro estimado:</div>
+                                    <div class="result-value">R$ 16,30</div>
+                                    <div class="result-metrics">
+                                        <span>R$ 48,90/hora</span>
+                                        <span>R$ 1,63/km</span>
+                                    </div>
+                                </div>
                             </div>
-                            <div class="metric">
-                                <span class="metric-label">R$/Hora</span>
-                                <span class="metric-value">38,72</span>
-                            </div>
-                            <div class="metric">
-                                <span class="metric-label">R$/Min</span>
-                                <span class="metric-value">0,65</span>
-                            </div>
-                            <div class="metric">
-                                <span class="metric-label">Nota</span>
-                                <span class="metric-value">4,87</span>
-                            </div>
-                        </div>
-
-                        <div class="copiloto-location">
-                            <p><strong>📍 Embarque:</strong> Av. Florianópolis, Cajuru</p>
-                            <p><strong>🏙️ Destino:</strong> R. Brigadeiro Franco, 3204</p>
                         </div>
                     </div>
+
+                    <p class="feature-note"><strong>Nota:</strong> Este é um simulador manual. Você insere os dados e recebe a análise. Não é integrado com apps de corrida em tempo real.</p>
                 </div>
             </div>
         </section>
 
-        <!-- IA Assistant Feature -->
-        <section class="feature ia-assistant">
-            <div class="container">
-                <div class="feature-content">
-                    <h2>NOVIDADE — ASSISTENTE DE IA</h2>
-                    <h3>Converse com seu app.</h3>
-                    <p>A IA que entende motoristas.</p>
-                    <p>Agora o UberMax IA tem um assistente de inteligência artificial dentro do app. Fale ou escreva — ele entende tudo sobre sua rotina como motorista.</p>
-
-                    <div class="ia-chat">
-                        <div class="chat-header">
-                            <i class="fas fa-robot"></i>
-                            <span>Assistente UberMax IA</span>
-                            <span class="status">online</span>
-                        </div>
-                        <div class="chat-messages">
-                            <div class="message user">
-                                <p>Trabalhei 6h hoje e fiz R$ 87</p>
-                            </div>
-                            <div class="message bot">
-                                <p>Entendido! R$ 14,50/hora. Quer que eu salve esse turno agora?</p>
-                            </div>
-                            <div class="message user">
-                                <p>Sim, e gastei R$ 32 de combustível</p>
-                            </div>
-                            <div class="message bot">
-                                <p>Salvo ✓ — Lucro líquido: R$ 55,00 · R$ 9,17/hora líquido. Tudo certo?</p>
-                            </div>
-                        </div>
-                        <div class="chat-input">
-                            <input type="text" placeholder="Fale ou digite comandos...">
-                            <button><i class="fas fa-microphone"></i></button>
-                        </div>
-                    </div>
-
-                    <div class="ia-features">
-                        <p><strong>Fale ou digite comandos</strong> para tirar dúvidas sobre o app</p>
-                        <p><strong>Peça ajuda</strong> sobre Copiloto, KM Real, Smart Planner e mais</p>
-                        <p><strong>Faça lançamentos por voz ou texto</strong> com linguagem natural</p>
-                        <p><strong>A IA interpreta</strong> ganhos, quilômetros, horas e despesas</p>
-                        <p><strong>Revise os dados</strong> detectados e confirme para salvar automaticamente</p>
-                        <p><strong>Botão flutuante AI</strong> disponível nas telas principais do app</p>
-                    </div>
-                </div>
-            </div>
-        </section>
-
-        <!-- KM Real Feature -->
+        <!-- KM Real Section -->
         <section class="feature km-real">
             <div class="container">
                 <div class="feature-content">
-                    <h2>KM REAL</h2>
-                    <h3>Quanto você gasta por km? A resposta vai te surpreender.</h3>
-                    <p>O KM Real calcula o verdadeiro custo por quilômetro rodado levando em conta todos os seus custos reais.</p>
+                    <h2>Calcular Custo Real por KM</h2>
+                    <h3>Configure seu veículo para cálculos precisos</h3>
+                    <p>O primeiro passo é descobrir quanto você realmente gasta por quilômetro rodado. O UberMax ajuda a calcular isso levando em conta todos os seus custos.</p>
 
                     <ul class="km-list">
                         <li>Combustível e consumo</li>
@@ -210,7 +150,7 @@
                         <li>IPVA e licenciamento</li>
                         <li>Seguro mensal</li>
                         <li>Troca de pneus</li>
-                        <li>Troca de óleo</li>
+                        <li>Troca de óleo e revisões</li>
                         <li>Financiamento (se houver)</li>
                     </ul>
 
@@ -243,283 +183,223 @@
                         </div>
                     </div>
 
-                    <p class="km-example">Corrida de R$8 com 7km = R$6,09 de custo → lucro real R$1,91</p>
+                    <p class="km-example">Exemplo: Corrida de R$ 8 com 7km = R$ 6,09 de custo → lucro real R$ 1,91</p>
                 </div>
             </div>
         </section>
 
-        <!-- Recursos Section -->
-        <section class="recursos" id="recursos">
+        <!-- Roadmap Section -->
+        <section class="roadmap" id="roadmap">
             <div class="container">
-                <h2>Tudo que você precisa em um único app</h2>
-                <p>Mais de 12 ferramentas exclusivas para motoristas de aplicativo. Sem complicação, sem mensalidades separadas.</p>
+                <h2>Roadmap - O que vem por aí</h2>
+                <p>O UberMax está em desenvolvimento. Aqui está o plano para as próximas fases.</p>
 
-                <div class="recursos-grid">
-                    <div class="recurso-card">
-                        <h3>Copiloto — Cherry Picker</h3>
-                        <p>Overlay em tempo real sobre cada oferta. Veja R$/km, R$/hora, avaliação e rota antes de aceitar. Filtre corridas ruins automaticamente.</p>
-                    </div>
-                    <div class="recurso-card">
-                        <h3>KM Real</h3>
-                        <p>Descubra seu custo real por km rodado: combustível, depreciação, IPVA, seguro, pneus e óleo. Saiba quanto você realmente lucra.</p>
-                    </div>
-                    <div class="recurso-card">
-                        <h3>Smart Planner</h3>
-                        <p>Planejamento inteligente da sua jornada. Defina metas, veja quando parar e maximize seus ganhos por hora trabalhada.</p>
-                    </div>
-                    <div class="recurso-card">
-                        <h3>Futuro Inteligente</h3>
-                        <p>Transforme suas metas em metas financeiras concretas. Quanto precisa ganhar por dia para realizar seu sonho?</p>
-                    </div>
-                    <div class="recurso-card">
-                        <h3>Regiões & Hotspots</h3>
-                        <p>Saiba onde estão as melhores regiões da cidade para trabalhar. Evite zonas mortas e aumente sua taxa de aceitação.</p>
-                    </div>
-                    <div class="recurso-card">
-                        <h3>Relatórios PDF</h3>
-                        <p>Exporte relatórios completos da sua produtividade. Ideal para declarar IR, controlar finanças e apresentar para contadores.</p>
-                    </div>
-                    <div class="recurso-card">
-                        <h3>Turnos & Jornadas</h3>
-                        <p>Registre e analise cada turno. Veja quais horários e dias da semana você rende mais e tome decisões baseadas em dados.</p>
-                    </div>
-                    <div class="recurso-card">
-                        <h3>Financeiro Pessoal</h3>
-                        <p>Controle receitas e despesas pessoais integradas aos seus ganhos como motorista. Visão 360° das suas finanças.</p>
-                    </div>
-                    <div class="recurso-card">
-                        <h3>Metas Diárias</h3>
-                        <p>Defina metas de ganho diário ou semanal. Acompanhe em tempo real quanto falta para bater a meta e quando parar.</p>
-                    </div>
-                    <div class="recurso-card">
-                        <h3>Veículo & Manutenção</h3>
-                        <p>Registre revisões, trocas de óleo e pneus. Receba alertas de manutenção e controle os custos do seu veículo.</p>
-                    </div>
-                    <div class="recurso-card">
-                        <h3>Histórico de Lançamentos</h3>
-                        <p>Todos os seus ganhos e despesas organizados por período. Filtre, compare e entenda sua evolução financeira.</p>
-                    </div>
-                    <div class="recurso-card">
-                        <h3>Eventos da Cidade</h3>
-                        <p>Fique por dentro de shows, jogos e eventos que geram alta demanda. Esteja no lugar certo na hora certa.</p>
-                    </div>
-                </div>
-            </div>
-        </section>
-
-        <!-- ROI Section -->
-        <section class="roi">
-            <div class="container">
-                <h2>Um investimento que se paga na primeira semana</h2>
-                <p>Com apenas 2-3 corridas filtradas por dia, o app se paga. O restante é lucro puro.</p>
-            </div>
-        </section>
-
-        <!-- Preços Section -->
-        <section class="precos" id="precos">
-            <div class="container">
-                <h2>Escolha seu plano</h2>
-                
-                <div class="precos-grid">
-                    <div class="preco-card">
-                        <h3>PLANO MENSAL</h3>
-                        <div class="preco-valor">R$ 29,90</div>
-                        <div class="preco-periodo">por mês</div>
-                        
-                        <ul class="preco-features">
-                            <li><i class="fas fa-check"></i> Acesso a todas as ferramentas</li>
-                            <li><i class="fas fa-check"></i> Copiloto ilimitado</li>
-                            <li><i class="fas fa-check"></i> Assistente de IA</li>
-                            <li><i class="fas fa-check"></i> Suporte por chat</li>
-                            <li><i class="fas fa-check"></i> Atualizações incluídas</li>
+                <div class="roadmap-grid">
+                    <div class="roadmap-card">
+                        <div class="roadmap-phase">Fase 1</div>
+                        <h3>Simulador manual de corridas</h3>
+                        <p>Inserir dados de corridas e receber análise de viabilidade. <strong>Status: Disponível agora</strong></p>
+                        <ul>
+                            <li>✅ Simulador funcional</li>
+                            <li>✅ Cálculo de lucro real</li>
+                            <li>✅ Classificação (Compensa/Meio Termo/Não Compensa)</li>
                         </ul>
-
-                        <button class="btn btn-primary btn-block">Começar Agora</button>
                     </div>
 
-                    <div class="preco-card popular">
-                        <div class="badge-popular">MAIS POPULAR</div>
-                        <h3>PLANO ANUAL</h3>
-                        <div class="preco-valor">R$ 358,80</div>
-                        <div class="preco-periodo">ou 12x R$ 29,90 sem juros</div>
-                        <div class="preco-badge">12X</div>
-                        
-                        <ul class="preco-features">
-                            <li><i class="fas fa-check"></i> Tudo do plano mensal</li>
-                            <li><i class="fas fa-check"></i> Prioridade no suporte</li>
-                            <li><i class="fas fa-check"></i> Acesso antecipado a novidades</li>
-                            <li><i class="fas fa-check"></i> Relatórios avançados em PDF</li>
-                            <li><i class="fas fa-check"></i> Sem cobrança recorrente mês a mês</li>
+                    <div class="roadmap-card">
+                        <div class="roadmap-phase">Fase 2</div>
+                        <h3>Histórico de análises</h3>
+                        <p>Manter registro de todas as corridas simuladas para análise posterior.</p>
+                        <ul>
+                            <li>📋 Histórico local de simulações</li>
+                            <li>📊 Estatísticas básicas</li>
+                            <li>💾 Exportar dados</li>
                         </ul>
+                    </div>
 
-                        <button class="btn btn-primary btn-block">Começar Agora</button>
-                        <p class="preco-note">Cancele a qualquer momento. Sem fidelidade.</p>
+                    <div class="roadmap-card">
+                        <div class="roadmap-phase">Fase 3</div>
+                        <h3>Configuração avançada do veículo</h3>
+                        <p>Salvar configurações do veículo para cálculos mais precisos e personalizados.</p>
+                        <ul>
+                            <li>🚗 Perfis de veículos</li>
+                            <li>⚙️ Custos customizados</li>
+                            <li>💡 Recomendações baseadas em dados</li>
+                        </ul>
+                    </div>
+
+                    <div class="roadmap-card">
+                        <div class="roadmap-phase">Fase 4</div>
+                        <h3>App Android com alerta flutuante</h3>
+                        <p>Aplicativo nativo que mostra um alerta na tela quando uma corrida compensa ou não.</p>
+                        <ul>
+                            <li>📱 App Android nativo</li>
+                            <li>🔔 Alerta flutuante em tempo real</li>
+                            <li>🔐 Permissões autorizadas pelo usuário</li>
+                        </ul>
+                    </div>
+
+                    <div class="roadmap-card">
+                        <div class="roadmap-phase">Fase 5</div>
+                        <h3>Relatórios e análises avançadas</h3>
+                        <p>Gerar relatórios de lucro por dia, semana e mês com insights detalhados.</p>
+                        <ul>
+                            <li>📈 Relatórios por período</li>
+                            <li>🎯 Metas e projeções</li>
+                            <li>📄 Exportar para PDF</li>
+                        </ul>
+                    </div>
+
+                    <div class="roadmap-card">
+                        <div class="roadmap-phase">Futuro</div>
+                        <h3>Mais recursos</h3>
+                        <p>Conforme o projeto evolui, novas funcionalidades podem ser adicionadas.</p>
+                        <ul>
+                            <li>🌐 Integração com APIs (se possível)</li>
+                            <li>🤖 Assistente de IA</li>
+                            <li>📊 Dashboard avançado</li>
+                        </ul>
                     </div>
                 </div>
             </div>
         </section>
 
-        <!-- Depoimentos Section -->
-        <section class="depoimentos" id="depoimentos">
+        <!-- Futuro App Section -->
+        <section class="futuro-app" id="futuro">
             <div class="container">
-                <h2>O que motoristas falam sobre o app</h2>
+                <div class="feature-content">
+                    <h2>O Futuro: App Android</h2>
+                    <h3>Visão para os próximos passos</h3>
+                    
+                    <div class="futuro-info">
+                        <p>No futuro, o UberMax poderá ter um app Android com alerta flutuante para ajudar o motorista a analisar corridas em tempo real, sempre com permissões autorizadas pelo usuário.</p>
 
-                <div class="depoimentos-grid">
-                    <div class="depoimento-card">
-                        <div class="stars">★★★★★</div>
-                        <p>"Antes eu aceitava tudo. Hoje filtro as corridas ruins e minha renda subiu quase R$ 400 no mês. O Copiloto é essencial."</p>
-                        <strong>Ricardo A.</strong>
-                        <span>Curitiba, PR</span>
-                    </div>
+                        <div class="futuro-features">
+                            <div class="futuro-item">
+                                <i class="fas fa-mobile-alt"></i>
+                                <h4>App Android Nativo</h4>
+                                <p>Aplicativo instalável que funciona em background.</p>
+                            </div>
+                            <div class="futuro-item">
+                                <i class="fas fa-bell"></i>
+                                <h4>Alerta Flutuante</h4>
+                                <p>Notificação flutuante mostrando se a corrida compensa.</p>
+                            </div>
+                            <div class="futuro-item">
+                                <i class="fas fa-lock"></i>
+                                <h4>Privacidade Garantida</h4>
+                                <p>Todas as permissões solicitadas e autorizadas pelo usuário.</p>
+                            </div>
+                            <div class="futuro-item">
+                                <i class="fas fa-chart-line"></i>
+                                <h4>Análise em Tempo Real</h4>
+                                <p>Cálculos instantâneos baseados em seus dados.</p>
+                            </div>
+                        </div>
 
-                    <div class="depoimento-card">
-                        <div class="stars">★★★★★</div>
-                        <p>"O KM Real foi uma revelação. Eu achava que ganhava bem, mas após calcular todos os custos vi que estava praticamente no zero a zero."</p>
-                        <strong>Fernanda S.</strong>
-                        <span>São Paulo, SP</span>
-                    </div>
-
-                    <div class="depoimento-card">
-                        <div class="stars">★★★★★</div>
-                        <p>"A IA é demais. Falo 'trabalhei 8h, fiz 180 reais' e ela já lança tudo automático. Economizo tempo e tenho tudo organizado."</p>
-                        <strong>Marcos T.</strong>
-                        <span>Belo Horizonte, MG</span>
+                        <div class="futuro-note">
+                            <i class="fas fa-info-circle"></i>
+                            <p><strong>Importante:</strong> Esta é uma ideia futura. O site atual é um simulador manual. Não há integração automática com Uber, 99 ou inDrive no momento.</p>
+                        </div>
                     </div>
                 </div>
-            </div>
-        </section>
-
-        <!-- Para Quem É Section -->
-        <section class="para-quem">
-            <div class="container">
-                <h2>O UberMax IA é para você se…</h2>
-                
-                <ul class="para-quem-list">
-                    <li><i class="fas fa-check-circle"></i> Você dirige para Uber, 99, inDrive ou qualquer outra plataforma</li>
-                    <li><i class="fas fa-check-circle"></i> Quer saber se uma corrida vale a pena antes de aceitar</li>
-                    <li><i class="fas fa-check-circle"></i> Está cansado de trabalhar muito e ganhar pouco</li>
-                    <li><i class="fas fa-check-circle"></i> Quer ter controle real das suas finanças como autônomo</li>
-                    <li><i class="fas fa-check-circle"></i> Precisa de relatórios para declarar imposto de renda</li>
-                    <li><i class="fas fa-check-circle"></i> Quer aumentar sua renda sem trabalhar mais horas</li>
-                </ul>
             </div>
         </section>
 
         <!-- FAQ Section -->
         <section class="faq" id="faq">
             <div class="container">
-                <h2>Perguntas frequentes</h2>
+                <h2>Perguntas Frequentes</h2>
 
                 <div class="faq-grid">
                     <div class="faq-item">
-                        <h3>O app funciona com Uber, 99 e inDrive ao mesmo tempo?</h3>
-                        <p>Sim! O UberMax IA funciona com todas as plataformas simultaneamente. O Copiloto analisa cada oferta independente da origem.</p>
+                        <h3>O UberMax é gratuito?</h3>
+                        <p>Sim! O simulador é totalmente gratuito. Não há planos pagos no momento, pois o projeto está em fase inicial de desenvolvimento.</p>
                     </div>
 
                     <div class="faq-item">
-                        <h3>Precisa deixar o app aberto para o Copiloto funcionar?</h3>
-                        <p>Não. O Copiloto funciona em background. Você recebe notificações e análises mesmo com o app minimizado.</p>
+                        <h3>Preciso me cadastrar?</h3>
+                        <p>Não. Você pode usar o simulador sem cadastro. Os dados são salvos localmente no seu navegador.</p>
                     </div>
 
                     <div class="faq-item">
-                        <h3>Meus dados financeiros ficam seguros?</h3>
-                        <p>Sim. Todos os dados são criptografados e armazenados com segurança de nível bancário. Você tem controle total.</p>
+                        <h3>Como funciona o simulador?</h3>
+                        <p>Você insere o valor da corrida, distância, tempo e custo real por km do seu veículo. O UberMax calcula o lucro estimado e classifica a corrida como "Compensa", "Meio Termo" ou "Não Compensa".</p>
                     </div>
 
                     <div class="faq-item">
-                        <h3>Posso cancelar quando quiser?</h3>
-                        <p>Sim. Sem fidelidade, sem multa. Cancele a qualquer momento pelo app.</p>
+                        <h3>Meus dados são sincronizados?</h3>
+                        <p>Não no momento. Os dados são salvos apenas no seu navegador local. Futuramente pode haver sincronização em nuvem.</p>
                     </div>
 
                     <div class="faq-item">
-                        <h3>Como funciona o plano anual?</h3>
-                        <p>Você pode pagar R$ 358,80 à vista ou parcelar em 12x de R$ 29,90 sem juros no cartão.</p>
+                        <h3>Funciona com Uber, 99 ou inDrive?</h3>
+                        <p>Não. O simulador é manual. Você insere os dados da corrida manualmente. A integração automática é uma ideia futura.</p>
                     </div>
 
                     <div class="faq-item">
-                        <h3>A IA funciona offline?</h3>
-                        <p>Parcialmente. O KM Real e histórico funcionam offline. O Copiloto e IA precisam de conexão para análise em tempo real.</p>
+                        <h3>Como calcular meu custo real por km?</h3>
+                        <p>Use a seção "Calcular Custo Real por KM" no app. Você insere seus custos mensais (combustível, seguro, IPVA, etc.) e o UberMax calcula o custo por km.</p>
+                    </div>
+
+                    <div class="faq-item">
+                        <h3>Quando sai o app Android?</h3>
+                        <p>O app Android é uma ideia futura. Não há data definida. Primeiro, o simulador web precisa estar bem consolidado.</p>
+                    </div>
+
+                    <div class="faq-item">
+                        <h3>Posso sugerir melhorias?</h3>
+                        <p>Sim! Como o projeto está em desenvolvimento, feedbacks são bem-vindos. Você pode testar o simulador e compartilhar suas ideias.</p>
                     </div>
                 </div>
             </div>
         </section>
 
-        <!-- CTA Final Section -->
-        <section class="cta-final">
+        <!-- CTA Section -->
+        <section class="cta">
             <div class="container">
-                <h2>Comece hoje mesmo.</h2>
-                <p>Mais de 2.300 motoristas já usam o UberMax IA para ganhar mais sem trabalhar mais. Agora é a sua vez.</p>
-                
-                <button class="btn btn-primary btn-lg" onclick="abrirApp()">Começar Agora</button>
-                
-                <p class="cta-note">Cadastro liberado no lançamento · Funciona no Android</p>
+                <h2>Pronto para testar?</h2>
+                <p>O simulador está disponível agora. Teste gratuitamente e veja como funciona.</p>
+                <button class="btn btn-primary btn-lg" onclick="abrirApp()">Acessar Simulador</button>
             </div>
         </section>
 
         <!-- Footer -->
         <footer class="landing-footer">
             <div class="container">
-                <div class="footer-content">
-                    <div class="footer-brand">
-                        <div class="logo">
-                            <i class="fas fa-car"></i>
-                            <span>UberMax IA</span>
-                        </div>
-                    </div>
-                    <div class="footer-links">
-                        <a href="#">Política de Privacidade</a>
-                        <a href="#">Entrar</a>
-                    </div>
-                </div>
-                <div class="footer-bottom">
-                    <p>© 2026 UberMax IA. Todos os direitos reservados.</p>
-                </div>
+                <p>&copy; 2026 UberMax. Projeto em desenvolvimento. Todos os direitos reservados.</p>
+                <p class="footer-note">UberMax é uma ferramenta independente e não é afiliada a Uber, 99 ou inDrive.</p>
             </div>
         </footer>
     </div>
 
     <!-- APP DASHBOARD -->
-    <div id="appDashboard" class="app-container hidden">
+    <div id="appDashboard" class="app-dashboard hidden">
         <!-- Sidebar -->
         <aside class="sidebar">
             <div class="sidebar-header">
                 <div class="logo">
                     <i class="fas fa-car"></i>
-                    <span>UberMax IA</span>
+                    <span>UberMax</span>
                 </div>
-                <button class="sidebar-toggle" id="sidebarToggle">
-                    <i class="fas fa-chevron-left"></i>
-                </button>
             </div>
 
             <nav class="sidebar-nav">
                 <a href="#" data-tab="dashboard" class="nav-item active">
-                    <i class="fas fa-chart-line"></i>
+                    <i class="fas fa-home"></i>
                     <span>Dashboard</span>
                 </a>
                 <a href="#" data-tab="copiloto" class="nav-item">
                     <i class="fas fa-robot"></i>
-                    <span>Copiloto</span>
+                    <span>Simulador</span>
                 </a>
                 <a href="#" data-tab="km-real" class="nav-item">
                     <i class="fas fa-calculator"></i>
                     <span>KM Real</span>
                 </a>
-                <a href="#" data-tab="ia-assistant" class="nav-item">
-                    <i class="fas fa-comments"></i>
-                    <span>Assistente IA</span>
-                </a>
-                <a href="#" data-tab="smart-planner" class="nav-item">
-                    <i class="fas fa-target"></i>
-                    <span>Smart Planner</span>
-                </a>
                 <a href="#" data-tab="historico" class="nav-item">
                     <i class="fas fa-history"></i>
                     <span>Histórico</span>
-                </a>
-                <a href="#" data-tab="relatorios" class="nav-item">
-                    <i class="fas fa-file-pdf"></i>
-                    <span>Relatórios</span>
                 </a>
                 <a href="#" data-tab="configuracoes" class="nav-item">
                     <i class="fas fa-cog"></i>
@@ -543,12 +423,7 @@
                     <h1 id="pageTitle">Dashboard</h1>
                 </div>
                 <div class="header-right">
-                    <div class="search-bar">
-                        <i class="fas fa-search"></i>
-                        <input type="text" placeholder="Buscar...">
-                    </div>
                     <div class="user-profile">
-                        <img src="https://via.placeholder.com/40" alt="Avatar" class="avatar">
                         <span id="userName">Motorista</span>
                     </div>
                 </div>
@@ -567,7 +442,7 @@
                                 <div class="kpi-content">
                                     <div class="kpi-label">Ganho Total</div>
                                     <div class="kpi-value" id="ganhoTotal">R$ 0,00</div>
-                                    <div class="kpi-change positive">↑ 12% vs mês anterior</div>
+                                    <div class="kpi-change">De todas as simulações</div>
                                 </div>
                             </div>
 
@@ -576,20 +451,20 @@
                                     <i class="fas fa-road"></i>
                                 </div>
                                 <div class="kpi-content">
-                                    <div class="kpi-label">KM Rodados</div>
+                                    <div class="kpi-label">KM Simulados</div>
                                     <div class="kpi-value" id="kmRodados">0 km</div>
-                                    <div class="kpi-change">Média: 0 km/dia</div>
+                                    <div class="kpi-change">Total de distâncias</div>
                                 </div>
                             </div>
 
                             <div class="kpi-card">
                                 <div class="kpi-icon" style="background: linear-gradient(135deg, #f093fb, #f5576c);">
-                                    <i class="fas fa-star"></i>
+                                    <i class="fas fa-chart-pie"></i>
                                 </div>
                                 <div class="kpi-content">
-                                    <div class="kpi-label">Nota Média</div>
-                                    <div class="kpi-value" id="notaMedia">0,0</div>
-                                    <div class="kpi-change">De 100 corridas</div>
+                                    <div class="kpi-label">Simulações</div>
+                                    <div class="kpi-value" id="totalSimulacoes">0</div>
+                                    <div class="kpi-change">Corridas analisadas</div>
                                 </div>
                             </div>
 
@@ -605,40 +480,23 @@
                             </div>
                         </div>
 
-                        <div class="charts-row">
-                            <div class="chart-card">
-                                <h3>Ganhos vs Custos (Últimos 7 dias)</h3>
-                                <div class="chart-container">
-                                    <canvas id="ganhosCustosChart"></canvas>
-                                </div>
-                            </div>
-
-                            <div class="chart-card">
-                                <h3>Recomendações (Aceitar/Pensar/Evitar)</h3>
-                                <div class="chart-container">
-                                    <canvas id="recomendacoesChart"></canvas>
-                                </div>
-                            </div>
-                        </div>
-
                         <div class="table-card">
-                            <h3>Corridas Recentes</h3>
+                            <h3>Simulações Recentes</h3>
                             <div class="table-wrapper">
                                 <table class="data-table">
                                     <thead>
                                         <tr>
                                             <th>Data</th>
-                                            <th>Origem</th>
-                                            <th>Destino</th>
                                             <th>Valor</th>
+                                            <th>Distância</th>
+                                            <th>Tempo</th>
                                             <th>Lucro</th>
-                                            <th>Nota</th>
                                             <th>Status</th>
                                         </tr>
                                     </thead>
                                     <tbody id="tabelaCorridasRecentes">
                                         <tr>
-                                            <td colspan="7" class="empty-state">Nenhuma corrida avaliada ainda</td>
+                                            <td colspan="6" class="empty-state">Nenhuma simulação realizada ainda</td>
                                         </tr>
                                     </tbody>
                                 </table>
@@ -757,21 +615,16 @@
                                     <span class="cost-value" id="custoTotalKm">R$ 0,00</span>
                                 </div>
                             </div>
-
-                            <div class="breakdown-chart">
-                                <h4>Distribuição de Custos</h4>
-                                <canvas id="breakdownChart"></canvas>
-                            </div>
                         </div>
                     </div>
                 </div>
 
-                <!-- Copiloto Tab -->
+                <!-- Simulador Tab -->
                 <div id="copiloto" class="tab-content">
                     <div class="form-container">
                         <div class="form-header">
-                            <h2>Copiloto - Analise Corridas em Tempo Real</h2>
-                            <p>Simule uma análise de corrida para ver como o Copiloto funciona</p>
+                            <h2>Simulador de Corridas</h2>
+                            <p>Insira os dados de uma corrida para analisar se compensa</p>
                         </div>
 
                         <form id="formCorrida" class="form-grid">
@@ -785,44 +638,45 @@
                                 <div class="form-row">
                                     <div class="form-group">
                                         <label>Valor da Corrida (R$)</label>
-                                        <input type="number" id="valorCorrida" placeholder="Ex: 25.50" step="0.01" required>
+                                        <input type="number" id="valorCorrida" placeholder="Ex: 25.00" step="0.01" required>
                                     </div>
                                     <div class="form-group">
                                         <label>Distância (km)</label>
-                                        <input type="number" id="distancia" placeholder="Ex: 12.5" step="0.1" required>
+                                        <input type="number" id="distancia" placeholder="Ex: 10" step="0.1" required>
                                     </div>
+                                </div>
+
+                                <div class="form-row">
                                     <div class="form-group">
                                         <label>Tempo (minutos)</label>
-                                        <input type="number" id="tempo" placeholder="Ex: 25" step="1" required>
+                                        <input type="number" id="tempo" placeholder="Ex: 20" step="1" required>
+                                    </div>
+                                    <div class="form-group">
+                                        <label>Categoria</label>
+                                        <select id="categoria">
+                                            <option value="x">UberX / 99Pop</option>
+                                            <option value="comfort">Comfort / 99Comfort</option>
+                                            <option value="xl">UberXL / 99XL</option>
+                                            <option value="premium">Premium</option>
+                                        </select>
                                     </div>
                                 </div>
 
                                 <div class="form-row">
                                     <div class="form-group">
                                         <label>Origem</label>
-                                        <input type="text" id="origem" placeholder="Ex: Av. Paulista" required>
+                                        <input type="text" id="origem" placeholder="Ex: Av. Paulista">
                                     </div>
                                     <div class="form-group">
                                         <label>Destino</label>
-                                        <input type="text" id="destino" placeholder="Ex: Centro" required>
-                                    </div>
-                                    <div class="form-group">
-                                        <label>Categoria</label>
-                                        <select id="categoria" required>
-                                            <option value="">Selecione...</option>
-                                            <option value="uberx">Uber X</option>
-                                            <option value="uberxl">Uber XL</option>
-                                            <option value="99pop">99 Pop</option>
-                                            <option value="99comfort">99 Comfort</option>
-                                            <option value="indrive">inDrive</option>
-                                        </select>
+                                        <input type="text" id="destino" placeholder="Ex: Rua Augusta">
                                     </div>
                                 </div>
 
                                 <div class="form-row">
-                                    <div class="form-group full">
-                                        <label>Observação</label>
-                                        <textarea id="observacao" placeholder="Notas adicionais..."></textarea>
+                                    <div class="form-group">
+                                        <label>Observações (opcional)</label>
+                                        <textarea id="observacao" placeholder="Ex: Trânsito intenso, pista molhada..."></textarea>
                                     </div>
                                 </div>
                             </div>
@@ -833,139 +687,53 @@
                         </form>
 
                         <div id="resultadoCorrida" class="result-container" style="display: none;">
-                            <div class="evaluation-result">
-                                <div class="result-header">
-                                    <div class="nota-visual">
-                                        <svg class="progress-circle" viewBox="0 0 100 100">
-                                            <defs>
-                                                <linearGradient id="gradient" x1="0%" y1="0%" x2="100%" y2="100%">
-                                                    <stop offset="0%" style="stop-color:#667eea;stop-opacity:1" />
-                                                    <stop offset="100%" style="stop-color:#764ba2;stop-opacity:1" />
-                                                </linearGradient>
-                                            </defs>
-                                            <circle class="progress-bg" cx="50" cy="50" r="45"></circle>
-                                            <circle class="progress-fill" cx="50" cy="50" r="45"></circle>
-                                        </svg>
-                                        <div class="nota-valor" id="notaValor">0</div>
-                                    </div>
-
-                                    <div class="recomendacao-box">
-                                        <span class="badge" id="badgeRecomendacao">AVALIAR</span>
-                                        <p id="textoRecomendacao">Preencha os dados da corrida para receber uma recomendação.</p>
+                            <h3>Resultado da Análise</h3>
+                            
+                            <div class="resultado-header">
+                                <div class="resultado-score">
+                                    <svg class="progress-circle" width="120" height="120">
+                                        <circle cx="60" cy="60" r="45" class="progress-bg"></circle>
+                                        <circle cx="60" cy="60" r="45" class="progress-fill"></circle>
+                                    </svg>
+                                    <div class="score-text">
+                                        <span class="score-value" id="notaValor">0</span>
+                                        <span class="score-label">Pontuação</span>
                                     </div>
                                 </div>
 
-                                <div class="result-details">
-                                    <div class="detail-item">
-                                        <span class="detail-label">Lucro Estimado</span>
-                                        <span class="detail-value" id="lucroEstimado">R$ 0,00</span>
-                                    </div>
-                                    <div class="detail-item">
-                                        <span class="detail-label">Lucro/Hora</span>
-                                        <span class="detail-value" id="lucroHora">R$ 0,00</span>
-                                    </div>
-                                    <div class="detail-item">
-                                        <span class="detail-label">Lucro/KM</span>
-                                        <span class="detail-value" id="lucroKm">R$ 0,00</span>
-                                    </div>
-                                    <div class="detail-item">
-                                        <span class="detail-label">Motivo</span>
-                                        <span class="detail-value" id="motivoAvaliacao">-</span>
-                                    </div>
+                                <div class="resultado-recomendacao">
+                                    <div class="badge" id="badgeRecomendacao">COMPENSA</div>
+                                    <p id="textoRecomendacao">Análise da corrida</p>
                                 </div>
                             </div>
-                        </div>
-                    </div>
-                </div>
 
-                <!-- IA Assistant Tab -->
-                <div id="ia-assistant" class="tab-content">
-                    <div class="ia-assistant-container">
-                        <div class="ia-chat-box">
-                            <div class="chat-header">
-                                <i class="fas fa-robot"></i>
-                                <span>Assistente UberMax IA</span>
-                                <span class="status">online</span>
-                            </div>
-                            <div class="chat-messages" id="chatMessages">
-                                <div class="message bot">
-                                    <p>Olá! Sou seu assistente de IA. Posso ajudar você a:</p>
-                                    <ul>
-                                        <li>📊 Registrar ganhos e despesas por voz</li>
-                                        <li>💰 Calcular lucro real de corridas</li>
-                                        <li>📈 Analisar sua produtividade</li>
-                                        <li>🎯 Definir e acompanhar metas</li>
-                                        <li>❓ Tirar dúvidas sobre o app</li>
-                                    </ul>
-                                    <p>Como posso ajudar?</p>
+                            <div class="resultado-detalhes">
+                                <div class="detalhe-item">
+                                    <span class="detalhe-label">Lucro Estimado</span>
+                                    <span class="detalhe-value" id="lucroEstimado">R$ 0,00</span>
+                                </div>
+                                <div class="detalhe-item">
+                                    <span class="detalhe-label">R$ por Hora</span>
+                                    <span class="detalhe-value" id="lucroHora">R$ 0,00</span>
+                                </div>
+                                <div class="detalhe-item">
+                                    <span class="detalhe-label">R$ por KM</span>
+                                    <span class="detalhe-value" id="lucroKm">R$ 0,00</span>
+                                </div>
+                                <div class="detalhe-item">
+                                    <span class="detalhe-label">Custo Total</span>
+                                    <span class="detalhe-value" id="custoCorrida">R$ 0,00</span>
                                 </div>
                             </div>
-                            <div class="chat-input-area">
-                                <input type="text" id="iaInput" placeholder="Digite ou diga um comando..." class="chat-input">
-                                <button id="btnMicrophone" class="btn-microphone">
-                                    <i class="fas fa-microphone"></i>
-                                </button>
-                                <button id="btnSendIA" class="btn-send">
-                                    <i class="fas fa-paper-plane"></i>
-                                </button>
-                            </div>
-                        </div>
-                    </div>
-                </div>
 
-                <!-- Smart Planner Tab -->
-                <div id="smart-planner" class="tab-content">
-                    <div class="form-container">
-                        <div class="form-header">
-                            <h2>Smart Planner - Planejamento Inteligente</h2>
-                            <p>Defina suas metas e acompanhe seu progresso em tempo real</p>
-                        </div>
-
-                        <div class="smart-planner-grid">
-                            <div class="planner-card">
-                                <h3>Meta Diária</h3>
-                                <div class="planner-input-group">
-                                    <label>Ganho Desejado (R$)</label>
-                                    <input type="number" id="metaDiaria" placeholder="Ex: 200" step="1">
-                                </div>
-                                <button class="btn btn-primary">Definir Meta</button>
+                            <div class="resultado-motivos">
+                                <h4>Análise</h4>
+                                <p id="motivoAnalise">Detalhes da análise</p>
                             </div>
 
-                            <div class="planner-card">
-                                <h3>Meta Semanal</h3>
-                                <div class="planner-input-group">
-                                    <label>Ganho Desejado (R$)</label>
-                                    <input type="number" id="metaSemanal" placeholder="Ex: 1400" step="1">
-                                </div>
-                                <button class="btn btn-primary">Definir Meta</button>
-                            </div>
-
-                            <div class="planner-card">
-                                <h3>Seu Sonho</h3>
-                                <div class="planner-input-group">
-                                    <label>Objetivo (Ex: Comprar carro novo)</label>
-                                    <input type="text" id="sonho" placeholder="Qual é seu objetivo?">
-                                </div>
-                                <div class="planner-input-group">
-                                    <label>Valor Necessário (R$)</label>
-                                    <input type="number" id="valorSonho" placeholder="Ex: 50000" step="1">
-                                </div>
-                                <button class="btn btn-primary">Calcular Plano</button>
-                            </div>
-                        </div>
-
-                        <div class="planner-progress">
-                            <h3>Progresso Hoje</h3>
-                            <div class="progress-item">
-                                <span>Ganho Atual</span>
-                                <strong>R$ 0,00</strong>
-                            </div>
-                            <div class="progress-item">
-                                <span>Falta para Meta</span>
-                                <strong id="faltaMeta">R$ 0,00</strong>
-                            </div>
-                            <div class="progress-bar">
-                                <div class="progress-fill" id="progressFill" style="width: 0%"></div>
+                            <div class="resultado-actions">
+                                <button class="btn btn-secondary" onclick="document.getElementById('resultadoCorrida').style.display = 'none'">Fechar</button>
+                                <button class="btn btn-primary" onclick="salvarCorrida()">Salvar Simulação</button>
                             </div>
                         </div>
                     </div>
@@ -973,111 +741,77 @@
 
                 <!-- Histórico Tab -->
                 <div id="historico" class="tab-content">
-                    <div class="historico-container">
-                        <div class="historico-header">
-                            <h2>Histórico de Corridas</h2>
-                            <div class="historico-filters">
-                                <select id="filtroMes" class="filter-input">
-                                    <option value="">Todos os meses</option>
-                                    <option value="2026-05">Maio 2026</option>
-                                    <option value="2026-04">Abril 2026</option>
-                                    <option value="2026-03">Março 2026</option>
-                                </select>
-                                <select id="filtroRecomendacao" class="filter-input">
-                                    <option value="">Todas</option>
-                                    <option value="aceitar">Aceitar</option>
-                                    <option value="pensar">Pensar</option>
-                                    <option value="evitar">Evitar</option>
-                                </select>
+                    <div class="form-container">
+                        <div class="form-header">
+                            <h2>Histórico de Simulações</h2>
+                            <p>Todas as corridas que você analisou</p>
+                        </div>
+
+                        <div class="table-card">
+                            <div class="table-wrapper">
+                                <table class="data-table">
+                                    <thead>
+                                        <tr>
+                                            <th>Data</th>
+                                            <th>Valor</th>
+                                            <th>Distância</th>
+                                            <th>Tempo</th>
+                                            <th>Lucro</th>
+                                            <th>R$/Hora</th>
+                                            <th>Status</th>
+                                            <th>Ação</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody id="tabelaHistorico">
+                                        <tr>
+                                            <td colspan="8" class="empty-state">Nenhuma simulação no histórico</td>
+                                        </tr>
+                                    </tbody>
+                                </table>
                             </div>
                         </div>
-                        <div class="historico-list" id="historicoList">
-                            <div class="empty-state">
-                                <i class="fas fa-inbox"></i>
-                                <p>Nenhuma corrida avaliada ainda</p>
-                            </div>
-                        </div>
-                    </div>
-                </div>
 
-                <!-- Relatórios Tab -->
-                <div id="relatorios" class="tab-content">
-                    <div class="relatorios-container">
-                        <h2>Relatórios & Exportação</h2>
-
-                        <div class="relatorios-grid">
-                            <div class="relatorio-card">
-                                <h3>Relatório de Produtividade</h3>
-                                <p>Análise completa do seu desempenho no período selecionado.</p>
-                                <div class="export-actions">
-                                    <button class="btn btn-primary" id="btnExportPDF">
-                                        <i class="fas fa-file-pdf"></i> Exportar PDF
-                                    </button>
-                                </div>
-                            </div>
-
-                            <div class="relatorio-card">
-                                <h3>Histórico de Corridas</h3>
-                                <p>Todos os seus dados de corridas em formato CSV para análise.</p>
-                                <div class="export-actions">
-                                    <button class="btn btn-primary" id="btnExportCSV">
-                                        <i class="fas fa-file-csv"></i> Exportar CSV
-                                    </button>
-                                </div>
-                            </div>
-
-                            <div class="relatorio-card">
-                                <h3>Relatório de Imposto de Renda</h3>
-                                <p>Dados organizados para facilitar sua declaração de IR.</p>
-                                <div class="export-actions">
-                                    <button class="btn btn-primary">
-                                        <i class="fas fa-download"></i> Gerar Relatório
-                                    </button>
-                                </div>
-                            </div>
+                        <div class="table-actions">
+                            <button class="btn btn-secondary" id="btnExportCSV">
+                                <i class="fas fa-download"></i>
+                                Exportar CSV
+                            </button>
+                            <button class="btn btn-secondary" id="btnLimparHistorico">
+                                <i class="fas fa-trash"></i>
+                                Limpar Histórico
+                            </button>
                         </div>
                     </div>
                 </div>
 
                 <!-- Configurações Tab -->
                 <div id="configuracoes" class="tab-content">
-                    <div class="configuracoes-container">
-                        <h2>Configurações</h2>
-
-                        <div class="config-section">
-                            <h3>Perfil</h3>
-                            <div class="config-item">
-                                <label>Nome</label>
-                                <input type="text" id="nomeConfig" placeholder="Seu nome">
-                            </div>
-                            <div class="config-item">
-                                <label>Email</label>
-                                <input type="email" id="emailConfig" placeholder="seu@email.com">
-                            </div>
-                            <button class="btn btn-primary" id="btnSalvarPerfil">Salvar Perfil</button>
+                    <div class="form-container">
+                        <div class="form-header">
+                            <h2>Configurações</h2>
+                            <p>Personalize suas preferências</p>
                         </div>
 
                         <div class="config-section">
-                            <h3>Notificações</h3>
-                            <label class="checkbox-label">
-                                <input type="checkbox" checked>
-                                Receber notificações de corridas boas
-                            </label>
-                            <label class="checkbox-label">
-                                <input type="checkbox" checked>
-                                Receber alertas de manutenção do veículo
-                            </label>
-                            <label class="checkbox-label">
-                                <input type="checkbox">
-                                Receber dicas de otimização
-                            </label>
+                            <h3>Sobre o UberMax</h3>
+                            <p>Versão: 1.0.0 (Fase 1 - Simulador Manual)</p>
+                            <p>Status: Projeto em desenvolvimento</p>
+                            <p>Última atualização: 2026</p>
                         </div>
 
-                        <div class="config-section danger">
-                            <h3>Dados</h3>
-                            <button class="btn btn-danger" id="btnLimparDados">
-                                <i class="fas fa-trash"></i> Limpar Todos os Dados
+                        <div class="config-section">
+                            <h3>Dados Locais</h3>
+                            <p>Seus dados são salvos apenas no seu navegador. Nenhum dado é enviado para servidores.</p>
+                            <button class="btn btn-secondary" id="btnLimparDados">
+                                <i class="fas fa-trash"></i>
+                                Limpar Todos os Dados
                             </button>
+                        </div>
+
+                        <div class="config-section">
+                            <h3>Sugestões e Feedback</h3>
+                            <p>Como o UberMax está em desenvolvimento, suas sugestões são bem-vindas!</p>
+                            <p>Teste o simulador e compartilhe suas ideias para melhorias.</p>
                         </div>
                     </div>
                 </div>
@@ -1085,8 +819,6 @@
         </div>
     </div>
 
-    <!-- Scripts -->
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/3.9.1/chart.min.js"></script>
     <script src="script.js"></script>
 </body>
 </html>
